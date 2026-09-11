@@ -2,4 +2,4 @@ User-agent: *
 Disallow: /admin/
 Disallow: /content/
 
-Sitemap: https://mdytcdemowebsite.com/sitemap.xml
+Sitemap: https://   practicemoving.joyseeker9453.workers.dev/sitemap.xml
