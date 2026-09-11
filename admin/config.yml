@@ -1,18 +1,20 @@
 # ============================================================
 # 晨昕診所 內容後台設定
-# 部署時只需要改兩處（見 部署說明.md 步驟四）：
-#   1. repo:     改成你的 GitHub 帳號/repo 名稱
-#   2. base_url: 改成你部署的 OAuth Worker 網址
+# 搬到新帳號時，這個檔案要改 3 處（完整流程見 deploy-guide.md）：
+#   1. repo:        新的「GitHub帳號/repo名稱」  ← 沒改的話，後台會去改「舊的 repo」，網站永遠不會變
+#   2. base_url:    新的登入中繼 Worker 網址（sveltia-cms-auth）
+#   3. site_url / display_url: 新網站網址（只影響後台右上角「查看網站」按鈕）
+# 另外後台「診所資料 → 網站網址」也要改成新網域（分享連結、Google 用）。
 # ============================================================
 backend:
   name: github
-  repo: joyseeker9453-sketch/WEBSITETESTING
+  repo: joyseeker9453-sketch/PRACTICEMOVING
   branch: main
-  base_url: https://uploadcontent.joyseeker9453.workers.dev
+  base_url: https://sveltia-cms-auth.joyseeker9453.workers.dev
   auth_endpoint: auth
 
-site_url: https://leiclinicdemo.joyseeker9453.workers.dev
-display_url: https://leiclinicdemo.joyseeker9453.workers.dev
+site_url: https://practicemoving.joyseeker9453.workers.dev
+display_url: https://practicemoving.joyseeker9453.workers.dev
 locale: zh-Hant
 
 media_folder: "images/uploads"   # 圖片上傳後存放的位置
@@ -48,7 +50,7 @@ collections:
         file: "content/site.json"
         fields:
           - { label: "診所名稱", name: "name", widget: "string" }
-          - { label: "網站網址", name: "baseUrl", widget: "string", hint: "例如 https://mdytcdemowebsite.com（結尾不要斜線）" }
+          - { label: "網站網址", name: "baseUrl", widget: "string", hint: "正式網域，例如 https://jenny-clinic.com（結尾不要斜線）。分享到 LINE/FB 的連結、Google 搜尋都用這個網址，換網域時一定要改" }
           - { label: "分享預覽圖", name: "ogImage", widget: "image", required: false, hint: "分享到 LINE/FB 時顯示的圖，建議 1200x630" }
           - { label: "電話（顯示用）", name: "phone", widget: "string", hint: "例如 02-2518-1268" }
           - { label: "電話（撥號用）", name: "phoneLink", widget: "string", hint: "只留數字，例如 0225181268" }
@@ -65,7 +67,6 @@ collections:
             summary: "{{fields.name}}"
             fields:
               - { label: "名稱", name: "name", widget: "string", hint: "名稱要和原本一致才會有對應圖示" }
-              - { label: "說明", name: "desc", widget: "text", required: false }
 
           - label: "門診時間"
             name: "hours"
