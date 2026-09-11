@@ -375,9 +375,10 @@ footer a{color:#e8efe9}
 .lb-qr{position:relative;flex:0 0 auto;align-self:flex-end;margin-bottom:5cqh;width:75cqh;height:77.5cqh;background:#fff;border-radius:5cqh;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:4.9cqh;color:#065238}
 .lb-cat{position:absolute;left:50%;top:-17.5cqh;width:35cqh;transform:translateX(-50%)}
-.lb-qr b{font-size:max(5.5cqh,0.75rem);line-height:1;margin-bottom:3.6cqh;white-space:nowrap}
+/* 字級上限跟卡片等比（8cqh / 6cqh）：瀏覽器字級調大＋視窗很矮時，字不會撐出白框 */
+.lb-qr b{font-size:min(max(5.5cqh,0.75rem),8cqh);line-height:1;margin-bottom:3.6cqh;white-space:nowrap}
 .lb-qr img{width:46.3cqh;height:46.3cqh}
-.lb-qr small{font-size:max(3.7cqh,0.65rem);font-weight:700;color:#009b63;margin-top:3.2cqh;line-height:1;white-space:nowrap}
+.lb-qr small{font-size:min(max(3.7cqh,0.65rem),6cqh);font-weight:700;color:#009b63;margin-top:3.2cqh;line-height:1;white-space:nowrap}
 /* 橫幅寬度 < 860px（平板直向、手機）：直排、字級改用固定值；QR 隱藏（手機掃不到自己的螢幕） */
 @container lb (max-width:859px){
   .lb{container-type:normal;height:auto;border-radius:1rem}
