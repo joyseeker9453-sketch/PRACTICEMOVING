@@ -38,14 +38,14 @@ const SITE = {
   facebook: "https://www.facebook.com/Dr.JennyLei",
   mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.233863070999!2d121.54393459999999!3d25.0600615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442abe46125fcb9%3A0x4a4c6cf29a6e996e!2zMTA0Nzjlj7DljJfluILkuK3lsbHljYDlvqnoiIjljJfot68zNTDomZ8z5qiT!5e0!3m2!1szh-TW!2stw!4v1718851999581!5m2!1szh-TW!2stw",
   services: [
-    { name: "專業減重",   desc: "醫學實證的體重管理方案，由醫師量身規劃藥物與生活介入。" },
-    { name: "糖尿病",     desc: "糖尿病共照網認證機構，智抗糖「糖尿病好診所」推薦名單。" },
-    { name: "高血壓",     desc: "長期血壓監測與精準用藥調整，降低心血管風險。" },
-    { name: "高血脂",     desc: "血脂異常評估與治療，守護血管健康。" },
-    { name: "代謝症候群", desc: "整合減重、血糖、血壓、血脂的全方位代謝照護。" },
-    { name: "慢性處方籤", desc: "慢性病連續處方籤開立與領藥服務。" },
-    { name: "內科急慢性疾病", desc: "感冒、腸胃不適等急性症狀與各類內科慢性疾病診治。" },
-    { name: "預防保健健檢", desc: "成人預防保健與自費健檢套餐，早期發現早期治療。" }
+    { name: "專業減重" },
+    { name: "糖尿病" },
+    { name: "高血壓" },
+    { name: "高血脂" },
+    { name: "代謝症候群" },
+    { name: "慢性處方籤" },
+    { name: "內科急慢性疾病" },
+    { name: "預防保健健檢" }
   ],
   hours: {
     note: "國定例假日休息",
@@ -278,7 +278,13 @@ section{padding:4.5rem 0}
 .article-page .meta{color:#9aa5a0;font-size:0.875rem;padding-bottom:1.25rem;border-bottom:1px solid var(--line);margin-bottom:1.625rem}
 .article-body p{margin-bottom:1.125rem;font-size:1.0312rem}
 .article-body h2,.article-body h3,.article-body h4{font-family:var(--serif);color:var(--pine-deep);margin:1.625rem 0 0.75rem}
-.article-body ul{margin:0 0 1.125rem 1.375rem}
+.article-body ul,.article-body ol,.notice-body ul,.notice-body ol{margin:0 0 1.125rem 1.375rem}
+.article-body li,.notice-body li{margin-bottom:0.35rem}
+/* 後台編輯器的「引用、分隔線、刪除線、程式碼」 */
+.article-body blockquote,.notice-body blockquote{margin:0 0 1.125rem;padding:0.75rem 1rem;border-left:4px solid var(--dawn);background:var(--mist);border-radius:0 0.5rem 0.5rem 0}
+.article-body blockquote p:last-child,.notice-body blockquote p:last-child{margin-bottom:0}
+.article-body hr,.notice-body hr{border:0;border-top:1px solid var(--line);margin:1.75rem 0}
+.article-body code,.notice-body code{background:var(--mist);padding:0.1em 0.35em;border-radius:0.25rem;font-size:0.92em}
 .article-cover{margin:0 0 1.75rem;border-radius:0.875rem;overflow:hidden;background:var(--mist)}
 .article-cover img{width:100%;height:auto;display:block}
 .article-body img{border-radius:0.75rem;margin:0.625rem 0}
@@ -470,8 +476,8 @@ footer a{color:#e8efe9}
           <path d="M36 82v4.5M41.5 80v7M47 82v4.5M93 82v4.5M98.5 80v7M104 82v4.5" stroke="#7fdcb8" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
           <b>掃下方條碼加好友</b>
-          <img src="images/line-qr.svg" alt="晨昕診所 LINE 加好友 QR Code" width="200" height="200">
-          <small>LINE ID：@598wqthm</small>
+          <img src="images/line-qr.svg" data-for="https://line.me/R/ti/p/@598wqthm" alt="晨昕診所 LINE 加好友 QR Code" width="200" height="200">
+          <small>LINE ID：<span id="lb-lineid">@598wqthm</span></small>
         </div>
        </div>
        </div>
@@ -675,6 +681,9 @@ function initStatic(){
   $('f-line').href = SITE.line || '#';
   const lb = $('line-banner');
   if(SITE.line){ lb.href = SITE.line; } else { lb.removeAttribute('target'); lb.onclick = e => e.preventDefault(); }
+  /* LINE QR 使用固定 images/line-qr.svg；不隨後台 LINE 連結自動隱藏。 */
+  const lid = (SITE.line || '').match(/@[\w.\-]+/);
+  if(lid) $('lb-lineid').textContent = lid[0];
   const fab = $('fab-line');
   if(SITE.line){ fab.href = SITE.line; } else { fab.removeAttribute('target'); fab.onclick = e => e.preventDefault(); }
 

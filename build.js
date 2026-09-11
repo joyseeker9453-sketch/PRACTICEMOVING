@@ -25,6 +25,10 @@ if (fs.existsSync(SITE_SRC)) {
   console.error('找不到 content/site.json，請先建立。'); process.exit(1);
 }
 const BASE = (SITE.baseUrl || '').replace(/\/+$/, '');
+if (!/^https:\/\/[^/]+$/.test(BASE)) {
+  console.warn('!!! 後台「診所資料 → 網站網址」是「' + BASE + '」，格式應為 https://網域（結尾不要斜線）。' +
+    '分享連結、Google 搜尋用的網址都會錯。');
+}
 
 /* ---------- frontmatter 解析（支援 YAML 列表） ---------- */
 function parseFrontmatter(raw) {
@@ -115,10 +119,30 @@ function inline(s) {
   const slots = [];
   const keep = html => '\u0000' + (slots.push(html) - 1) + '\u0000';
   const out = esc(s)
+    /* 反斜線跳脫：後台編輯器會把 1. * _ # 之類的字元存成 \1\. \* ，這裡還原成原字元，不讓反斜線跑出來 */
+    .replace(/\\([\\`*_{}\[\]()#+\-.!~|]|&gt;)/g, (_, c) => keep(c))
+    /* 從 FB 複製的文章，表情符號（1️⃣ 2️⃣ 🩺…）會變成外連 FB 的小圖：
+       直接換回表情字元本身（alt 就是表情），不依賴 FB 圖床、也不會每個表情自成一行 */
+    .replace(/!\[([^\]]*)\]\((https?:\/\/[^)\s]*fbcdn\.net\/images\/emoji\.php[^)\s]*)\)/g, (_, alt) => keep(alt))
     .replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,
       (_, alt, src) => keep('<img src="' + esc(safeUrl(unesc(src))) + '" alt="' + alt + '" loading="lazy">'))
-    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,
-      (_, txt, href) => keep('<a href="' + esc(safeUrl(unesc(href))) + '" target="_blank" rel="noopener">' + txt + '</a>'))
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, txt, href) => {
+      /* 連結文字本身也可能有 Markdown，例如 [**#專注全穀物**](...)。
+         舊寫法會先把整個連結收進 slot，導致 ** 被原樣顯示。
+         這裡先處理連結文字裡的行內格式，再建立 <a>。 */
+      const label = txt
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/~~([^~]+)~~/g, '<del>$1</del>')
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      const rawHref = unesc(href);
+
+      /* 從 Facebook 貼文複製進來的 hashtag 連結只是來源平台殘留。
+         保留使用者看得到的文字與粗體，但不再把文章綁回 Facebook。 */
+      if (/^https?:\/\/(?:www\.)?facebook\.com\/hashtag\//i.test(rawHref)) return keep(label);
+
+      return keep('<a href="' + esc(safeUrl(rawHref)) + '" target="_blank" rel="noopener">' + label + '</a>');
+    })
     /* 裸網址自動變連結：老闆直接貼 https://... 或 www.... 也能點 */
     .replace(/(^|[\s(（【])((?:https?:\/\/|www\.)[^\s<>()（）「」【】]+)/g, (m, pre, url) => {
       const tail = (url.match(/[.,;:!?。，、；：！？]+$/) || [''])[0];
@@ -126,9 +150,17 @@ function inline(s) {
       const href = clean.startsWith('www.') ? 'https://' + clean : clean;
       return pre + keep('<a href="' + esc(safeUrl(unesc(href))) + '" target="_blank" rel="noopener">' + clean + '</a>') + tail;
     })
+    .replace(/`([^`]+)`/g, (_, c) => keep('<code>' + c + '</code>'))
+    .replace(/~~([^~]+)~~/g, '<del>$1</del>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*]+)\*/g, '<em>$1</em>');
-  return out.replace(/\u0000(\d+)\u0000/g, (_, i) => slots[i]);
+  /* 佔位符可能一層包一層（例如連結文字裡有圖片或跳脫字元），要還原到完全沒有佔位符為止；
+     只還原一次的話，連結裡的圖片會消失、文字中間會夾著看不見的控制字元 */
+  let res = out;
+  for (let n = 0; n < 5 && /\u0000\d+\u0000/.test(res); n++) {
+    res = res.replace(/\u0000(\d+)\u0000/g, (_, i) => slots[i]);
+  }
+  return res;
 }
 function mdToHtml(md) {
   const blocks = md.split(/\r?\n\r?\n+/);
@@ -138,6 +170,13 @@ function mdToHtml(md) {
     if (/^###\s+/.test(t)) return '<h4>' + inline(t.replace(/^###\s+/, '')) + '</h4>';
     if (/^##\s+/.test(t)) return '<h3>' + inline(t.replace(/^##\s+/, '')) + '</h3>';
     if (/^#\s+/.test(t)) return '<h2>' + inline(t.replace(/^#\s+/, '')) + '</h2>';
+    if (/^(-{3,}|\*{3,}|_{3,})$/.test(t)) return '<hr>';
+    if (t.split(/\r?\n/).every(l => /^>/.test(l.trim())))
+      return '<blockquote>' + mdToHtml(t.split(/\r?\n/).map(l => l.trim().replace(/^>\s?/, '')).join('\n')) + '</blockquote>';
+    if (t.split(/\r?\n/).every(l => /^\d+[.)]\s+/.test(l.trim()))) {
+      const items = t.split(/\r?\n/).map(l => '<li>' + inline(l.trim().replace(/^\d+[.)]\s+/, '')) + '</li>').join('');
+      return '<ol>' + items + '</ol>';
+    }
     if (t.split(/\r?\n/).every(l => /^[-*]\s+/.test(l.trim()))) {
       const items = t.split(/\r?\n/).map(l => '<li>' + inline(l.trim().replace(/^[-*]\s+/, '')) + '</li>').join('');
       return '<ul>' + items + '</ul>';
@@ -193,7 +232,13 @@ ann.items = (ann.items || []).sort((a, b) => String(b.date).localeCompare(String
 fs.writeFileSync(path.join(DATA_DIR, 'announcements.json'), JSON.stringify(ann, null, 2));
 
 /* ---- content.js：首頁一次讀到所有內容（本機雙擊預覽也能動） ---- */
+const BUILD = {
+  time: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false }),
+  commit: (process.env.WORKERS_CI_COMMIT_SHA || process.env.CF_PAGES_COMMIT_SHA || 'local').slice(0, 7)
+};
 const contentJs =
+  '/* 建置時間 ' + BUILD.time + '（commit ' + BUILD.commit + '）— 後台存檔約 1 分鐘後這行會更新 */\n' +
+  'window.__BUILD__ = ' + JSON.stringify(BUILD) + ';\n' +
   'window.__SITE__ = ' + JSON.stringify(SITE) + ';\n' +
   'window.__ANNOUNCEMENTS__ = ' + JSON.stringify(ann) + ';\n' +
   'window.__ARTICLES__ = ' + JSON.stringify(articlesOut) + ';\n';
@@ -494,6 +539,10 @@ if (pinned.length > 1) {
 } else if (!pinned.length) {
   console.warn('! 目前沒有任何置頂公告，首頁不會顯示公告條（到後台把某則的「置頂公告」打開即可）');
 }
+
+/* ---------- robots.txt：跟著後台「網站網址」產生，換網域不用改檔案 ---------- */
+fs.writeFileSync(path.join(ROOT, 'robots.txt'),
+  'User-agent: *\nDisallow: /admin/\nDisallow: /content/\n\nSitemap: ' + BASE + '/sitemap.xml\n');
 
 /* ---------- sitemap.xml ---------- */
 const today = new Date().toISOString().slice(0, 10);

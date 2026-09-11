@@ -1,0 +1,10 @@
+# 不上傳成網站檔案的清單（格式同 .gitignore）
+# 下面這些是建置腳本、設定檔、說明文件和 git 紀錄，放在網站上只會被人直接下載來看
+.git
+.github
+node_modules
+build.js
+package.json
+package-lock.json
+wrangler.jsonc
+*.md
