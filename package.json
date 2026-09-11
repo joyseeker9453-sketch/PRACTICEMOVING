@@ -1,0 +1,5 @@
+{
+  "name": "chenxin-clinic-site",
+  "private": true,
+  "scripts": { "build": "node build.js" }
+}

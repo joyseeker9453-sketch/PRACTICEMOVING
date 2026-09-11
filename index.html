@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晨昕診所｜台北市中山區內科・糖尿病・慢病體重管理</title>
+<meta name="description" content="晨昕診所-中山內科診所｜糖尿病治療｜家醫科｜高血壓高血脂｜慢病體重管理｜身心科">
+<!--OG:START-->
+<!-- 這一段由 build.js 在部署時自動重寫，資料來自後台「診所資料」。
+     不要手動改這裡面的內容，改了下次部署也會被蓋掉。
+     下面是建置沒跑時的備援值。 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="晨昕診所">
+<meta property="og:title" content="晨昕診所">
+<meta property="og:description" content="糖尿病共照網認證機構｜慢病體重管理｜身心科門診">
+<meta property="og:image" content="/images/line-banner.png">
+<meta name="twitter:card" content="summary_large_image">
+<!--OG:END-->
+<link rel="icon" type="image/png" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script>
+/* ============================================================
+   診所基本資料【預設值 / fallback】
+   ------------------------------------------------------------
+   正式資料來源：後台「診所資料 → 診所基本資料」→ content/site.json
+   下面這份只在後台資料抓不到時才會被用到，不要拿它當唯一真相。
+   ============================================================ */
+const SITE = {
+  name: "晨昕診所",
+  phone: "02-2518-1268",
+  phoneLink: "0225181268",
+  address: "台北市中山區復興北路350號3樓",
+  email: "leiwengchi@gmail.com",
+  booking: "https://pinmed.co/clinic/8xizpqgz?openAppointment=true",
+  line: "https://line.me/R/ti/p/@598wqthm",  // 診所 LINE 加好友連結
+  facebook: "https://www.facebook.com/Dr.JennyLei",
+  mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.233863070999!2d121.54393459999999!3d25.0600615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442abe46125fcb9%3A0x4a4c6cf29a6e996e!2zMTA0Nzjlj7DljJfluILkuK3lsbHljYDlvqnoiIjljJfot68zNTDomZ8z5qiT!5e0!3m2!1szh-TW!2stw!4v1718851999581!5m2!1szh-TW!2stw",
+  services: [
+    { name: "專業減重",   desc: "醫學實證的體重管理方案，由醫師量身規劃藥物與生活介入。" },
+    { name: "糖尿病",     desc: "糖尿病共照網認證機構，智抗糖「糖尿病好診所」推薦名單。" },
+    { name: "高血壓",     desc: "長期血壓監測與精準用藥調整，降低心血管風險。" },
+    { name: "高血脂",     desc: "血脂異常評估與治療，守護血管健康。" },
+    { name: "代謝症候群", desc: "整合減重、血糖、血壓、血脂的全方位代謝照護。" },
+    { name: "慢性處方籤", desc: "慢性病連續處方籤開立與領藥服務。" },
+    { name: "內科急慢性疾病", desc: "感冒、腸胃不適等急性症狀與各類內科慢性疾病診治。" },
+    { name: "預防保健健檢", desc: "成人預防保健與自費健檢套餐，早期發現早期治療。" }
+  ],
+  hours: {
+    note: "國定例假日休息",
+    rows: [
+      { slot: "上午", time: "09:00–12:30", days: ["李泳姿","李泳姿","李泳姿","李泳姿","李泳姿","李泳姿","休診"] },
+      { slot: "下午", time: "16:00–18:00", days: ["李泳姿","何國榮","李泳姿","李泳姿","何國榮","休診","休診"] },
+      { slot: "晚上", time: "18:00–21:00", days: ["李泳姿","何國榮","李泳姿","李泳姿","何國榮","休診","休診"] }
+    ],
+    extra: "身心科門診：每月第一、第三週週六早上，何志培醫師，採全預約制。服務內容：從小孩、成人到老人的各種身心疾患的心理諮商。"
+  },
+  team: [
+    { name: "李泳姿", title: "院長", photo: "images/team/li-yongzi.jpg",
+      creds: ["台灣大學 醫學系","台灣大學 管理學院EMBA","內科專科醫師","血液病專科醫師・腫瘤內科專科醫師","台大醫院竹東分院 內科部主治醫師","台大醫院內科部住院醫師","台灣肥胖醫學會會員","糖尿病共照網認證醫師"] },
+    { name: "何志培", title: "醫師（身心科）", photo: "images/team/ho-chihpei.jpg",
+      creds: ["高雄醫學大學全科醫學士","高雄市立凱旋醫院精神科總醫師、主治醫師","國立成功大學附設醫院兒童青少年精神科完整訓練","台灣兒童青少年精神醫學會創會理事","高雄市立凱旋醫院兒童青少年精神科主任","聯合報「醫藥健康專欄」特聘撰稿人逾10年"] },
+    { name: "何國榮", title: "醫師", photo: "images/team/ho-kuojung.jpg",
+      creds: ["哈佛醫學院附設醫院研修醫師","高雄醫學大學公共衛生碩士","中山醫學大學醫學系","臺大醫院內科部醫師","恩主公醫院主治醫師","糖尿病共照網認證醫師","台灣肥胖醫學會會員"] }
+  ]
+};
+</script>
+
+<style>
+:root{
+  --pine:#1c4a43;--pine-deep:#123430;
+  --dawn:#d99a3d;--dawn-soft:#f7ead2;
+  --paper:#fbfaf7;--mist:#edf1ee;
+  --ink:#26302d;--ink-soft:#5c6a65;--line:#dde4e0;
+  --serif:'Noto Serif TC',serif;--sans:'Noto Sans TC',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:100%;-webkit-text-size-adjust:100%}   /* iPhone 橫拿時 Safari 不要自動放大部分文字 */
+/* ---- 全站等比縮放 ------------------------------------------------
+   所有尺寸都用 rem，只要改 html 的字級，整頁（字、留白、圖示、容器寬）就一起等比放大。
+   1280px 以下維持 16px（筆電、平板、手機不變）；
+   1280px 以上隨螢幕寬度放大，1760px 寬時到 22px 封頂（約 1.37 倍）。
+   同時受視窗高度限制，避免寬而矮的視窗（例如 125% 縮放的筆電）放大過頭。 */
+@media(min-width:1280px){html{font-size:clamp(16px,min(1.25vw,2.6vh),22px)}}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.75;font-size:1rem}
+img{max-width:100%;display:block}
+a{color:var(--pine);text-decoration:none}
+.wrap{max-width:67.5rem;margin:0 auto;padding:0 1.25rem}
+/* 寬版容器：頁首、LINE 橫幅用。電腦上幾乎滿版，左右只留約 4% 邊距（同舊官網） */
+:root{--gutter:clamp(1.25rem,4vw,5rem)}
+.wrap-wide{max-width:calc(84rem + 2 * var(--gutter));margin:0 auto;padding:0 var(--gutter)}
+
+.topbar{background:var(--pine-deep);color:#e8efe9;font-size:0.875rem}
+.topbar .wrap-wide{display:flex;justify-content:space-between;align-items:center;min-height:2.25rem;flex-wrap:wrap;gap:0.25rem 1rem}
+.topbar .tb-booking{font-weight:700}
+@media(max-width:560px){.topbar .wrap-wide{justify-content:center;text-align:center;padding-top:0.25rem;padding-bottom:0.25rem}}
+.topbar a{color:#e8efe9}
+header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit-backdrop-filter:blur(0.5rem);backdrop-filter:blur(0.5rem);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;min-height:4rem}
+.brand{font-family:var(--serif);font-weight:900;font-size:1.625rem;color:var(--pine);letter-spacing:0.125rem;display:flex;align-items:center;gap:0.625rem;cursor:pointer}
+.brand img.logo{width:2.25rem;height:2.25rem;display:inline-block}
+.menu{display:flex;gap:0.25rem;list-style:none}
+.menu a{display:block;padding:0.5rem 0.875rem;border-radius:1.25rem;font-size:1rem;color:var(--ink);transition:.2s;cursor:pointer;white-space:nowrap}
+.menu a:hover,.menu a.active{background:var(--pine);color:#fff}
+.burger{display:none;background:none;border:1px solid var(--line);border-radius:0.5rem;padding:0.375rem 0.625rem;font-size:1.125rem;cursor:pointer;color:var(--pine)}
+@media(max-width:1023px){
+  .burger{display:block}
+  .menu{display:none;position:absolute;top:100%;left:0;right:0;background:var(--paper);flex-direction:column;padding:0.625rem 1.25rem 1rem;border-bottom:1px solid var(--line);box-shadow:0 0.75rem 1.5rem rgba(0,0,0,.08)}
+  .menu.open{display:flex}
+}
+
+.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#f2f6f3 0%,var(--paper) 78%)}
+.hero-top{padding-top:1.25rem;position:relative;z-index:1}
+.hero-body{padding-bottom:5.5rem;text-align:center;position:relative;z-index:1}
+.hero .eyebrow{display:inline-block;font-size:0.8125rem;letter-spacing:0.25rem;color:var(--dawn);font-weight:700;margin-bottom:0.5rem}
+.hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(1.875rem,4.2vw,2.875rem);color:var(--pine-deep);letter-spacing:0.25rem;line-height:1.35;margin-bottom:0.875rem}
+.hero h1 .seg{display:inline-block}   /* 一行放不下時只從兩段中間換行，不會剩一個「康」字 */
+.hero p{max-width:38.75rem;margin:0 auto 1.25rem;color:var(--ink-soft)}
+.horizon{position:absolute;left:50%;bottom:-8.75rem;transform:translateX(-50%);width:87.5rem;height:17.5rem;border-radius:50% 50% 0 0/100% 100% 0 0;background:linear-gradient(180deg,var(--dawn-soft),transparent 70%);pointer-events:none}
+.btn{display:inline-block;padding:0.75rem 2rem;border-radius:1.75rem;font-weight:700;font-size:0.9375rem;transition:.2s;cursor:pointer}
+.btn-solid{background:var(--pine);color:#fff}
+.btn-big{padding:0.75rem 3rem;font-size:1.125rem;letter-spacing:0.125rem;border-radius:2.25rem;line-height:1.6}
+.btn-solid:hover{background:var(--pine-deep)}
+.btn-ghost{border:1.5px solid var(--pine);color:var(--pine);margin-left:0.625rem}
+.btn-ghost:hover{background:var(--pine);color:#fff}
+
+/* ---- 首頁置頂公告：固定高度單行，數量與字長都不會影響排版 ---- */
+.pinbar{display:flex;align-items:center;gap:0.75rem;height:2.875rem;padding:0 1.125rem;margin:0 0 0.875rem;
+  background:var(--dawn-soft);border:1px solid #ecd6ac;border-radius:0.75rem;text-align:left;overflow:hidden;transition:.2s}
+.pinbar:hover{background:#fbf0dc;border-color:#e2c48f}
+.pinbar[hidden]{display:none}
+.pinbar .pin-title{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-size:0.9062rem;font-weight:500;color:var(--pine-deep)}
+.pinbar .pin-date{flex:0 0 auto;font-size:0.7812rem;color:var(--ink-soft)}
+.pinbar .pin-more{flex:0 0 auto;font-size:0.8125rem;font-weight:700;color:var(--pine)}
+@media(max-width:560px){.pinbar .pin-date{display:none}}
+
+/* ---- 公告列表（/notices/ 實體頁） ---- */
+.notice-list{max-width:51.25rem;margin:0 auto;display:flex;flex-direction:column;gap:0.875rem}
+.notice{background:var(--dawn-soft);border:1px solid #ecd6ac;border-radius:0.875rem;padding:1.125rem 1.375rem;display:flex;gap:1rem;align-items:flex-start}
+.notice .tag,.pinbar .tag{flex-shrink:0;background:var(--dawn);color:#fff;font-size:0.8125rem;font-weight:700;padding:0.1875rem 0.75rem;border-radius:0.875rem;margin-top:0.125rem}
+.pinbar .tag{margin-top:0}
+.notice h3{font-size:1rem;color:var(--pine-deep)}
+.notice small{color:var(--ink-soft)}
+
+section{padding:4.5rem 0}
+.sec-head{text-align:center;margin-bottom:2.75rem}
+.sec-head .en{font-size:0.75rem;letter-spacing:0.25rem;color:var(--dawn);font-weight:700}
+.sec-head h2{font-family:var(--serif);font-weight:900;font-size:1.875rem;color:var(--pine-deep);letter-spacing:0.1875rem;margin-top:0.375rem}
+.sec-head h2::after{content:"";display:block;width:2.75rem;height:0.1875rem;background:var(--dawn);margin:0.875rem auto 0;border-radius:0.125rem}
+.sec-alt{background:var(--mist)}
+/* services：標題與圖示距離縮小 */
+#services .sec-head{margin-bottom:1.75rem}
+/* ---- 首頁分區：每一區至少一整螢幕、內容垂直置中 ---- */
+/* --hdr 是 sticky 導覽列的高度（.nav 4rem + 下框線 1px），錨點偏移與區塊高度都靠它 */
+:root{--hdr:calc(4rem + 1px)}
+#page-home > section{
+  min-height:calc(100vh - var(--hdr));
+  min-height:calc(100svh - var(--hdr));   /* 手機瀏覽器網址列會伸縮，svh 比較準 */
+  padding:3.5rem 0;
+  display:flex;align-items:center;
+}
+#page-home > section > .wrap{width:100%}
+/* 點導覽列捲過去時，讓區塊上緣停在 sticky 導覽列下方，不被蓋住 */
+.hero,#page-home > section,#page-news > section{scroll-margin-top:var(--hdr)}
+/* 手機不強制滿版，內容照自然高度排，避免大量空白 */
+@media(max-width:860px){
+  #page-home > section{min-height:0;display:block;padding:3rem 0}
+}
+/* ---- 矮螢幕自動微調 ----------------------------------------
+   使用者的系統/瀏覽器縮放會直接減少可視高度（1080p @150% 只剩約 600px）。
+   這裡只收斂留白與圖示尺寸，不動任何文字內容，
+   讓 hero、關於我們、服務項目、門診時間 在矮螢幕仍能一次看完。
+   醫療團隊與健康新知內容量本來就超過一螢幕，不在保證範圍。
+   ------------------------------------------------------------ */
+@media(min-width:861px) and (max-height:780px){
+  .hero-top{padding-top:0.875rem}
+  .line-banner{margin-bottom:1rem}
+  .hero h1{font-size:clamp(1.625rem,4vw,2.5rem);margin-bottom:0.75rem}
+  .hero .eyebrow{margin-bottom:0.5rem}
+  .pinbar{margin-bottom:0.875rem}
+  #page-home > section{padding:2.5rem 0}
+  .sec-head{margin-bottom:1.875rem}
+  #services .sec-head{margin-bottom:1.25rem}
+  .svc{padding:0.625rem}
+  .svc .icon{width:5rem;height:5rem;margin-bottom:0.75rem}
+  .svc .icon svg{width:2.875rem;height:2.875rem}
+}
+@media(min-width:861px) and (max-height:660px){
+  .hero h1{font-size:clamp(1.5rem,3.4vw,2.125rem)}
+  .btn-big{padding:0.625rem 2.75rem;font-size:1.0625rem}
+  #page-home > section{padding:1.75rem 0}
+  .sec-head{margin-bottom:1.375rem}
+  .sec-head h2{font-size:1.5625rem}
+  .svc .icon{width:4rem;height:4rem;margin-bottom:0.625rem}
+  .svc .icon svg{width:2.375rem;height:2.375rem}
+  .svc h3{font-size:1rem}
+  .hours-table{font-size:0.8125rem}
+  .hours-table th,.hours-table td{padding:0.5rem 0.375rem}
+  .hours-note{font-size:0.8125rem;margin-top:0.75rem}
+}
+@media(min-width:861px) and (max-height:580px){
+  .svc .icon{width:3.25rem;height:3.25rem}
+  .svc .icon svg{width:2rem;height:2rem}
+}
+
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.75rem;align-items:start}
+.about-grid .badge{display:inline-block;background:var(--pine);color:#fff;font-size:0.8125rem;padding:0.25rem 0.875rem;border-radius:0.875rem;margin:0 0.375rem 0.625rem 0}
+.about-right p{margin-top:3.4375rem}
+@media(max-width:760px){.about-grid{grid-template-columns:1fr}.about-right p{margin-top:0}}
+
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.svc{background:transparent;border:0;border-radius:0.875rem;padding:0.875rem 0.625rem;text-align:center;transition:.25s}
+.svc:hover{transform:translateY(-0.25rem)}
+.svc:hover .icon{box-shadow:0 0.75rem 1.75rem rgba(28,74,67,.14)}
+.svc .icon{width:6rem;height:6rem;background:var(--dawn-soft);border-radius:1.125rem;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;transition:.25s}
+.svc .icon svg{width:3.5rem;height:3.5rem}
+.svc h3{font-family:var(--serif);font-size:1.1875rem;color:var(--pine-deep);margin-bottom:0}
+@media(max-width:900px){.svc-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.svc-grid{grid-template-columns:1fr}}
+
+.hours-table{width:100%;border-collapse:collapse;background:#fff;border-radius:0.875rem;overflow:hidden;box-shadow:0 0.25rem 1.25rem rgba(0,0,0,.05);font-size:0.9062rem}
+.hours-table th,.hours-table td{padding:0.75rem 0.5rem;text-align:center;border-bottom:1px solid var(--line)}
+.hours-table thead th{background:var(--pine);color:#fff;font-weight:700}
+.hours-table .slot{font-weight:700;color:var(--pine);white-space:nowrap}
+.hours-table .off{color:#b6b0a4}
+.hours-note{text-align:center;color:var(--ink-soft);font-size:0.875rem;margin-top:1rem}
+.hours-scroll{overflow-x:auto}
+
+.team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.doc{background:#fff;border:1px solid var(--line);border-radius:1rem;padding:1.5rem;display:flex;gap:1.375rem;align-items:flex-start}
+.doc img.photo{flex:0 0 13.75rem;width:13.75rem;aspect-ratio:4/5;object-fit:cover;object-position:top;border-radius:0.75rem;background:var(--mist)}
+/* 沒有照片的醫師：用通用剪影占位，維持與有照片者相同的版面 */
+.doc .photo-ph{flex:0 0 13.75rem;width:13.75rem;aspect-ratio:4/5;border-radius:0.75rem;background:linear-gradient(160deg,var(--mist),#e3ebe6);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:var(--pine);opacity:.72}
+.doc .photo-ph svg{width:4.875rem;height:4.875rem;display:block}
+.doc .photo-ph span{font-size:0.7812rem;letter-spacing:1px;color:var(--ink-soft)}
+.doc .doc-body{flex:1;min-width:0}
+.doc h3{font-family:var(--serif);font-size:1.375rem;color:var(--pine-deep)}
+.doc .role{color:var(--dawn);font-weight:700;font-size:0.875rem;margin:0.125rem 0 0.75rem}
+.doc ul{list-style:none;font-size:0.8125rem;color:var(--ink-soft)}
+.doc li{padding:0.1562rem 0;border-bottom:1px dashed var(--line);line-height:1.4}
+/* 兩欄時卡片太窄（861~1000px 文字欄只剩約 120px），1023px 以下改單欄；1024~1279px 照片縮小一點 */
+@media(max-width:1023px){.team-grid{grid-template-columns:1fr}}
+@media(min-width:1024px) and (max-width:1279px){.doc img.photo,.doc .photo-ph{flex-basis:11rem;width:11rem}}
+@media(max-width:420px){.doc{flex-direction:column}.doc img.photo{flex:0 0 auto;width:8.125rem;margin:0 auto}}
+
+.cat-bar{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2.25rem}
+.cat-row{display:flex;gap:0.625rem;flex-wrap:wrap;align-items:center}
+.cat-row-top{justify-content:center}
+.cat-row-bottom{justify-content:flex-start}
+.cat-btn{padding:0.5rem 1.375rem;border-radius:1.375rem;border:1.5px solid var(--pine);background:#fff;color:var(--pine);font-size:0.9062rem;font-weight:700;cursor:pointer;font-family:var(--sans);transition:.2s}
+.cat-more{position:relative;display:inline-block}
+.cat-menu{display:none;position:absolute;top:calc(100% + 0.5rem);left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line);border-radius:0.75rem;box-shadow:0 0.75rem 1.75rem rgba(28,74,67,.16);padding:0.375rem;z-index:20;min-width:9.375rem}
+.cat-more:hover .cat-menu,.cat-more:focus-within .cat-menu{display:block}
+.cat-menu a{display:block;padding:0.5rem 1rem;border-radius:0.5rem;font-size:0.875rem;font-weight:700;color:var(--pine);cursor:pointer;white-space:nowrap;text-align:center}
+.cat-menu a:hover,.cat-menu a.on{background:var(--pine);color:#fff}
+.news-pager{display:flex;gap:0.5rem;justify-content:center;margin-top:2.25rem;flex-wrap:wrap}
+.pg-btn{min-width:2.5rem;height:2.5rem;padding:0 0.75rem;border-radius:0.625rem;border:1.5px solid var(--line);background:#fff;color:var(--pine);font-size:0.9375rem;font-weight:700;cursor:pointer;font-family:var(--sans);transition:.2s}
+.pg-btn:hover:not(:disabled){border-color:var(--pine)}
+.pg-btn.active{background:var(--pine);color:#fff;border-color:var(--pine)}
+.pg-btn:disabled{opacity:.4;cursor:default}
+.cat-btn.active,.cat-btn:hover{background:var(--pine);color:#fff}
+.art-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.375rem}
+@media(max-width:760px){.art-grid{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid var(--line);border-radius:0.875rem;padding:1.625rem;cursor:pointer;transition:.25s;display:flex;flex-direction:column;gap:0.625rem}
+@media(hover:hover){.card:hover{transform:translateY(-0.25rem);box-shadow:0 0.875rem 1.875rem rgba(28,74,67,.12)}}
+.card img.thumb{border-radius:0.625rem;margin:-0.5rem -0.5rem 0.25rem;width:calc(100% + 1rem);max-height:11.25rem;object-fit:cover}
+.card .cats,.article-page .cats{display:flex;flex-wrap:wrap;gap:0.375rem}
+.card .cat,.article-page .cat{background:var(--dawn-soft);color:#9a6c1c;font-size:0.7812rem;font-weight:700;padding:0.1875rem 0.75rem;border-radius:0.75rem}
+.card h3{font-family:var(--serif);font-size:1.1875rem;color:var(--pine-deep);line-height:1.5}
+.card p{font-size:0.875rem;color:var(--ink-soft)}
+.card .meta{font-size:0.8125rem;color:#9aa5a0;margin-top:auto}
+
+.article-page{max-width:47.5rem;margin:0 auto}
+.article-page .cats{margin-bottom:0.875rem}
+.article-page h1{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.125rem);color:var(--pine-deep);line-height:1.5;margin-bottom:0.75rem}
+.article-page .meta{color:#9aa5a0;font-size:0.875rem;padding-bottom:1.25rem;border-bottom:1px solid var(--line);margin-bottom:1.625rem}
+.article-body p{margin-bottom:1.125rem;font-size:1.0312rem}
+.article-body h2,.article-body h3,.article-body h4{font-family:var(--serif);color:var(--pine-deep);margin:1.625rem 0 0.75rem}
+.article-body ul{margin:0 0 1.125rem 1.375rem}
+.article-cover{margin:0 0 1.75rem;border-radius:0.875rem;overflow:hidden;background:var(--mist)}
+.article-cover img{width:100%;height:auto;display:block}
+.article-body img{border-radius:0.75rem;margin:0.625rem 0}
+.back-link{display:inline-block;margin-top:2.125rem;font-weight:700;cursor:pointer}
+
+.share{margin-top:2.75rem;padding:1.375rem;background:var(--mist);border-radius:0.875rem;text-align:center}
+.share .lbl{font-weight:700;color:var(--pine-deep);margin-bottom:0.875rem;letter-spacing:0.125rem}
+.share-btns{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap}
+.sbtn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.625rem 1.25rem;border-radius:1.5rem;color:#fff;font-weight:700;font-size:0.9062rem;transition:.2s;border:none;cursor:pointer;font-family:var(--sans)}
+@media(hover:hover){.sbtn:hover{transform:translateY(-0.125rem);filter:brightness(1.08)}}   /* 手機點完不會卡在浮起狀態 */
+.sbtn svg{width:1.125rem;height:1.125rem;fill:#fff}
+.sbtn.fb{background:#1877f2}
+.sbtn.line{background:#06c755}
+.sbtn.threads{background:#111}
+.sbtn.copy{background:var(--pine)}
+/* 手機版：2×2 等寬、按鈕縮小（上排 Threads / Facebook，下排 LINE / 複製連結） */
+@media(max-width:560px){
+  .share{margin-top:2rem;padding:1.1rem 1rem 1.2rem}
+  .share .lbl{font-size:0.9375rem;margin-bottom:0.75rem}
+  .share-btns{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem}
+  .sbtn{font-size:0.875rem;padding:0.5rem 0.75rem;gap:0.4rem;justify-content:center;border-radius:0.75rem;min-height:2.625rem}
+  .sbtn svg{width:1rem;height:1rem;flex:none}
+}
+
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:2rem;align-items:stretch}
+.contact-info{background:#fff;border:1px solid var(--line);border-radius:0.875rem;padding:1.875rem}
+.contact-info h3{font-family:var(--serif);color:var(--pine-deep);font-size:1.25rem;margin-bottom:1rem}
+.contact-info p{margin-bottom:0.625rem;color:var(--ink-soft)}
+.contact-info strong{color:var(--ink)}
+.mapbox{border-radius:0.875rem;overflow:hidden;min-height:20rem;border:1px solid var(--line)}
+.mapbox iframe{width:100%;height:100%;min-height:20rem;border:0}
+@media(max-width:760px){.contact-grid{grid-template-columns:1fr}}
+
+footer{background:var(--pine-deep);color:#c8d6cf;padding:2.5rem 0;text-align:center;font-size:0.875rem}
+footer .brand{color:#fff;justify-content:center;margin-bottom:0.625rem}
+footer a{color:#e8efe9}
+
+.page{display:none}
+.page.show{display:block}
+.toast{position:fixed;bottom:1.875rem;left:50%;transform:translateX(-50%) translateY(5rem);background:var(--pine-deep);color:#fff;padding:0.625rem 1.5rem;border-radius:1.5rem;font-size:0.875rem;opacity:0;transition:.3s;z-index:99}
+.fab-line{position:fixed;right:1.375rem;bottom:1.375rem;z-index:90;display:flex;align-items:center;justify-content:center;width:3.75rem;height:3.75rem;background:#06c755;border-radius:50%;box-shadow:0 0.5rem 1.5rem rgba(6,199,85,.45);transition:.2s}
+.fab-line:hover{transform:translateY(-0.1875rem);box-shadow:0 0.75rem 1.875rem rgba(6,199,85,.55)}
+.fab-line svg{width:2.125rem;height:2.125rem;fill:#fff}
+@media(min-width:1024px){.fab-line{width:5.625rem;height:5.625rem;right:1.75rem;bottom:1.75rem}.fab-line svg{width:3.1875rem;height:3.1875rem}}   /* 電腦版放大 1.5 倍 */
+@media(max-width:480px){.fab-line{width:3.375rem;height:3.375rem;right:1rem;bottom:1rem}.fab-line svg{width:1.875rem;height:1.875rem}}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.loading{text-align:center;color:var(--ink-soft);padding:2.5rem 0;grid-column:1/-1}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+
+/* ---- LINE 加好友橫幅 ---------------------------------------------
+   HTML 版橫幅（原 1296×400 圖片放大會糊、手機看不清楚）。
+   【首屏保證】電腦上橫幅寬度滿版，高度 = min(原圖比例的高度, 螢幕剩下的空間)：
+     --lb-other 由下方 JS 量出「橫幅以外、到『預約看診日期』按鈕底部」的總高度，
+     用 100svh 減掉它就是橫幅能用的高度 → 預約按鈕一定落在第一屏。
+   橫幅內部尺寸單位 cqh = 橫幅高度的 1%，橫幅變矮時字與 QR 一起等比縮小、只是左右變得更寬，不會擠壞。
+   橫幅寬度不足 860px（平板直向、手機）時改成直排、隱藏 QR（手機掃不到自己的螢幕）。 */
+:root{--lb-other:30rem;--lb-min:7rem}
+.line-banner{display:block;container:lb / inline-size;margin:0 0 1rem;color:#fff;border-radius:1rem}
+.line-banner:focus-visible{outline:3px solid var(--dawn);outline-offset:4px}
+/* 高度上限 23.8cqi（寬:高 ≈ 4.2:1）：中間多了一塊權益清單，橫幅要夠寬才排得下三欄 */
+.lb{container:lbbox / size;position:relative;background:#00d287;border-radius:min(2.3cqi,1.5rem);overflow:hidden;
+  height:min(23.8cqi, max(var(--lb-min), calc(100svh - var(--lb-other))));
+  box-shadow:0 0.625rem 1.5rem rgba(6,82,56,.18);transition:transform .2s,box-shadow .2s}
+@media(hover:hover){.line-banner:hover .lb{transform:translateY(-3px);box-shadow:0 0.875rem 2rem rgba(6,82,56,.26)}}   /* iPhone 點完不會卡在浮起狀態 */
+.lb::before,.lb::after{content:"";position:absolute;border-radius:50%;background:#19d693;pointer-events:none}
+.lb::before{width:110cqh;height:110cqh;right:-29cqh;top:-62cqh}
+.lb::after{width:78cqh;height:78cqh;left:-32cqh;bottom:-52cqh}
+.lb-ring{position:absolute;border:max(2px,.7cqh) solid rgba(255,255,255,.45);border-radius:50%;pointer-events:none}
+.lb-ring.r1{width:7.5cqh;height:7.5cqh;left:150cqh;top:9cqh}
+.lb-ring.r2{width:5.2cqh;height:5.2cqh;left:139cqh;top:82cqh}
+/* 三欄：左（標題＋按鈕）｜中（權益清單，置中）｜右（QR） */
+.lb-row{--m:1cqh;--p:1cqh;position:absolute;inset:0;z-index:1;display:flex;align-items:center;padding:0 16.5cqh 0 19cqh}
+/* 橫幅被壓得越扁、左右越空：把標題按鈕（--m）和中間清單（--p）放大，填滿空間 */
+@container lbbox (min-aspect-ratio:4.6/1){.lb-row{--m:1.08cqh;--p:1.25cqh}}
+@container lbbox (min-aspect-ratio:5/1){.lb-row{--m:1.15cqh;--p:1.4cqh}}
+@container lbbox (min-aspect-ratio:6/1){.lb-row{--m:1.25cqh;--p:1.55cqh}}
+.lb-main{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start}
+.lb-title{font-weight:700;font-size:calc(20.1*var(--m));line-height:1.2;letter-spacing:calc(1*var(--m));margin-bottom:calc(6*var(--m))}
+.lb-cta{display:inline-flex;align-items:center;gap:0;height:calc(18*var(--m));padding:0 calc(8*var(--m));border-radius:99px;
+  background:#f59e2d;font-weight:700;font-size:calc(9.2*var(--m));line-height:1;white-space:nowrap;box-shadow:0 calc(1*var(--m)) calc(3*var(--m)) rgba(150,80,0,.18)}
+.lb-perks{flex:1 1 auto;min-width:0;display:flex;justify-content:center;padding:0 calc(8*var(--p))}
+.lb-perks-in{background:rgba(255,255,255,.14);border:max(1px,calc(.4*var(--p))) solid rgba(255,255,255,.32);border-radius:calc(4.5*var(--p));padding:calc(6*var(--p)) calc(8*var(--p)) calc(6.5*var(--p))}
+.lb-perks-h{font-weight:700;font-size:calc(6.2*var(--p));line-height:1.3;white-space:nowrap;margin-bottom:calc(5*var(--p))}
+.lb-perks ol{list-style:none;counter-reset:perk;display:grid;grid-template-columns:auto auto;gap:calc(4*var(--p)) calc(9*var(--p))}
+.lb-perks li{counter-increment:perk;display:flex;align-items:center;gap:calc(2.6*var(--p));font-weight:700;font-size:calc(6.4*var(--p));line-height:1.2;white-space:nowrap}
+.lb-perks li::before{content:counter(perk);flex:0 0 auto;width:calc(8.6*var(--p));height:calc(8.6*var(--p));border-radius:50%;background:#fff;color:#065238;
+  display:flex;align-items:center;justify-content:center;font-size:calc(5.4*var(--p));font-weight:700}
+.lb-qr{position:relative;flex:0 0 auto;align-self:flex-end;margin-bottom:5cqh;width:75cqh;height:77.5cqh;background:#fff;border-radius:5cqh;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:4.9cqh;color:#065238}
+.lb-cat{position:absolute;left:50%;top:-17.5cqh;width:35cqh;transform:translateX(-50%)}
+.lb-qr b{font-size:max(5.5cqh,0.75rem);line-height:1;margin-bottom:3.6cqh;white-space:nowrap}
+.lb-qr img{width:46.3cqh;height:46.3cqh}
+.lb-qr small{font-size:max(3.7cqh,0.65rem);font-weight:700;color:#009b63;margin-top:3.2cqh;line-height:1;white-space:nowrap}
+/* 橫幅寬度 < 860px（平板直向、手機）：直排、字級改用固定值；QR 隱藏（手機掃不到自己的螢幕） */
+@container lb (max-width:859px){
+  .lb{container-type:normal;height:auto;border-radius:1rem}
+  .lb::before{width:14rem;height:14rem;right:-5rem;top:-8rem}
+  .lb::after{width:9rem;height:9rem;left:-4rem;bottom:-6rem}
+  .lb-ring,.lb-qr,.lb-perks{display:none}   /* 手機用簡單版：只留標題＋橘色按鈕；QR 掃不到自己的螢幕 */
+  .lb-row{position:relative;inset:auto;flex-direction:column;align-items:stretch;padding:1.1rem 1.1rem 1.15rem}
+  .lb-title{font-size:clamp(1.6rem,8cqi,2.5rem);margin-bottom:0.6rem;letter-spacing:.05em}
+  /* 三星等 Android 手機把系統字級調大時文字會變寬 → 允許換行，不會被橫幅切掉 */
+  .lb-cta{align-self:flex-start;height:auto;padding:0.55rem 1.05rem;font-size:clamp(0.95rem,4.3cqi,1.2rem);
+    flex-wrap:wrap;justify-content:center;white-space:normal;line-height:1.35;text-align:center;border-radius:1.5rem;max-width:100%}
+  }
+/* 不支援 container query 的舊瀏覽器（iOS 15 以前的 iPhone、舊版三星瀏覽器）：
+   橫幅的 cqi/cqh 單位全部失效，改用固定尺寸的簡單版（同手機版），不會整塊亂掉 */
+@supports not (container-type:inline-size){
+  .lb{height:auto;border-radius:1rem}
+  .lb::before{width:14rem;height:14rem;right:-5rem;top:-8rem}
+  .lb::after{width:9rem;height:9rem;left:-4rem;bottom:-6rem}
+  .lb-ring,.lb-qr,.lb-perks{display:none}
+  .lb-row{position:relative;flex-direction:column;align-items:flex-start;padding:1.25rem 1.4rem}
+  .lb-title{font-size:2rem;margin-bottom:0.6rem;letter-spacing:.05em}
+  .lb-cta{height:auto;padding:0.55rem 1.05rem;font-size:1.05rem;flex-wrap:wrap;white-space:normal;line-height:1.35;border-radius:1.5rem}
+}
+/* 手機螢幕太矮、預約按鈕還是擠不進第一屏時，JS 會在 <html> 依序加上 fit1 → fit5 */
+.fit1 .hero .eyebrow{display:none}
+.fit2 .topbar .tb-addr{display:none}
+.fit3 .hero p{font-size:0.875rem;line-height:1.6;margin-bottom:0.875rem}
+/* fit4：手機系統字級調很大（三星常見）還是放不下 → 介紹文字移到預約按鈕「下面」，內容不刪只換位置 */
+.fit4 .hero-body{display:flex;flex-direction:column;align-items:center}
+.fit4 .hero-body p{order:3;margin:1.25rem auto 0}
+/* fit5：再放不下就收掉橫幅標題「好友募集中！」，只留橘色按鈕 */
+.fit5 .lb-title{display:none}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap-wide">
+    <span>📞 <a id="tb-phone" href="#">02-2518-1268</a><span class="tb-addr">　台北市中山區復興北路350號3樓</span></span>
+    <span><a id="tb-fb" href="#" target="_blank" rel="noopener">Facebook 粉絲專頁</a>　|　<a class="tb-booking" id="tb-booking" href="#" target="_blank" rel="noopener">線上預約</a></span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap-wide nav">
+    <a class="brand" onclick="go('home')"><img class="logo" src="images/logo.png" alt="晨昕診所 Logo">晨昕診所</a>
+    <button class="burger" onclick="document.getElementById('menu').classList.toggle('open')" aria-label="選單">☰</button>
+    <ul class="menu" id="menu">
+      <li><a data-nav="home" onclick="go('home')">首頁</a></li>
+      <li><a href="/notices/">診所公告</a></li>
+      <li><a onclick="go('home','about')">關於我們</a></li>
+      <li><a onclick="go('home','services')">服務項目</a></li>
+      <li><a onclick="go('home','hours')">門診時間</a></li>
+      <li><a onclick="go('home','team')">醫療團隊</a></li>
+      <li><a data-nav="news" onclick="go('news')">健康新知</a></li>
+      <li><a onclick="go('home','contact')">聯絡我們</a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="page" id="page-home">
+  <div class="hero">
+    <div class="horizon"></div>
+    <div class="wrap-wide hero-top">
+      <a class="pinbar" id="pinbar" href="/notices/" hidden></a>
+      <!-- LINE 橫幅：QR（images/line-qr.svg）與下方 LINE ID 綁定診所官方帳號 @598wqthm，換帳號時兩者都要換 -->
+      <a class="line-banner" id="line-banner" href="#" target="_blank" rel="noopener" aria-label="加入晨昕診所 LINE 好友">
+       <div class="lb">
+        <span class="lb-ring r1"></span><span class="lb-ring r2"></span>
+       <div class="lb-row">
+        <div class="lb-main">
+          <span class="lb-title">好友募集中！</span>
+          <span class="lb-cta"><span>點擊右下角LINE圖示</span><span>加好友</span></span>
+        </div>
+        <div class="lb-perks">
+          <div class="lb-perks-in">
+            <div class="lb-perks-h">加入LINE好友並通過手機驗證立即享有</div>
+            <ol>
+              <li>線上掛號</li>
+              <li>掛號查詢</li>
+              <li>領藥、抽血提醒</li>
+              <li>診所最新資訊</li>
+            </ol>
+          </div>
+        </div>
+        <div class="lb-qr">
+        <svg class="lb-cat" viewBox="0 0 140 90" aria-hidden="true">
+          <path d="M26 14.5 44 27 33 36Z M114 14.5 96 27 107 36Z" fill="#fff"/>
+          <path d="M28.5 19 38 26.5 32.5 31Z M111.5 19 102 26.5 107.5 31Z" fill="#f7bfca"/>
+          <path d="M40 72V52a30 30 0 0 1 60 0v20Z" fill="#fff"/>
+          <path d="M34.8 34a41 41 0 0 1 70.4 0" fill="none" stroke="#065238" stroke-width="5.5"/>
+          <rect x="26" y="34" width="15" height="26" rx="7.5" fill="#f59e2d"/><rect x="99" y="34" width="15" height="26" rx="7.5" fill="#f59e2d"/>
+          <circle cx="57.5" cy="52" r="4" fill="#065238"/><circle cx="82.5" cy="52" r="4" fill="#065238"/>
+          <path d="M64 57.5q3 4 6 .8q3 3.2 6-.8" fill="none" stroke="#065238" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M23 53.5 41 54.5M24 62.5 41 61M117 53.5 99 54.5M116 62.5 99 61" stroke="#065238" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M36 82v4.5M41.5 80v7M47 82v4.5M93 82v4.5M98.5 80v7M104 82v4.5" stroke="#7fdcb8" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+          <b>掃下方條碼加好友</b>
+          <img src="images/line-qr.svg" alt="晨昕診所 LINE 加好友 QR Code" width="200" height="200">
+          <small>LINE ID：@598wqthm</small>
+        </div>
+       </div>
+       </div>
+      </a>
+    </div>
+    <div class="wrap hero-body">
+      <span class="eyebrow">DR. JENNY LEI'S CLINIC</span>
+      <h1><span class="seg">用心守護</span><span class="seg">您的健康</span></h1>
+      <p>晨昕診所秉持「以人為本」的精神，在專業醫師的帶領下，持續實踐最優質的醫療技術與最貼心的人性化服務。無論是慢性醫療或保健需求，我們用心聆聽每一位患者。</p>
+      <div style="text-align:center;margin:0.375rem 0 0"><a class="btn btn-solid btn-big" id="hero-booking" href="#" target="_blank" rel="noopener">預約看診日期</a></div>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head"><span class="en">ABOUT</span><h2>關於晨昕</h2></div>
+      <div class="about-grid">
+        <div>
+          <span class="badge">⭐ 糖尿病共照網認證機構</span>
+          <span class="badge">智抗糖「糖尿病好診所」推薦</span>
+          <p style="margin-top:0.875rem">診所交通便利，距離捷運中山國中站僅需步行 3 分鐘，位於 3 樓設有電梯與完善的無障礙設施，即使坐輪椅也能方便前來就診。無論是想要戒菸、開立健康處方還是體重管理，皆歡迎隨時來診諮詢。</p>
+        </div>
+        <div class="about-right">
+          <p>空間寬敞明亮，提供舒適整潔的看診環境，打造全新醫療體驗。從糖尿病、高血壓、高血脂等慢性病照護，到專業醫學減重與身心科門診，晨昕診所是您全家人的健康後盾。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-alt" id="services">
+    <div class="wrap">
+      <div class="sec-head"><span class="en">SERVICES</span><h2>服務項目</h2></div>
+      <div class="svc-grid" id="svc-grid"></div>
+    </div>
+  </section>
+
+  <section id="hours">
+    <div class="wrap">
+      <div class="sec-head"><span class="en">HOURS</span><h2>門診時間</h2></div>
+      <div class="hours-scroll">
+        <table class="hours-table">
+          <thead><tr><th>時段</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th></tr></thead>
+          <tbody id="hours-body"></tbody>
+        </table>
+      </div>
+      <p class="hours-note" id="hours-note"></p>
+      <p class="hours-note" id="hours-extra" style="color:var(--pine);font-weight:500"></p>
+    </div>
+  </section>
+
+  <section class="sec-alt" id="team">
+    <div class="wrap">
+      <div class="sec-head"><span class="en">TEAM</span><h2>醫療團隊</h2></div>
+      <div class="team-grid" id="team-grid"></div>
+    </div>
+  </section>
+
+  <section id="news-preview">
+    <div class="wrap">
+      <div class="sec-head"><span class="en">HEALTH</span><h2>健康新知</h2></div>
+      <div class="art-grid" id="home-articles"><div class="loading">載入中…</div></div>
+      <p style="text-align:center;margin-top:1.875rem"><a class="btn btn-ghost" style="margin-left:0" onclick="go('news')">看更多文章</a></p>
+    </div>
+  </section>
+
+  <section class="sec-alt" id="contact">
+    <div class="wrap">
+      <div class="sec-head"><span class="en">CONTACT</span><h2>聯絡我們</h2></div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>晨昕診所</h3>
+          <p><strong>地址：</strong><span id="c-addr"></span></p>
+          <p><strong>電話：</strong><a id="c-phone" href="#"></a></p>
+          <p><strong>Email：</strong><span id="c-mail"></span></p>
+        </div>
+        <div class="mapbox"><iframe id="c-map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="晨昕診所地圖"></iframe></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-news">
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="en">HEALTH NEWS</span><h2>健康新知</h2></div>
+      <div class="cat-bar" id="cat-bar"></div>
+      <div class="art-grid" id="news-grid"><div class="loading">載入中…</div></div>
+      <div class="news-pager" id="news-pager"></div>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-article">
+  <section>
+    <div class="wrap article-page" id="article-box"></div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="brand"><img class="logo" src="images/logo.png" alt="">晨昕診所</div>
+    <p id="f-addr"></p>
+    <p style="margin-top:0.5rem"><a id="f-fb" href="#" target="_blank" rel="noopener">Facebook</a>　|　<a id="f-line" href="#" target="_blank" rel="noopener">LINE</a>　|　<a id="f-booking" href="#" target="_blank" rel="noopener">線上預約</a></p>
+    <p style="margin-top:0.875rem;font-size:0.7812rem;color:#8fa79c">© 晨昕診所 All Rights Reserved.</p>
+  </div>
+</footer>
+
+<a class="fab-line" id="fab-line" href="#" target="_blank" rel="noopener" aria-label="加入 LINE 好友">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 5.64 2 10.13c0 4.02 3.58 7.39 8.42 8.03.33.07.77.22.88.5.1.26.07.66.03.92l-.14.86c-.04.26-.2 1.02.89.56 1.09-.46 5.87-3.46 8.01-5.92C21.5 13.4 22 11.83 22 10.13 22 5.64 17.52 2 12 2ZM8.3 12.6H6.4c-.28 0-.5-.22-.5-.5V8.3c0-.28.22-.5.5-.5s.5.22.5.5v3.3h1.4c.28 0 .5.22.5.5s-.22.5-.5.5Zm2-.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V8.3c0-.28.22-.5.5-.5s.5.22.5.5v3.8Zm4.5 0c0 .22-.14.4-.34.47a.5.5 0 0 1-.16.03.5.5 0 0 1-.4-.2l-1.95-2.65v2.35c0 .28-.22.5-.5.5s-.5-.22-.5-.5V8.3c0-.22.14-.4.34-.47a.5.5 0 0 1 .56.17l1.95 2.65V8.3c0-.28.22-.5.5-.5s.5.22.5.5v3.8Zm3-2.4c.28 0 .5.22.5.5s-.22.5-.5.5h-1.4v.9h1.4c.28 0 .5.22.5.5s-.22.5-.5.5h-1.9c-.28 0-.5-.22-.5-.5V8.3c0-.28.22-.5.5-.5h1.9c.28 0 .5.22.5.5s-.22.5-.5.5h-1.4v.9h1.4Z"/></svg>
+</a>
+<div class="toast" id="toast">連結已複製</div>
+
+<script src="data/content.js"></script>
+<script>
+/* ============ 渲染引擎（內容一律由 /admin 後台維護） ============ */
+/* ---- 服務項目圖示（原創 SVG，鍵值 = 服務名稱） ---- */
+const SVC_ICONS = {
+"專業減重": `<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="10" y="8" width="28" height="32" rx="5" fill="none" stroke="#1C4A43" stroke-width="2.6"/><path d="M17 21 a7 7 0 0 1 14 0" fill="none" stroke="#1C4A43" stroke-width="2.6" stroke-linecap="round"/><line x1="24" y1="21" x2="28" y2="15.5" stroke="#D99A3D" stroke-width="2.6" stroke-linecap="round"/><line x1="17" y1="33" x2="31" y2="33" stroke="#1C4A43" stroke-width="2.6" stroke-linecap="round" opacity=".45"/></svg>`,
+"糖尿病": `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 7 C20.5 13 13 21 13 28.5 a11 11 0 0 0 22 0 C35 21 27.5 13 24 7 Z" fill="none" stroke="#1C4A43" stroke-width="2.6" stroke-linejoin="round"/><rect x="19.8" y="23.3" width="8.4" height="8.4" rx="1.3" fill="#D99A3D"/><line x1="22.6" y1="23.3" x2="22.6" y2="31.7" stroke="#F7EAD2" stroke-width="1.1"/><line x1="25.4" y1="23.3" x2="25.4" y2="31.7" stroke="#F7EAD2" stroke-width="1.1"/><line x1="19.8" y1="26.1" x2="28.2" y2="26.1" stroke="#F7EAD2" stroke-width="1.1"/><line x1="19.8" y1="28.9" x2="28.2" y2="28.9" stroke="#F7EAD2" stroke-width="1.1"/></svg>`,
+"高血壓": `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 40 C9.5 30 7.5 19.5 12.8 13.8 C17 9.3 23 10.8 24 15.5 C25 10.8 31 9.3 35.2 13.8 C40.5 19.5 38.5 30 24 40 Z" fill="none" stroke="#1C4A43" stroke-width="2.6" stroke-linejoin="round"/><line x1="24" y1="25.5" x2="18.5" y2="19" stroke="#D99A3D" stroke-width="2.6" stroke-linecap="round"/><circle cx="24" cy="25.5" r="2.4" fill="#D99A3D"/></svg>`,
+"高血脂": `<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="13.5" fill="none" stroke="#1C4A43" stroke-width="2.6"/><path d="M35 27 A11.7 11.7 0 0 1 13 27 C16.5 23.5 20 26 24 25 C28 24 31.5 23.2 35 27 Z" fill="#D99A3D"/></svg>`,
+"代謝症候群": `<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="10.5" r="4.2" fill="none" stroke="#1C4A43" stroke-width="2.6"/><path d="M24 17.5 C16.5 17.5 12.5 24.5 13 31 C13.5 36.5 18 40.5 24 40.5 C30 40.5 34.5 36.5 35 31 C35.5 24.5 31.5 17.5 24 17.5 Z" fill="none" stroke="#1C4A43" stroke-width="2.6"/><line x1="13.6" y1="23.5" x2="10.4" y2="27.5" stroke="#1C4A43" stroke-width="2.4" stroke-linecap="round"/><line x1="34.4" y1="23.5" x2="37.6" y2="27.5" stroke="#1C4A43" stroke-width="2.4" stroke-linecap="round"/><path d="M15.8 31 C20 33 28 33 32.2 31" fill="none" stroke="#D99A3D" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+"慢性處方籤": `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M31 40 H17 a3 3 0 0 1 -3 -3 V11 a3 3 0 0 1 3 -3 h14 a3 3 0 0 1 3 3 v14" fill="none" stroke="#1C4A43" stroke-width="2.6" stroke-linecap="round"/><line x1="19" y1="16" x2="29" y2="16" stroke="#1C4A43" stroke-width="2.2" stroke-linecap="round" opacity=".45"/><line x1="19" y1="22" x2="26" y2="22" stroke="#1C4A43" stroke-width="2.2" stroke-linecap="round" opacity=".45"/><path d="M38 34 a6 6 0 1 1 -2 -4.5" fill="none" stroke="#D99A3D" stroke-width="2.6" stroke-linecap="round"/><path d="M36.5 25.5 l0.2 4.2 -4.2 0.2" fill="none" stroke="#D99A3D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+"內科急慢性疾病": `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M16 8 v9 a8 8 0 0 0 16 0 V8" fill="none" stroke="#1C4A43" stroke-width="2.6" stroke-linecap="round"/><path d="M24 25 v4 c0 5 9 3 9 8" fill="none" stroke="#1C4A43" stroke-width="2.6" stroke-linecap="round"/><circle cx="33" cy="38" r="3.6" fill="none" stroke="#D99A3D" stroke-width="2.6"/></svg>`,
+"預防保健健檢": `<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="13" y="10" width="22" height="30" rx="3" fill="none" stroke="#1C4A43" stroke-width="2.6"/><rect x="19" y="6.5" width="10" height="6" rx="2" fill="#F7EAD2" stroke="#1C4A43" stroke-width="2.6"/><path d="M18 26 l4.5 4.5 L30.5 20.5" fill="none" stroke="#D99A3D" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+};
+
+const $ = id => document.getElementById(id);
+
+/* 後台沒上傳照片時顯示的通用剪影（不是任何真人） */
+const DOC_PLACEHOLDER =
+  `<div class="photo-ph" role="img" aria-label="未提供照片">
+     <svg viewBox="0 0 64 64" aria-hidden="true">
+       <circle cx="32" cy="22" r="11" fill="none" stroke="currentColor" stroke-width="3"/>
+       <path d="M12 55c0-11 9-19 20-19s20 8 20 19" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+     </svg>
+     <span>未提供照片</span>
+   </div>`;
+let ARTICLES = [];
+let currentCat = "全部";
+
+function esc(s){const d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
+
+/* ============================================================
+   後台診所資料（content/site.json）→ SITE
+   後台的時段是 mon/tue/.../sun 七個欄位，前台表格要的是 days[7]，在此轉換。
+   ============================================================ */
+function daysOf(r){
+  if(Array.isArray(r.days)) return r.days.slice(0,7);
+  const v = [r.mon,r.tue,r.wed,r.thu,r.fri,r.sat,r.sun];
+  return v.map(x => (x==null || String(x).trim()==='') ? '休診' : String(x).trim());
+}
+
+function applySite(s){
+  if(!s || typeof s!=='object') return false;
+  ['name','phone','phoneLink','address','email','booking','line','facebook','mapEmbed','baseUrl','ogImage']
+    .forEach(k=>{ if(s[k]) SITE[k]=s[k]; });
+
+  if(Array.isArray(s.services) && s.services.length) SITE.services = s.services;
+
+  if(Array.isArray(s.team) && s.team.length){
+    SITE.team = s.team.map(t=>({
+      name: t.name||'', title: t.title||'', photo: t.photo||'',
+      creds: Array.isArray(t.creds) ? t.creds.filter(Boolean) : []
+    }));
+  }
+
+  if(s.hours && typeof s.hours==='object'){
+    if(s.hours.note  != null) SITE.hours.note  = s.hours.note;
+    if(s.hours.extra != null) SITE.hours.extra = s.hours.extra;
+    if(Array.isArray(s.hours.rows) && s.hours.rows.length) SITE.hours.rows = s.hours.rows;
+  }
+  return true;
+}
+
+async function loadSite(){
+  // 1) Worker 注入（最快，無額外請求）
+  if(window.__SITE__ && applySite(window.__SITE__)) return 'inject';
+  // 2) 退而求其次：直接抓 JSON
+  for(const url of ['content/site.json','data/site.json']){
+    try{
+      const r = await fetch(url, {cache:'no-cache'});
+      if(!r.ok) continue;
+      if(applySite(await r.json())) return url;
+    }catch(e){ /* 換下一個 */ }
+  }
+  console.warn('[site] 抓不到後台診所資料，改用 index.html 內建預設值');
+  return null;
+}
+
+function initStatic(){
+  $('tb-phone').href = 'tel:'+SITE.phoneLink; $('tb-phone').textContent = SITE.phone;
+  $('tb-fb').href = SITE.facebook;
+  $('hero-booking').href = $('f-booking').href = SITE.booking;
+  $('c-addr').textContent = $('f-addr').textContent = SITE.address;
+  $('c-phone').href='tel:'+SITE.phoneLink; $('c-phone').textContent=SITE.phone;
+  $('c-mail').textContent = SITE.email;
+  $('c-map').src = SITE.mapEmbed;
+  $('f-fb').href = SITE.facebook;
+  $('tb-booking').href = SITE.booking;
+  $('f-line').href = SITE.line || '#';
+  const lb = $('line-banner');
+  if(SITE.line){ lb.href = SITE.line; } else { lb.removeAttribute('target'); lb.onclick = e => e.preventDefault(); }
+  const fab = $('fab-line');
+  if(SITE.line){ fab.href = SITE.line; } else { fab.removeAttribute('target'); fab.onclick = e => e.preventDefault(); }
+
+  $('svc-grid').innerHTML = SITE.services.map(s=>
+    `<div class="svc"><div class="icon">${SVC_ICONS[s.name]||''}</div><h3>${esc(s.name)}</h3></div>`).join('');
+
+  $('hours-body').innerHTML = SITE.hours.rows.map(r=>
+    `<tr><td class="slot">${esc(r.slot)}<br><small>${esc(r.time)}</small></td>`+
+    daysOf(r).map(d=>`<td class="${d==='休診'?'off':''}">${esc(d)}</td>`).join('')+`</tr>`).join('');
+  $('hours-note').textContent = SITE.hours.note;
+  $('hours-extra').textContent = SITE.hours.extra;
+
+  $('team-grid').innerHTML = SITE.team.map(t=>
+    `<div class="doc">${t.photo
+        ? `<img class="photo" src="${esc(t.photo)}" alt="${esc(t.name)}${esc(t.title)}" loading="lazy">`
+        : DOC_PLACEHOLDER}
+     <div class="doc-body">
+       <h3>${esc(t.name)}</h3><div class="role">${esc(t.title)}</div>
+       <ul>${t.creds.map(c=>`<li>${esc(c)}</li>`).join('')}</ul>
+     </div></div>`).join('');
+}
+
+/* ============================================================
+   首屏保證：「預約看診日期」按鈕一定要在第一屏
+   ------------------------------------------------------------
+   電腦：量出「橫幅以外」到按鈕底部的總高度 → 寫進 CSS 變數 --lb-other，
+         CSS 用 100svh − --lb-other 決定橫幅高度。這個量測值跟螢幕高度無關，
+         所以視窗拉高拉矮不用重算，CSS 自己會跟著變。
+   手機：橫幅是直排、高度跟內容走，放不下時依序收掉
+         英文小標(fit1) → 頁首地址(fit2，頁尾與聯絡我們仍有) → 介紹文字縮小(fit3)
+         → 介紹文字移到按鈕下方(fit4) → 收掉橫幅標題(fit5)。
+         fit4、fit5 主要是給把系統字級調大的 Android 手機（三星常見）。
+   只在「寬度改變」時重算：手機捲動時網址列伸縮會改變高度，不能跟著跳。
+   ============================================================ */
+const FIT_GAP = 16;   /* 按鈕底下至少留的空白（px） */
+function fitHero(){
+  const home = $('page-home'), root = document.documentElement;
+  const box = document.querySelector('.lb'), btn = $('hero-booking');
+  if(!home || !home.classList.contains('show') || !box || !btn) return;
+  const docBottom = el => el.getBoundingClientRect().bottom + window.scrollY;
+
+  const FITS = ['fit1','fit2','fit3','fit4','fit5'];
+  root.classList.remove(...FITS);
+  const other = docBottom(btn) - box.getBoundingClientRect().height + FIT_GAP;
+  const prev = root.style.getPropertyValue('--lb-other');
+  root.style.setProperty('--lb-other', Math.ceil(other) + 'px');
+
+  if(getComputedStyle(box).containerType !== 'size'){        /* 直排（手機/平板） */
+    const vh = window.innerHeight;
+    for(const c of FITS){
+      if(docBottom(btn) + FIT_GAP <= vh) break;
+      root.classList.add(c);
+    }
+  }
+  /* 剛從別頁跳到某區塊的 3 秒內，如果橫幅高度變了，區塊位置會被推走，補捲回去 */
+  if(anchorAt && Date.now() - anchorAt.t < 3000 && prev !== root.style.getPropertyValue('--lb-other')){
+    const el = $(anchorAt.id); if(el) el.scrollIntoView({behavior:'auto'});
+  }
+}
+let fitW = window.innerWidth, fitTimer;
+window.addEventListener('resize', () => {
+  if(window.innerWidth === fitW) return;
+  fitW = window.innerWidth;
+  clearTimeout(fitTimer); fitTimer = setTimeout(fitHero, 120);
+});
+window.addEventListener('orientationchange', () => setTimeout(fitHero, 300));
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitHero);   /* 網路字型載入後字寬/行數會變 */
+
+/* ---- 載入後台維護的內容（優先讀 content.js，本機與線上都能動） ---- */
+async function loadContent(){
+  try{
+    let ann, arts;
+    if(window.__ARTICLES__){
+      ann = window.__ANNOUNCEMENTS__ || {items:[]};
+      arts = window.__ARTICLES__;
+    }else{
+      const [annRes, artRes] = await Promise.all([
+        fetch('data/announcements.json'),
+        fetch('data/articles.json')
+      ]);
+      ann = await annRes.json();
+      arts = await artRes.json();
+    }
+    ARTICLES = arts;
+    renderPinned(ann.items || []);
+    $('home-articles').innerHTML = ARTICLES.slice(0,2).map(cardHTML).join('') ||
+      '<p class="loading">目前沒有文章。</p>';
+    route(true); /* 內容就緒後才處理分享連結直開文章 */
+  }catch(e){
+    $('home-articles').innerHTML = '<p class="loading">內容載入失敗，請重新整理。</p>';
+    console.error(e);
+  }
+}
+
+/* 首頁只顯示「一則」置頂公告，固定高度，不影響排版。
+   後台「置頂公告」開關 = pinned；同時開多則時取日期最新的一則。 */
+function renderPinned(items){
+  const el = $('pinbar');
+  if(!el) return;
+  const list = (items||[]).filter(i => i && i.show !== false && i.pinned);
+  if(!list.length){ el.hidden = true; return; }
+  const i = list[0];   /* build.js 已依日期新到舊排序 */
+  el.hidden = false;
+  el.innerHTML =
+    `<span class="tag">公告</span>`+
+    `<span class="pin-title">${esc(i.title)}</span>`+
+    `<span class="pin-date">${esc(i.date)}</span>`+
+    `<span class="pin-more">看全部 ›</span>`;
+}
+
+/* 相容處理：舊資料是單一 category 字串，新資料是 tags 陣列，統一成陣列 */
+function tagsOf(a){
+  if(Array.isArray(a.tags)) return a.tags.filter(Boolean);
+  if(Array.isArray(a.category)) return a.category.filter(Boolean);
+  return a.category ? [a.category] : [];
+}
+
+function cardHTML(a){
+  const tags = tagsOf(a);
+  return `<div class="card" onclick="go('article',null,'${esc(a.slug)}')">
+    ${a.thumbnail?`<img class="thumb" src="${esc(a.thumbnail)}" alt="" loading="lazy">`:''}
+    <div class="cats">${tags.map(t=>`<span class="cat">${esc(t)}</span>`).join('')}</div>
+    <h3>${esc(a.title)}</h3>
+    <p>${esc(a.excerpt)}</p>
+    <div class="meta">${esc(a.author)}　·　${esc(a.date)}</div>
+  </div>`;
+}
+
+function renderCats(){
+  // 統計每個標籤的文章數，取最熱門三個當按鈕，其餘收進下拉選單
+  const counts = {};
+  ARTICLES.flatMap(tagsOf).forEach(t=>{ counts[t]=(counts[t]||0)+1; });
+  const sorted = Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
+  const top = sorted.slice(0,3);
+  const rest = sorted.slice(3);
+  const picked = rest.includes(currentCat);
+
+  // 上排：最熱門三個標籤（置中）
+  const topRow = top.map(c=>
+    `<button class="cat-btn ${c===currentCat?'active':''}" onclick="filterCat('${esc(c)}')">${esc(c)}</button>`).join('');
+
+  // 下排：最左邊是「分類」下拉（含全部標籤選項），接著「全部」
+  const dropdown = `<div class="cat-more">
+      <button class="cat-btn cat-more-btn ${picked?'active':''}">${picked?esc(currentCat):'分類'} ▾</button>
+      <div class="cat-menu">${sorted.map(c=>
+        `<a class="${c===currentCat?'on':''}" onclick="filterCat('${esc(c)}')">${esc(c)}</a>`).join('')}</div>
+    </div>`;
+  const allBtn = `<button class="cat-btn ${currentCat==='全部'?'active':''}" onclick="filterCat('全部')">全部</button>`;
+
+  $('cat-bar').innerHTML =
+    `<div class="cat-row cat-row-top">${topRow}</div>
+     <div class="cat-row cat-row-bottom">${dropdown}${allBtn}</div>`;
+}
+function filterCat(c){ currentCat=c; newsPage=1; renderCats(); renderNews(); }
+
+const PER_PAGE = 9;
+let newsPage = 1;
+function renderNews(){
+  const list = currentCat==="全部" ? ARTICLES : ARTICLES.filter(a=>tagsOf(a).includes(currentCat));
+  if(!list.length){ $('news-grid').innerHTML='<p class="loading">此標籤目前沒有文章。</p>'; $('news-pager').innerHTML=''; return; }
+  const pages = Math.ceil(list.length/PER_PAGE);
+  if(newsPage>pages) newsPage=pages;
+  const start=(newsPage-1)*PER_PAGE;
+  $('news-grid').innerHTML = list.slice(start,start+PER_PAGE).map(cardHTML).join('');
+  // 分頁列
+  if(pages<=1){ $('news-pager').innerHTML=''; return; }
+  let p = `<button class="pg-btn" ${newsPage===1?'disabled':''} onclick="gotoNews(${newsPage-1})">‹</button>`;
+  for(let i=1;i<=pages;i++) p += `<button class="pg-btn ${i===newsPage?'active':''}" onclick="gotoNews(${i})">${i}</button>`;
+  p += `<button class="pg-btn" ${newsPage===pages?'disabled':''} onclick="gotoNews(${newsPage+1})">›</button>`;
+  $('news-pager').innerHTML = p;
+}
+function gotoNews(p){ newsPage=p; renderNews(); document.getElementById('page-news').scrollIntoView({behavior:'smooth'}); }
+
+/* ---- 文章內頁 + 分享 ---- */
+function renderArticle(slug){
+  const a = ARTICLES.find(x=>x.slug===slug);
+  if(!a){ go('news'); return; }
+  /* 分享網址一律用「真實文章頁」網址。
+     舊寫法用 #article/... —— LINE / FB 的爬蟲會無視 # 後面的內容，
+     結果分享出去變成首頁、沒有標題也沒有預覽圖。 */
+  const shareBase = String(SITE.baseUrl || location.origin || '').replace(/\/+$/,'');
+  const url = shareBase + '/article/' + encodeURIComponent(a.slug) + '/';
+  const encURL = encodeURIComponent(url);
+  const encTitle = encodeURIComponent(a.title);
+  $('article-box').innerHTML = `
+    <div class="cats">${tagsOf(a).map(t=>`<span class="cat">${esc(t)}</span>`).join('')}</div>
+    <h1>${esc(a.title)}</h1>
+    <div class="meta">${esc(a.author)}　·　建立日期：${esc(a.date)}</div>
+    ${coverHTML(a)}
+    <div class="article-body">${a.html}</div>
+    <div class="share">
+      <div class="lbl">分享這篇文章</div>
+      <div class="share-btns">
+        <a class="sbtn threads" target="_blank" rel="noopener"
+           href="https://www.threads.net/intent/post?text=${encTitle}%0A${encURL}">
+          <svg viewBox="0 0 24 24"><path d="M12.2 24h-.01c-3.58-.02-6.33-1.2-8.19-3.51C2.35 18.44 1.5 15.59 1.47 12v-.01c.03-3.58.88-6.43 2.53-8.48C5.86 1.2 8.61.02 12.19 0h.02c2.74.02 5.04.72 6.82 2.1 1.68 1.3 2.86 3.14 3.51 5.49l-2.04.57c-1.1-3.98-3.9-6.01-8.3-6.04-2.91.02-5.11.93-6.53 2.7C4.33 6.48 3.65 8.87 3.62 12c.03 3.13.71 5.52 2.05 7.18 1.42 1.77 3.62 2.68 6.53 2.7 2.62-.02 4.36-.64 5.8-2.08 1.65-1.64 1.62-3.66 1.09-4.89-.31-.72-.88-1.32-1.63-1.78-.19 1.4-.62 2.53-1.29 3.38-.89 1.14-2.16 1.76-3.77 1.85-1.22.07-2.4-.22-3.31-.82-1.08-.7-1.71-1.78-1.78-3.02-.13-2.45 1.83-4.21 4.87-4.39.9-.05 1.75-.01 2.53.12-.1-.62-.31-1.12-.62-1.48-.43-.49-1.09-.74-1.97-.75h-.03c-.71 0-1.67.2-2.28 1.11l-1.71-1.15c.95-1.42 2.5-2.2 4.02-2.2h.05c2.87.02 4.58 1.78 4.75 4.85l.01.17c.51.22.99.49 1.4.81 1.05.81 1.79 1.87 2.15 3.06.5 1.68.55 4.41-1.61 6.57-1.86 1.85-4.12 2.68-7.32 2.71zm.9-10.83c-.2 0-.4 0-.61.02-1.55.09-2.94.79-2.87 2.19.04.73.42 1.31 1.07 1.73.55.36 1.28.54 2.03.5 1.04-.06 1.81-.42 2.36-1.12.44-.56.74-1.35.89-2.36-.86-.19-1.83-.29-2.87-.29z"/></svg>
+          Threads</a>
+        <a class="sbtn fb" target="_blank" rel="noopener"
+           href="https://www.facebook.com/sharer/sharer.php?u=${encURL}">
+          <svg viewBox="0 0 24 24"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.7 4.53-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+          Facebook</a>
+        <a class="sbtn line" target="_blank" rel="noopener"
+           href="https://social-plugins.line.me/lineit/share?url=${encURL}&text=${encTitle}">
+          <svg viewBox="0 0 24 24"><path d="M19.37 4.43C17.4 2.6 14.8 1.6 12 1.6 6.16 1.6 1.4 5.53 1.4 10.36c0 4.33 3.77 7.96 8.86 8.65.34.07.81.23.93.52.11.27.07.68.04.95l-.15.9c-.05.27-.21 1.06.93.58 1.14-.48 6.16-3.63 8.4-6.21 1.55-1.7 2.19-3.43 2.19-5.39 0-2.24-1.09-4.3-3.23-5.93zM7.65 13.16H5.5c-.31 0-.57-.25-.57-.56V8.32c0-.31.26-.57.57-.57.32 0 .57.26.57.57v3.71h1.58c.32 0 .57.26.57.57 0 .31-.25.56-.57.56zm2.19-.56c0 .31-.25.56-.57.56-.31 0-.57-.25-.57-.56V8.32c0-.31.26-.57.57-.57.32 0 .57.26.57.57v4.28zm5.14 0c0 .24-.16.46-.39.53-.06.02-.12.03-.18.03-.18 0-.34-.08-.45-.22l-2.19-2.97v2.63c0 .31-.25.56-.57.56-.31 0-.57-.25-.57-.56V8.32c0-.24.16-.46.39-.53.06-.02.12-.03.18-.03.18 0 .34.08.45.22l2.19 2.98V8.32c0-.31.26-.57.57-.57.32 0 .57.26.57.57v4.28zm3.46-2.71c.31 0 .57.25.57.57 0 .31-.26.56-.57.56h-1.59v1.02h1.59c.31 0 .57.26.57.57 0 .31-.26.56-.57.56h-2.16c-.31 0-.57-.25-.57-.56V8.32c0-.31.26-.57.57-.57h2.16c.31 0 .57.26.57.57 0 .32-.26.57-.57.57h-1.59v1z"/></svg>
+          LINE</a>
+        <button class="sbtn copy" onclick="copyLink('${url}')">
+          <svg viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg>
+          複製連結</button>
+      </div>
+    </div>
+    <a class="back-link" onclick="go('news')">← 回文章列表</a>`;
+  document.title = a.title + '｜晨昕診所';
+}
+
+/* 後台「封面圖」只在列表卡片用過，內頁從來沒顯示 → 補在標題下方。
+   內文已經放了同一張圖就不重複。 */
+function coverHTML(a){
+  if(!a.thumbnail || (a.html||'').includes(a.thumbnail)) return '';
+  return `<figure class="article-cover"><img src="${esc(a.thumbnail)}" alt="${esc(a.title)}"></figure>`;
+}
+
+function copyLink(url){
+  navigator.clipboard.writeText(url).then(()=>{
+    const t=$('toast'); t.classList.add('on');
+    setTimeout(()=>t.classList.remove('on'),1800);
+  });
+}
+
+/* ---- 路由 ----
+   opts.keepHash：不要改網址的 #（初次載入時用，否則會把 /#team 蓋成 #home）
+   opts.instant ：直接跳到區塊、不做平滑捲動（從別頁連過來時用） */
+let anchorAt = null;   /* 最近一次跳錨點的區塊與時間，給 fitHero 版面變動後補捲用 */
+function go(page, anchor, slug, opts = {}){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
+  $('menu').classList.remove('open');
+  if(page==='article'){
+    $('page-article').classList.add('show');
+    renderArticle(slug);
+    location.hash = 'article/'+encodeURIComponent(slug);
+  } else {
+    $('page-'+page).classList.add('show');
+    document.title = '晨昕診所｜台北市中山區內科・糖尿病・慢病體重管理';
+    if(page==='news'){ renderCats(); renderNews(); if(!opts.keepHash) location.hash='news'; }
+    if(page==='home'){ if(!anchor && !opts.keepHash) location.hash='home'; fitHero(); }
+  }
+  document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===page));
+  if(anchor){
+    anchorAt = { id: anchor, t: Date.now() };
+    setTimeout(()=>{ const el=$(anchor); if(el) el.scrollIntoView({behavior: opts.instant ? 'auto' : 'smooth'}); },50);
+  }
+  else { anchorAt = null; window.scrollTo({top:0}); }
+}
+
+/* 文章頁、公告頁的頁首選單會連回 /#team、/#news 這種網址，這裡要接住並跳到對應區塊 */
+const HOME_SECTIONS = ['about','services','hours','team','news-preview','contact'];
+function route(initial){
+  const h = decodeURIComponent(location.hash);
+  const m = h.match(/^#article\/(.+)$/);
+  const o = initial ? { instant: true, keepHash: true } : {};
+  if(m){
+    if(ARTICLES.length) go('article',null,m[1]);
+    else go('home',null,null,{ keepHash: true });   /* 文章資料還沒載入：先顯示首頁、保留網址，載入後再開文章 */
+  }
+  else if(h==='#news') go('news',null,null,o);
+  else if(HOME_SECTIONS.includes(h.slice(1))) go('home', h.slice(1), null, o);
+  else go('home');
+}
+window.addEventListener('hashchange', () => route());
+
+/* 先等後台診所資料，再渲染，避免先閃一次舊的寫死內容。
+   ⚠ 這裡一定要走 route(true)，不能直接 go('home')：
+     舊寫法會先把網址改成 #home，從公告頁/文章頁點「醫療團隊」「健康新知」連過來時，
+     /#team、/#news 還沒被讀到就被蓋掉，結果永遠停在首頁頂端。 */
+(async () => {
+  await loadSite();
+  initStatic();
+  route(true);
+  loadContent();
+})();
+</script>
+</body>
+</html>

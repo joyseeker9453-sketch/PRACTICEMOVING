@@ -1,0 +1,142 @@
+# ============================================================
+# 晨昕診所 內容後台設定
+# 部署時只需要改兩處（見 部署說明.md 步驟四）：
+#   1. repo:     改成你的 GitHub 帳號/repo 名稱
+#   2. base_url: 改成你部署的 OAuth Worker 網址
+# ============================================================
+backend:
+  name: github
+  repo: joyseeker9453-sketch/WEBSITETESTING
+  branch: main
+  base_url: https://uploadcontent.joyseeker9453.workers.dev
+  auth_endpoint: auth
+
+site_url: https://leiclinicdemo.joyseeker9453.workers.dev
+display_url: https://leiclinicdemo.joyseeker9453.workers.dev
+locale: zh-Hant
+
+media_folder: "images/uploads"   # 圖片上傳後存放的位置
+public_folder: "/images/uploads"
+
+collections:
+  # ---------- 診所公告 ----------
+  - name: "announcements"
+    label: "診所公告"
+    files:
+      - name: "announcements"
+        label: "公告列表"
+        file: "content/announcements.json"
+        fields:
+          - label: "公告"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}}（{{fields.date}}）"
+            fields:
+              - { label: "標題", name: "title", widget: "string" }
+              - { label: "公告日期", name: "date", widget: "string", hint: "格式：2026-07-07" }
+              - { label: "內容", name: "body", widget: "markdown" }
+              - { label: "公開", name: "show", widget: "boolean", default: true, hint: "關閉即下架，公告頁不會顯示，但資料保留不用刪除" }
+              - { label: "置頂公告", name: "pinned", widget: "boolean", default: false, hint: "打開後會顯示在首頁最上方那一條。同時打開多則時，只會顯示日期最新的那一則。" }
+
+
+  # ---------- 診所資料（門診時間 / 醫療團隊 / 聯絡方式） ----------
+  - name: "site"
+    label: "診所資料(醫生資訊、開診時間)"
+    files:
+      - name: "site"
+        label: "診所基本資料"
+        file: "content/site.json"
+        fields:
+          - { label: "診所名稱", name: "name", widget: "string" }
+          - { label: "網站網址", name: "baseUrl", widget: "string", hint: "例如 https://mdytcdemowebsite.com（結尾不要斜線）" }
+          - { label: "分享預覽圖", name: "ogImage", widget: "image", required: false, hint: "分享到 LINE/FB 時顯示的圖，建議 1200x630" }
+          - { label: "電話（顯示用）", name: "phone", widget: "string", hint: "例如 02-2518-1268" }
+          - { label: "電話（撥號用）", name: "phoneLink", widget: "string", hint: "只留數字，例如 0225181268" }
+          - { label: "地址", name: "address", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "線上預約連結", name: "booking", widget: "string" }
+          - { label: "LINE 加好友連結", name: "line", widget: "string" }
+          - { label: "Facebook 粉專連結", name: "facebook", widget: "string" }
+          - { label: "Google 地圖嵌入網址", name: "mapEmbed", widget: "text", hint: "Google 地圖 → 分享 → 嵌入地圖 → 複製 iframe 裡 src 的網址" }
+
+          - label: "服務項目"
+            name: "services"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "名稱", name: "name", widget: "string", hint: "名稱要和原本一致才會有對應圖示" }
+              - { label: "說明", name: "desc", widget: "text", required: false }
+
+          - label: "門診時間"
+            name: "hours"
+            widget: "object"
+            fields:
+              - { label: "備註", name: "note", widget: "string", required: false }
+              - { label: "特別說明", name: "extra", widget: "text", required: false }
+              - label: "時段"
+                name: "rows"
+                widget: "list"
+                summary: "{{fields.slot}} {{fields.time}}"
+                fields:
+                  - { label: "時段名稱", name: "slot", widget: "string", hint: "上午 / 下午 / 晚上" }
+                  - { label: "時間", name: "time", widget: "string", hint: "例如 09:00–12:30" }
+                  - { label: "週一", name: "mon", widget: "string", required: false, hint: "填醫師姓名，休診請填「休診」" }
+                  - { label: "週二", name: "tue", widget: "string", required: false }
+                  - { label: "週三", name: "wed", widget: "string", required: false }
+                  - { label: "週四", name: "thu", widget: "string", required: false }
+                  - { label: "週五", name: "fri", widget: "string", required: false }
+                  - { label: "週六", name: "sat", widget: "string", required: false }
+                  - { label: "週日", name: "sun", widget: "string", required: false }
+
+          - label: "醫療團隊"
+            name: "team"
+            widget: "list"
+            summary: "{{fields.name}}（{{fields.title}}）"
+            fields:
+              - { label: "姓名", name: "name", widget: "string" }
+              - { label: "職稱", name: "title", widget: "string" }
+              - { label: "照片", name: "photo", widget: "image", required: false }
+              - label: "學經歷"
+                name: "creds"
+                widget: "list"
+                field: { label: "一條學經歷", name: "cred", widget: "string" }
+
+  # ---------- 健康新知 ----------
+  - name: "articles"
+    label: "健康新知"
+    label_singular: "文章"
+    folder: "content/articles"
+    create: true
+    slug: "{{fields.date}}-{{slug}}"
+    summary: "{{title}}（{{category}}｜{{date}}）"
+    fields:
+      - { label: "標題", name: "title", widget: "string" }
+      - { label: "發布日期", name: "date", widget: "string", hint: "格式：2026-07-14" }
+      - label: "分類（可複選，像 hashtag）"
+        name: "category"
+        widget: "relation"
+        collection: "categories"
+        file: "categories"
+        multiple: true
+        min: 1
+        search_fields: ["items.*.name"]
+        value_field: "items.*.name"
+        display_fields: ["items.*.name"]
+        hint: "可勾多個；要新增分類請到左側「文章分類」區新增"
+      - { label: "作者", name: "author", widget: "string", default: "李泳姿 院長" }
+      - { label: "摘要", name: "excerpt", widget: "text", hint: "顯示在文章列表卡片上的簡短介紹" }
+      - { label: "封面圖", name: "thumbnail", widget: "image", required: false }
+      - { label: "內文", name: "body", widget: "markdown" }
+  - name: "categories"
+    label: "文章分類"
+    files:
+      - name: "categories"
+        label: "分類清單"
+        file: "content/categories.json"
+        fields:
+          - label: "分類"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "名稱", name: "name", widget: "string" }     
