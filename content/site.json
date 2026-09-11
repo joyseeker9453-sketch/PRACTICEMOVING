@@ -1,47 +1,39 @@
 {
   "name": "晨昕診所",
-  "baseUrl": "https://mdytcdemowebsite.com",
+  "baseUrl": "https://practicemoving.joyseeker9453.workers.dev",
   "ogImage": "/images/line-banner.png",
   "phone": "02-2518-1268",
   "phoneLink": "0225181268",
   "address": "台北市中山區復興北路350號3樓",
-  "email": "leiwengchi@gmail.com",
+  "email": "99c7nd@gmail.com",
   "booking": "https://pinmed.co/clinic/8xizpqgz?openAppointment=true",
   "line": "https://line.me/R/ti/p/@598wqthm",
   "facebook": "https://www.facebook.com/Dr.JennyLei",
   "mapEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.233863070999!2d121.54393459999999!3d25.0600615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442abe46125fcb9%3A0x4a4c6cf29a6e996e!2zMTA0Nzjlj7DljJfluILkuK3lsbHljYDlvqnoiIjljJfot68zNTDomZ8z5qiT!5e0!3m2!1szh-TW!2stw!4v1718851999581!5m2!1szh-TW!2stw",
   "services": [
     {
-      "name": "專業減重",
-      "desc": "醫學實證的體重管理方案，由醫師量身規劃藥物與生活介入。"
+      "name": "專業減重"
     },
     {
-      "name": "糖尿病",
-      "desc": "糖尿病共照網認證機構，智抗糖「糖尿病好診所」推薦名單。"
+      "name": "糖尿病"
     },
     {
-      "name": "高血壓",
-      "desc": "長期血壓監測與精準用藥調整，降低心血管風險。"
+      "name": "高血壓"
     },
     {
-      "name": "高血脂",
-      "desc": "血脂異常評估與治療，守護血管健康。"
+      "name": "高血脂"
     },
     {
-      "name": "代謝症候群",
-      "desc": "整合減重、血糖、血壓、血脂的全方位代謝照護。"
+      "name": "代謝症候群"
     },
     {
-      "name": "慢性處方籤",
-      "desc": "慢性病連續處方籤開立與領藥服務。"
+      "name": "慢性處方籤"
     },
     {
-      "name": "內科急慢性疾病",
-      "desc": "感冒、腸胃不適等急性症狀與各類內科慢性疾病診治。"
+      "name": "內科急慢性疾病"
     },
     {
-      "name": "預防保健健檢",
-      "desc": "成人預防保健與自費健檢套餐，早期發現早期治療。"
+      "name": "預防保健健檢"
     }
   ],
   "hours": {
