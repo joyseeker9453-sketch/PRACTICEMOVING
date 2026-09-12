@@ -359,7 +359,7 @@ function headerHtml() {
     '    <ul class="menu">\n' +
     '      <li><a href="/#home">首頁</a></li>\n' +
     '      <li><a href="/notices/">診所公告</a></li>\n' +
-    '      <li><a href="/#team">醫療團隊</a></li>\n' +
+    '      <li><a href="/team/">醫療團隊</a></li>\n' +
     '      <li><a href="/#news">健康新知</a></li>\n' +
     '    </ul>\n  </div>\n</header>';
 }
@@ -531,6 +531,86 @@ const noticeList = (ann.items || []).filter(i => i && i.show !== false);
   fs.writeFileSync(path.join(NOTICE_OUT, 'index.html'), page);
 })();
 
+/* ============================================================
+   完整團隊頁 /team/
+   首頁只放排在最前面的兩位醫師，其餘在這頁。
+   順序＝後台「醫療團隊」清單的排列順序（用拖曳把手調整）。
+   做成真實 HTML，讓「診所名 + 醫師名」可以被 Google 單獨收錄。
+   ============================================================ */
+const TEAM_OUT = path.join(ROOT, 'team');
+const teamList = Array.isArray(SITE.team) ? SITE.team : [];
+(function buildTeamPage() {
+  const url = BASE + '/team/';
+  const desc = teamList.length
+    ? plain(SITE.name + '醫療團隊：' + teamList.map(t => t.name + '（' + t.title + '）').join('、'), 150)
+    : (SITE.name + '的醫療團隊介紹。');
+  const img = absUrl(SITE.ogImage || '/images/logo.png');
+
+  /* 與首頁同一組占位剪影，維持沒照片時的版面一致 */
+  const placeholder =
+    '<div class="photo-ph" role="img" aria-label="未提供照片">' +
+    '<svg viewBox="0 0 64 64" aria-hidden="true">' +
+    '<circle cx="32" cy="22" r="11" fill="none" stroke="currentColor" stroke-width="3"/>' +
+    '<path d="M12 55c0-11 9-19 20-19s20 8 20 19" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>' +
+    '</svg><span>未提供照片</span></div>';
+
+  const cards = teamList.map(t =>
+    '      <div class="doc">\n' +
+    '        ' + (t.photo
+      ? '<img class="photo" src="' + esc(t.photo) + '" alt="' + esc(t.name) + esc(t.title) + '" loading="lazy">'
+      : placeholder) + '\n' +
+    '        <div class="doc-body">\n' +
+    '          <h3>' + esc(t.name) + '</h3><div class="role">' + esc(t.title) + '</div>\n' +
+    '          <ul>' + (Array.isArray(t.creds) ? t.creds : []).map(c => '<li>' + esc(c) + '</li>').join('') + '</ul>\n' +
+    '        </div>\n' +
+    '      </div>'
+  ).join('\n') || '      <p class="loading">目前沒有醫師資料。</p>';
+
+  const jsonld = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: '醫療團隊｜' + SITE.name,
+    description: desc,
+    url: url,
+    isPartOf: { '@type': 'MedicalClinic', name: SITE.name, url: BASE + '/' },
+    mainEntity: teamList.map(t => ({
+      '@type': 'Physician', name: t.name, jobTitle: t.title,
+      worksFor: { '@type': 'MedicalClinic', name: SITE.name, url: BASE + '/' }
+    }))
+  };
+
+  const page = '<!DOCTYPE html>\n<html lang="zh-Hant">\n<head>\n' +
+    '<meta charset="UTF-8">\n' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+    '<title>醫療團隊｜' + esc(SITE.name) + '</title>\n' +
+    '<meta name="description" content="' + esc(desc) + '">\n' +
+    '<link rel="canonical" href="' + esc(url) + '">\n' +
+    '<meta property="og:type" content="website">\n' +
+    '<meta property="og:site_name" content="' + esc(SITE.name) + '">\n' +
+    '<meta property="og:title" content="醫療團隊｜' + esc(SITE.name) + '">\n' +
+    '<meta property="og:description" content="' + esc(desc) + '">\n' +
+    '<meta property="og:url" content="' + esc(url) + '">\n' +
+    '<meta property="og:image" content="' + esc(img) + '">\n' +
+    '<meta name="twitter:card" content="summary_large_image">\n' +
+    '<link rel="icon" type="image/png" href="/images/logo.png">\n' +
+    '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
+    '<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">\n' +
+    '<link rel="stylesheet" href="/styles.css">\n' +
+    '<script type="application/ld+json">' + JSON.stringify(jsonld) + '</script>\n' +
+    '</head>\n<body>\n' +
+    headerHtml() + '\n' +
+    '<div class="page show">\n  <section>\n    <div class="wrap">\n' +
+    '      <div class="sec-head"><span class="en">TEAM</span><h2>醫療團隊</h2></div>\n' +
+    '      <div class="team-grid">\n' + cards + '\n      </div>\n' +
+    '      <p style="text-align:center"><a class="back-link" href="/#home">← 回首頁</a></p>\n' +
+    '    </div>\n  </section>\n</div>\n' +
+    footerHtml() + '\n</body>\n</html>\n';
+
+  fs.rmSync(TEAM_OUT, { recursive: true, force: true });
+  fs.mkdirSync(TEAM_OUT, { recursive: true });
+  fs.writeFileSync(path.join(TEAM_OUT, 'index.html'), page);
+})();
+
 /* 置頂公告檢查：後台可以勾多則，但首頁只顯示日期最新的一則 */
 const pinned = noticeList.filter(i => i.pinned);
 if (pinned.length > 1) {
@@ -546,7 +626,8 @@ fs.writeFileSync(path.join(ROOT, 'robots.txt'),
 /* ---------- sitemap.xml ---------- */
 const today = new Date().toISOString().slice(0, 10);
 const urls = [{ loc: BASE + '/', pri: '1.0', mod: today },
-  { loc: BASE + '/notices/', pri: '0.7', mod: (noticeList[0] && noticeList[0].date) || today }].concat(
+  { loc: BASE + '/notices/', pri: '0.7', mod: (noticeList[0] && noticeList[0].date) || today },
+  { loc: BASE + '/team/', pri: '0.7', mod: today }].concat(
   articles.map(a => ({ loc: BASE + '/article/' + encodeURIComponent(a.slug) + '/', pri: '0.8', mod: a.date || today }))
 );
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
@@ -555,4 +636,5 @@ fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   '\n</urlset>\n');
 
 console.log('✓ 建置完成：' + articles.length + ' 篇文章（已產生實體頁）、' +
-  noticeList.length + ' 則公開公告（置頂 ' + pinned.length + ' 則）、sitemap ' + urls.length + ' 筆');
+  noticeList.length + ' 則公開公告（置頂 ' + pinned.length + ' 則）、醫師 ' + teamList.length +
+  ' 位（首頁顯示前 2 位）、sitemap ' + urls.length + ' 筆');
