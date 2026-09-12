@@ -6,15 +6,16 @@
 <title>晨昕診所｜台北市中山區內科・糖尿病・慢病體重管理</title>
 <meta name="description" content="晨昕診所-中山內科診所｜糖尿病治療｜家醫科｜高血壓高血脂｜慢病體重管理｜身心科">
 <!--OG:START-->
-<!-- 這一段由 build.js 在部署時自動重寫，資料來自後台「診所資料」。
-     不要手動改這裡面的內容，改了下次部署也會被蓋掉。
-     下面是建置沒跑時的備援值。 -->
+<!-- 以下由 build.js 自動產生，資料來自後台「診所資料」。手動修改會在下次部署被覆蓋。 -->
+<link rel="canonical" href="https://practicemoving.joyseeker9453.workers.dev/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="晨昕診所">
-<meta property="og:title" content="晨昕診所">
-<meta property="og:description" content="糖尿病共照網認證機構｜慢病體重管理｜身心科門診">
-<meta property="og:image" content="/images/line-banner.png">
+<meta property="og:title" content="晨昕診所｜台北市中山區內科・糖尿病・慢病體重管理">
+<meta property="og:description" content="晨昕診所-中山內科診所｜糖尿病治療｜家醫科｜高血壓高血脂｜慢病體重管理｜身心科">
+<meta property="og:url" content="https://practicemoving.joyseeker9453.workers.dev/">
+<meta property="og:image" content="https://practicemoving.joyseeker9453.workers.dev/images/line-banner.png">
 <meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"MedicalClinic","name":"晨昕診所","url":"https://practicemoving.joyseeker9453.workers.dev/","description":"晨昕診所-中山內科診所｜糖尿病治療｜家醫科｜高血壓高血脂｜慢病體重管理｜身心科","telephone":"02-2518-1268","email":"99c7nd@gmail.com","image":"https://practicemoving.joyseeker9453.workers.dev/images/line-banner.png","logo":"https://practicemoving.joyseeker9453.workers.dev/images/logo.png","address":{"@type":"PostalAddress","addressCountry":"TW","addressRegion":"台北市","addressLocality":"中山區","streetAddress":"復興北路350號3樓"},"sameAs":["https://www.facebook.com/Dr.JennyLei","https://line.me/R/ti/p/@598wqthm"],"medicalSpecialty":["專業減重","糖尿病","高血壓","高血脂","代謝症候群","慢性處方籤","內科急慢性疾病","預防保健健檢"],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:00","closes":"12:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"16:00","closes":"21:00"}]}</script>
 <!--OG:END-->
 <link rel="icon" type="image/png" href="images/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -450,7 +451,7 @@ footer a{color:#e8efe9}
       <li><a href="/notices/">診所公告</a></li>
       <li><a onclick="go('home','services')">服務項目</a></li>
       <li><a onclick="go('home','hours')">門診時間</a></li>
-      <li><a onclick="go('home','team')">醫療團隊</a></li>
+      <li><a href="/team/">醫療團隊</a></li>
       <li><a data-nav="news" onclick="go('news')">健康新知</a></li>
     </ul>
   </div>
@@ -549,6 +550,7 @@ footer a{color:#e8efe9}
     <div class="wrap">
       <div class="sec-head"><span class="en">TEAM</span><h2>醫療團隊</h2></div>
       <div class="team-grid" id="team-grid"></div>
+      <p style="text-align:center;margin-top:1.875rem" id="team-more" hidden><a class="btn btn-ghost" style="margin-left:0" href="/team/">看完整醫療團隊資訊</a></p>
     </div>
   </section>
 
@@ -713,7 +715,11 @@ function initStatic(){
   $('hours-note').textContent = SITE.hours.note;
   $('hours-extra').textContent = SITE.hours.extra;
 
-  $('team-grid').innerHTML = SITE.team.map(t=>
+  /* 首頁只放排在最前面的兩位，順序由後台「醫療團隊」的拖曳把手決定；
+     其餘醫師只出現在 /team/ 完整團隊頁 */
+  const HOME_TEAM = 2;
+  $('team-more').hidden = SITE.team.length <= HOME_TEAM;
+  $('team-grid').innerHTML = SITE.team.slice(0, HOME_TEAM).map(t=>
     `<div class="doc">${t.photo
         ? `<img class="photo" src="${esc(t.photo)}" alt="${esc(t.name)}${esc(t.title)}" loading="lazy">`
         : DOC_PLACEHOLDER}
