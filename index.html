@@ -213,6 +213,7 @@ section{padding:4.5rem 0}
 .doc ul{list-style:none;font-size:0.8125rem;color:var(--ink-soft)}
 .doc li{padding:0.1562rem 0;border-bottom:1px dashed var(--line);line-height:1.4}
 /* 兩欄時卡片太窄（861~1000px 文字欄只剩約 120px），1023px 以下改單欄；1024~1279px 照片縮小一點 */
+#team-grid .doc{padding:1.25rem}   /* 首頁版比完整團隊頁緊一點，讓整塊放得進一屏 */
 @media(max-width:1023px){.team-grid{grid-template-columns:1fr}}
 @media(min-width:1024px) and (max-width:1279px){.doc img.photo,.doc .photo-ph{flex-basis:11rem;width:11rem}}
 @media(max-width:420px){.doc{flex-direction:column}.doc img.photo{flex:0 0 auto;width:8.125rem;margin:0 auto}}
@@ -550,7 +551,7 @@ footer a{color:#e8efe9}
     <div class="wrap">
       <div class="sec-head"><span class="en">TEAM</span><h2>醫療團隊</h2></div>
       <div class="team-grid" id="team-grid"></div>
-      <p style="text-align:center;margin-top:1.875rem" id="team-more" hidden><a class="btn btn-ghost" style="margin-left:0" href="/team/">看完整醫療團隊資訊</a></p>
+      <p style="text-align:center;margin-top:1rem" id="team-more" hidden><a class="btn btn-ghost" style="margin-left:0" href="/team/">看完整醫療團隊資訊</a></p>
     </div>
   </section>
 
@@ -717,7 +718,8 @@ function initStatic(){
 
   /* 首頁只放排在最前面的兩位，順序由後台「醫療團隊」的拖曳把手決定；
      其餘醫師只出現在 /team/ 完整團隊頁 */
-  const HOME_TEAM = 2;
+  const HOME_TEAM = 2;   /* 首頁醫師數 */
+  const HOME_CREDS = 5;  /* 首頁每位醫師最多列幾條學經歷；完整清單在 /team/ */
   $('team-more').hidden = SITE.team.length <= HOME_TEAM;
   $('team-grid').innerHTML = SITE.team.slice(0, HOME_TEAM).map(t=>
     `<div class="doc">${t.photo
@@ -725,7 +727,7 @@ function initStatic(){
         : DOC_PLACEHOLDER}
      <div class="doc-body">
        <h3>${esc(t.name)}</h3><div class="role">${esc(t.title)}</div>
-       <ul>${t.creds.map(c=>`<li>${esc(c)}</li>`).join('')}</ul>
+       <ul>${t.creds.slice(0, HOME_CREDS).map(c=>`<li>${esc(c)}</li>`).join('')}</ul>
      </div></div>`).join('');
 }
 
