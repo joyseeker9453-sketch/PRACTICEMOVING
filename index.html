@@ -208,10 +208,10 @@ section{padding:4.5rem 0}
 .hours-scroll{overflow-x:auto}
 
 .team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
-.doc{background:#fff;border:1px solid var(--line);border-radius:1rem;padding:1.5rem;display:flex;gap:1.375rem;align-items:flex-start}
-.doc img.photo{flex:0 0 13.75rem;width:13.75rem;aspect-ratio:4/5;object-fit:cover;object-position:top;border-radius:0.75rem;background:var(--mist)}
+.doc{background:#fff;border:1px solid var(--line);border-radius:1rem;padding:1.5rem;display:flex;gap:1.375rem;align-items:stretch}
+.doc img.photo{flex:0 0 13.75rem;width:13.75rem;height:auto;min-height:100%;aspect-ratio:4/5;object-fit:cover;object-position:top;border-radius:0.75rem;background:var(--mist)}
 /* 沒有照片的醫師：用通用剪影占位，維持與有照片者相同的版面 */
-.doc .photo-ph{flex:0 0 13.75rem;width:13.75rem;aspect-ratio:4/5;border-radius:0.75rem;background:linear-gradient(160deg,var(--mist),#e3ebe6);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:var(--pine);opacity:.72}
+.doc .photo-ph{flex:0 0 13.75rem;width:13.75rem;min-height:100%;aspect-ratio:4/5;border-radius:0.75rem;background:linear-gradient(160deg,var(--mist),#e3ebe6);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:var(--pine);opacity:.72}
 .doc .photo-ph svg{width:4.875rem;height:4.875rem;display:block}
 .doc .photo-ph span{font-size:0.7812rem;letter-spacing:1px;color:var(--ink-soft)}
 .doc .doc-body{flex:1;min-width:0}
