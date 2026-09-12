@@ -145,7 +145,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit
 .notice .tag,.pinbar .tag{flex-shrink:0;background:var(--dawn);color:#fff;font-size:0.9375rem;font-weight:700;padding:0.1875rem 0.75rem;border-radius:0.875rem;margin-top:0.125rem}
 .pinbar .tag{margin-top:0}
 .home-announcement{margin:1rem auto 0;max-width:67.5rem;padding:.75rem 1rem;background:var(--dawn-soft);border:1px solid #ecd6ac;border-radius:.75rem;color:var(--pine-deep);line-height:1.55}
-.home-announcement[hidden]{display:none}.home-announcement .ha-title{font-weight:700;color:#9a6c1c;margin-right:.75rem}.home-announcement .ha-body{display:block;max-height:calc(1.55em * 12);overflow-y:auto;white-space:pre-wrap;padding-right:.35rem}.home-announcement .ha-more{display:inline-block;margin-top:.35rem;font-weight:700;color:var(--pine)}
+.home-announcement[hidden]{display:none}.home-announcement .ha-title{font-weight:700;color:#9a6c1c;margin-right:.75rem}.home-announcement .ha-body{display:block;max-height:calc(1.55em * 12);overflow-y:auto;white-space:pre-wrap;padding-right:.35rem}
 @media(max-width:560px){.home-announcement{margin-left:1rem;margin-right:1rem;font-size:.875rem}.home-announcement .ha-body{max-height:calc(1.55em * 8)}}
 .announcement-module{min-height:calc(100svh - var(--hdr));display:flex;align-items:center;background:var(--dawn-soft)}
 #page-home > .announcement-module{min-height:calc(100svh - var(--hdr))}
@@ -521,7 +521,7 @@ footer a{color:#e8efe9}
     <div class="wrap">
       <div class="sec-head"><span class="en">NOTICES</span><h2>診所公告</h2></div>
       <div class="home-announcement" id="notices-announcement" hidden></div>
-      <p style="text-align:center;margin-top:1.25rem"><a class="btn btn-ghost" href="/notices/">看完整公告</a></p>
+      <p style="text-align:center;margin-top:1.25rem"><a class="btn btn-ghost" href="/notices/">看其他公告</a></p>
     </div>
   </section>
 
@@ -828,7 +828,7 @@ function renderPinned(items){
   const sorted = [...list].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
   const i = sorted[0];
   el.hidden = false;
-  el.innerHTML = `<span class="ha-title">最新公告｜${esc(i.title)}</span><span class="ha-body">${esc(i.body||'')}</span><a class="ha-more" href="/notices/">查看完整公告 →</a>`;
+  el.innerHTML = `<span class="ha-title">最新公告｜${esc(i.title)}</span><span class="ha-body">${esc(i.body||'')}</span>`;
 }
 
 /* 相容處理：舊資料是單一 category 字串，新資料是 tags 陣列，統一成陣列 */
