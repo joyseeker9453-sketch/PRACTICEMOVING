@@ -99,11 +99,11 @@ a{color:var(--pine);text-decoration:none}
 .topbar .tb-addr a{text-decoration:none;border-bottom:1px dotted rgba(232,239,233,.55)}
 .topbar .tb-addr a:hover{border-bottom-color:#e8efe9}
 header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit-backdrop-filter:blur(0.5rem);backdrop-filter:blur(0.5rem);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;min-height:4rem}
-.brand{font-family:var(--serif);font-weight:900;font-size:1.625rem;color:var(--pine);letter-spacing:0.125rem;display:flex;align-items:center;gap:0.625rem;cursor:pointer}
-.brand img.logo{width:2.25rem;height:2.25rem;display:inline-block}
+.nav{display:flex;align-items:center;justify-content:space-between;min-height:3.25rem}
+.brand{font-family:var(--serif);font-weight:900;font-size:1.5rem;color:var(--pine);letter-spacing:0.125rem;display:flex;align-items:center;gap:0.625rem;cursor:pointer}
+.brand img.logo{width:2rem;height:2rem;display:inline-block}
 .menu{display:flex;gap:0.25rem;list-style:none}
-.menu a{display:block;padding:0.5rem 0.875rem;border-radius:1.25rem;font-size:0.9375rem;color:var(--ink);transition:.2s;cursor:pointer;white-space:nowrap}
+.menu a{display:block;padding:0.4rem 0.8rem;border-radius:1.25rem;font-size:0.9375rem;color:var(--ink);transition:.2s;cursor:pointer;white-space:nowrap}
 .menu a:hover,.menu a.active{background:var(--pine);color:#fff}
 .burger{display:none;background:none;border:1px solid var(--line);border-radius:0.5rem;padding:0.375rem 0.625rem;font-size:1.125rem;cursor:pointer;color:var(--pine)}
 @media(max-width:1023px){
@@ -155,8 +155,8 @@ section{padding:4.5rem 0}
 /* services：標題與圖示距離縮小 */
 #services .sec-head{margin-bottom:1.75rem}
 /* ---- 首頁分區：每一區至少一整螢幕、內容垂直置中 ---- */
-/* --hdr 是 sticky 導覽列的高度（.nav 4rem + 下框線 1px），錨點偏移與區塊高度都靠它 */
-:root{--hdr:calc(4rem + 1px)}
+/* --hdr 是 sticky 導覽列的高度（.nav 3.25rem + 下框線 1px），錨點偏移與區塊高度都靠它 */
+:root{--hdr:calc(3.25rem + 1px)}
 #page-home > section{
   min-height:calc(100vh - var(--hdr));
   min-height:calc(100svh - var(--hdr));   /* 手機瀏覽器網址列會伸縮，svh 比較準 */
