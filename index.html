@@ -973,9 +973,11 @@ window.addEventListener('hashchange', () => route());
 })();
 </script>
 
+
 <!-- SECTION-PAGING:START -->
 <script>
-/* Desktop homepage: one wheel gesture advances one section.
+/* Desktop homepage: short sections page; long sections scroll to an edge
+   before a fresh gesture can leave them.
    Scrollbar, arrows, Tab and mobile touch retain native navigation. */
 (() => {
   const desktop = matchMedia('(min-width:1024px)');
@@ -984,6 +986,30 @@ window.addEventListener('hashchange', () => route());
   const enabled = () => desktop.matches && document.querySelector('#page-home.show') && !document.querySelector('#menu.open');
   const sections = () => [...document.querySelectorAll('#page-home > .hero,#page-home > section,body > footer')].filter(e => e.getClientRects().length);
   const position = e => e.matches('.hero') ? 0 : Math.max(0, Math.min(document.documentElement.scrollHeight - innerHeight, e.getBoundingClientRect().top + scrollY - document.querySelector('header').getBoundingClientRect().height));
+  const endPosition = e => {
+    // Decorative hero padding should not require another gesture after the CTA.
+    const bottom = e.matches('.hero') ? document.querySelector('#hero-booking').getBoundingClientRect().bottom + scrollY + 16 : e.getBoundingClientRect().bottom + scrollY;
+    return Math.max(position(e),Math.min(document.documentElement.scrollHeight-innerHeight,bottom-innerHeight));
+  };
+  function current() {
+    const items=sections();let index=0;
+    for(let i=0;i<items.length;i++)if(position(items[i])<=scrollY+3)index=i;
+    return {items,index,element:items[index]};
+  }
+  function scrollWithin(delta) {
+    const {element}=current();if(!element)return false;
+    const start=position(element),end=endPosition(element);
+    if(end-start<=3)return false;
+    const edge=delta>0?end:start;
+    if(delta>0?scrollY>=edge-1:scrollY<=edge+1)return false;
+    const next=Math.max(start,Math.min(end,scrollY+delta));
+    window.scrollTo({top:next,behavior:'instant'});
+    sum=0;
+    // Consume the rest of this gesture when it reaches the edge, including
+    // a single large wheel delta that would otherwise skip the last content.
+    if(Math.abs(next-edge)<=1)consumed=true;
+    return true;
+  }
   function cancel() { cancelAnimationFrame(frame); frame = 0; moving = false; sum = 0; consumed = false; }
   function exempt(target, delta) {
     if (!(target instanceof Element)) return false;
@@ -995,21 +1021,20 @@ window.addEventListener('hashchange', () => route());
     return false;
   }
   function step(direction) {
-    const items = sections();
+    const {items,index} = current();
     if (!items.length) return;
     // Use the section currently containing the reading edge; do not skip a
     // section merely because a scrollbar drag stopped below its midpoint.
-    let index = 0;
-    for (let i = 0; i < items.length; i++) if (position(items[i]) <= scrollY + 3) index = i;
     const target = items[Math.max(0, Math.min(items.length - 1, index + direction))];
+    const destination=()=>direction<0?endPosition(target):position(target);
     const start = scrollY, began = performance.now(), duration = reduced.matches ? 0 : 520;
-    if (Math.abs(position(target) - start) < 1) return;
+    if (target===items[index] || Math.abs(destination() - start) < 1) return;
     moving = true;
     function tick(now) {
       if (!enabled()) { cancel(); return; }
       const t = duration ? Math.min(1, (now - began) / duration) : 1;
       const ease = t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
-      window.scrollTo({top:start + (position(target)-start)*ease,behavior:'instant'});
+      window.scrollTo({top:start + (destination()-start)*ease,behavior:'instant'});
       if (t < 1) frame = requestAnimationFrame(tick);
       else { moving = false; frame = 0; }
     }
@@ -1024,6 +1049,7 @@ window.addEventListener('hashchange', () => route());
     if (idle && !moving) { consumed = false; sum = 0; }
     if (moving || consumed) return;
     const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
+    if(scrollWithin(delta))return;
     if (sum && Math.sign(delta) !== Math.sign(sum)) sum = 0;
     sum += delta;
     if (Math.abs(sum) < 24) return;
@@ -1035,7 +1061,11 @@ window.addEventListener('hashchange', () => route());
     if (!enabled() || event.ctrlKey || event.metaKey || event.altKey || exempt(event.target,1)) return;
     if (event.key === 'PageDown' || event.key === 'PageUp') {
       event.preventDefault();
-      if (!moving && !event.repeat) { consumed = true; step(event.key === 'PageDown' ? 1 : -1); }
+      if (!moving && !event.repeat) {
+        const direction=event.key==='PageDown'?1:-1;
+        if(!scrollWithin(direction*(innerHeight-document.querySelector('header').getBoundingClientRect().height)*.85))step(direction);
+        consumed=true;
+      }
     } else if (['ArrowDown','ArrowUp','Home','End','Escape','Tab',' '].includes(event.key)) cancel();
   });
   // A nav click, scrollbar drag, route change or resize takes precedence.
