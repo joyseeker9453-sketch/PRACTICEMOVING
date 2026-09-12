@@ -252,9 +252,8 @@ section{padding:4.5rem 0}
 @media(min-width:1024px) and (max-width:1279px){.doc img.photo,.doc .photo-ph{flex-basis:11rem;width:11rem}}
 @media(max-width:420px){.doc{flex-direction:column}.doc img.photo{flex:0 0 auto;width:8.125rem;margin:0 auto}}
 
-.cat-bar{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2.25rem}
+.cat-bar{display:flex;flex-direction:column;margin-bottom:1.75rem}
 .cat-row{display:flex;gap:0.625rem;flex-wrap:wrap;align-items:center}
-.cat-row-top{justify-content:center}
 .cat-row-bottom{justify-content:flex-start}
 .cat-btn{padding:0.5rem 1.375rem;border-radius:1.375rem;border:1.5px solid var(--pine);background:#fff;color:var(--pine);font-size:0.9062rem;font-weight:700;cursor:pointer;font-family:var(--sans);transition:.2s}
 .cat-more{position:relative;display:inline-block}
@@ -818,19 +817,12 @@ function cardHTML(a){
 }
 
 function renderCats(){
-  // 統計每個標籤的文章數，取最熱門三個當按鈕，其餘收進下拉選單
+  // 只有一排：「分類」下拉（列出全部標籤）＋「全部」
   const counts = {};
   ARTICLES.flatMap(tagsOf).forEach(t=>{ counts[t]=(counts[t]||0)+1; });
   const sorted = Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
-  const top = sorted.slice(0,3);
-  const rest = sorted.slice(3);
-  const picked = rest.includes(currentCat);
+  const picked = currentCat !== '全部';   // 選了任何標籤，按鈕就顯示該標籤名稱
 
-  // 上排：最熱門三個標籤（置中）
-  const topRow = top.map(c=>
-    `<button class="cat-btn ${c===currentCat?'active':''}" onclick="filterCat('${esc(c)}')">${esc(c)}</button>`).join('');
-
-  // 下排：最左邊是「分類」下拉（含全部標籤選項），接著「全部」
   const dropdown = `<div class="cat-more">
       <button class="cat-btn cat-more-btn ${picked?'active':''}">${picked?esc(currentCat):'分類'} ▾</button>
       <div class="cat-menu">${sorted.map(c=>
@@ -838,9 +830,7 @@ function renderCats(){
     </div>`;
   const allBtn = `<button class="cat-btn ${currentCat==='全部'?'active':''}" onclick="filterCat('全部')">全部</button>`;
 
-  $('cat-bar').innerHTML =
-    `<div class="cat-row cat-row-top">${topRow}</div>
-     <div class="cat-row cat-row-bottom">${dropdown}${allBtn}</div>`;
+  $('cat-bar').innerHTML = `<div class="cat-row cat-row-bottom">${dropdown}${allBtn}</div>`;
 }
 function filterCat(c){ currentCat=c; newsPage=1; renderCats(); renderNews(); }
 
