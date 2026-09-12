@@ -172,45 +172,9 @@ section{padding:4.5rem 0}
 @media(max-width:860px){
   #page-home > section{min-height:0;display:block;padding:3rem 0}
 }
-/* ---- 矮螢幕自動微調 ----------------------------------------
-   使用者的系統/瀏覽器縮放會直接減少可視高度（1080p @150% 只剩約 600px）。
-   這裡只收斂留白與圖示尺寸，不動任何文字內容，
-   讓 hero、關於我們、服務項目、門診時間 在矮螢幕仍能一次看完。
-   醫療團隊與健康新知內容量本來就超過一螢幕，不在保證範圍。
-   ------------------------------------------------------------ */
-@media(min-width:861px) and (max-height:780px){
-  .hero-top{padding-top:0.875rem}
-  .line-banner{margin-bottom:1rem}
-  .hero h1{margin-bottom:1rem}
-  .hero .eyebrow{margin-bottom:0.5rem}
-  .pinbar{margin-bottom:0.875rem}
-  #page-home > section{padding:1.5rem 0}
-  .sec-head{margin-bottom:1.375rem}
-  #services .sec-head{margin-bottom:1rem}
-  .svc{padding:0.625rem}
-  .svc .icon{width:5rem;height:5rem;margin-bottom:0.75rem}
-  .svc .icon svg{width:2.875rem;height:2.875rem}
-}
-@media(min-width:861px) and (max-height:660px){
-  .btn-big{padding:0.7rem 2.9rem}
-  #page-home > section{padding:0.75rem 0}
-  .sec-head{margin-bottom:1rem}
-  .svc .icon{width:4rem;height:4rem;margin-bottom:0.625rem}
-  .svc .icon svg{width:2.375rem;height:2.375rem}
-  .svc h3{font-size:1rem}
-  .hours-table{font-size:0.8125rem}
-  .hours-table th,.hours-table td{padding:0.5rem 0.375rem}
-  .hours-note{font-size:0.8125rem;margin-top:0.75rem}
-}
-@media(min-width:861px) and (max-height:580px){
-  .svc .icon{width:3.25rem;height:3.25rem}
-  .svc .icon svg{width:2rem;height:2rem}
-}
-/* 極矮視窗（開了開發者工具、螢幕縮放拉很大）：橫幅已縮到下限，改縮主標保住「預約看診日期」 */
-@media(min-width:861px) and (max-height:520px){
-  .hero .eyebrow{margin-bottom:0.4rem}
-  .hero h1{font-size:clamp(1.75rem,3.4vw,2.375rem);margin-bottom:0.7rem}
-}
+/* ---- 業界版：寬度決定版型，高度只切換一次 compact mode。
+   內容超過一屏時 section 自然增高並捲動；不裁切，也不猜瀏覽器預設字級。 */
+
 
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.75rem;align-items:start}
 .about-grid .badge{display:inline-block;background:var(--pine);color:#fff;font-size:0.8125rem;padding:0.25rem 0.875rem;border-radius:0.875rem;margin:0 0.375rem 0.625rem 0}
@@ -418,37 +382,53 @@ footer a{color:#e8efe9}
 /* fit5：再放不下就收掉橫幅標題「好友募集中！」，只留橘色按鈕 */
 .fit5 .lb-title{display:none}
 
-/* ---- 特例：瀏覽器字級被調大時 ----------------------------------
-   媒體查詢裡的 rem 用的是「瀏覽器預設字級」，不是網頁自己設的字級。
-   同一個 1229x569 視窗：字級 16px = 35.6rem（不命中）、20px = 28.5rem（命中）。
-   命中後把留白、圖示、導覽列高度改成固定 px，文字維持放大，
-   版面就不會跟著膨脹 25%，服務項目與門診時間才不會被切出畫面。
-   字級 24px 以上不在保證範圍，內容會需要捲動。
-   ★ 這段必須放在樣式表最後面：媒體查詢不會增加優先權，
-     寫在 .svc / .svc-grid 這些基礎規則前面的話會被蓋掉。
-   ---------------------------------------------------------------- */
-/* 表格放大到 20px 後，手機寬度會橫向溢出（390px 溢出 17px、360px 溢出 47px），
-   窄螢幕維持原本字級，週六日不必左右滑才看得到 */
+/* 手機門診表維持可讀且不溢出的尺寸；其餘內容跟隨使用者字級。 */
 @media(max-width:860px){
   .hours-table{font-size:0.9062rem}
 }
-@media(min-width:861px) and (max-height:33rem){
-  .nav{min-height:52px}
-  :root{--hdr:53px}
-  .brand img.logo{width:32px;height:32px}
-  #page-home > section{padding:16px 0}
-  .sec-head{margin-bottom:18px}
-  #services .sec-head{margin-bottom:18px}
-  .sec-head h2::after{width:44px;height:3px;margin-top:12px}
-  .svc{padding:10px}
-  .svc .icon{width:72px;height:72px;margin-bottom:10px}
-  .svc .icon svg{width:42px;height:42px}
-  .svc-grid{gap:16px}
-  .hours-table th,.hours-table td{padding:10px 7px}
-  .hours-table{font-size:20px}
-  .hours-note{font-size:15px}
-  .fab-line{width:72px;height:72px;right:22px;bottom:22px}
-  .fab-line svg{width:41px;height:41px}
+
+/* Responsive QA: keep replaced elements out of the inline text baseline. */
+.mapbox iframe{display:block}
+/* The expanded navigation must remain reachable on a short viewport. */
+.menu.open{max-height:calc(100dvh - var(--hdr));overflow-y:auto}
+@media(min-width:861px) and (max-height:700px){
+  .hero-top{padding-top:0.75rem}
+  .line-banner{margin-bottom:0.75rem}
+  .hero .eyebrow{margin-bottom:0.45rem}
+  .hero h1{font-size:clamp(1.75rem,3.4vw,2.5rem);margin-bottom:0.75rem}
+  .btn-big{padding:0.7rem 2.8rem}
+  #page-home > section{padding:1.25rem 0}
+  .sec-head,#services .sec-head{margin-bottom:1.125rem}
+  .svc{padding:0.5rem}
+  .svc .icon{width:4.5rem;height:4.5rem;margin-bottom:0.625rem}
+  .svc .icon svg{width:2.625rem;height:2.625rem}
+  .hours-table th,.hours-table td{padding:0.55rem 0.4rem}
+  .hours-note{margin-top:0.75rem}
+}
+
+/* Keep complete services and hours readable beneath the sticky header. */
+@media(min-width:861px) and (max-height:700px){
+  #page-home > #services,#page-home > #hours{padding:16px 0}
+  #services .sec-head,#hours .sec-head{margin-bottom:16px}
+  #services .sec-head h2,#hours .sec-head h2{line-height:1.35}
+  #services .svc{padding:8px}
+  #services .svc .icon{width:clamp(48px,12svh,72px);height:clamp(48px,12svh,72px);margin-bottom:8px}
+  #services .svc .icon svg{width:60%;height:60%}
+  #hours .hours-table{font-size:1rem;line-height:1.5}
+  #hours .hours-table th,#hours .hours-table td{padding:0.45rem 0.35rem}
+  #hours .hours-note{margin-top:0.6rem;line-height:1.5}
+}
+
+/* A visible announcement also consumes first-screen height. */
+@media(min-width:861px) and (max-height:600px){
+  .hero .eyebrow{margin-bottom:0.4rem}
+  .hero h1{margin-bottom:0.6rem}
+  .hero-top{padding-top:12px}
+}
+@media(min-width:861px) and (max-width:1280px) and (max-height:700px){
+  #fab-line{width:56px;height:56px;right:12px;bottom:16px}
+  #fab-line svg{width:32px;height:32px}
+  #hours .hours-note{max-width:calc(100% - 128px);margin-left:auto;margin-right:auto}
 }
 </style>
 </head>
@@ -780,10 +760,10 @@ function fitHero(){
     const el = $(anchorAt.id); if(el) el.scrollIntoView({behavior:'auto'});
   }
 }
-let fitW = window.innerWidth, fitTimer;
+let fitW = window.innerWidth, fitH = window.innerHeight, fitTimer;
 window.addEventListener('resize', () => {
-  if(window.innerWidth === fitW) return;
-  fitW = window.innerWidth;
+  if(window.innerWidth === fitW && (window.innerWidth <= 860 || window.innerHeight === fitH)) return;
+  fitW = window.innerWidth; fitH = window.innerHeight;
   clearTimeout(fitTimer); fitTimer = setTimeout(fitHero, 120);
 });
 window.addEventListener('orientationchange', () => setTimeout(fitHero, 300));
@@ -992,5 +972,80 @@ window.addEventListener('hashchange', () => route());
   loadContent();
 })();
 </script>
+
+<!-- SECTION-PAGING:START -->
+<script>
+/* Desktop homepage: one wheel gesture advances one section.
+   Scrollbar, arrows, Tab and mobile touch retain native navigation. */
+(() => {
+  const desktop = matchMedia('(min-width:1024px)');
+  const reduced = matchMedia('(prefers-reduced-motion:reduce)');
+  let frame = 0, moving = false, lastWheel = -Infinity, sum = 0, consumed = false;
+  const enabled = () => desktop.matches && document.querySelector('#page-home.show') && !document.querySelector('#menu.open');
+  const sections = () => [...document.querySelectorAll('#page-home > .hero,#page-home > section,body > footer')].filter(e => e.getClientRects().length);
+  const position = e => e.matches('.hero') ? 0 : Math.max(0, Math.min(document.documentElement.scrollHeight - innerHeight, e.getBoundingClientRect().top + scrollY - document.querySelector('header').getBoundingClientRect().height));
+  function cancel() { cancelAnimationFrame(frame); frame = 0; moving = false; sum = 0; consumed = false; }
+  function exempt(target, delta) {
+    if (!(target instanceof Element)) return false;
+    if (target.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"]),[role="slider"],#menu.open')) return true;
+    for (let e = target; e && e !== document.body; e = e.parentElement) {
+      const css = getComputedStyle(e);
+      if (/auto|scroll/.test(css.overflowY) && e.scrollHeight > e.clientHeight + 1 && (delta > 0 ? e.scrollTop + e.clientHeight < e.scrollHeight - 1 : e.scrollTop > 0)) return true;
+    }
+    return false;
+  }
+  function step(direction) {
+    const items = sections();
+    if (!items.length) return;
+    // Use the section currently containing the reading edge; do not skip a
+    // section merely because a scrollbar drag stopped below its midpoint.
+    let index = 0;
+    for (let i = 0; i < items.length; i++) if (position(items[i]) <= scrollY + 3) index = i;
+    const target = items[Math.max(0, Math.min(items.length - 1, index + direction))];
+    const start = scrollY, began = performance.now(), duration = reduced.matches ? 0 : 520;
+    if (Math.abs(position(target) - start) < 1) return;
+    moving = true;
+    function tick(now) {
+      if (!enabled()) { cancel(); return; }
+      const t = duration ? Math.min(1, (now - began) / duration) : 1;
+      const ease = t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+      window.scrollTo({top:start + (position(target)-start)*ease,behavior:'instant'});
+      if (t < 1) frame = requestAnimationFrame(tick);
+      else { moving = false; frame = 0; }
+    }
+    frame = requestAnimationFrame(tick);
+  }
+  window.addEventListener('wheel', event => {
+    if (!enabled() || event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey || Math.abs(event.deltaX) > Math.abs(event.deltaY) || !event.deltaY || exempt(event.target,event.deltaY)) return;
+    if (!event.cancelable) return;
+    event.preventDefault();
+    const now = performance.now(), idle = now - lastWheel > 240;
+    lastWheel = now;
+    if (idle && !moving) { consumed = false; sum = 0; }
+    if (moving || consumed) return;
+    const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
+    if (sum && Math.sign(delta) !== Math.sign(sum)) sum = 0;
+    sum += delta;
+    if (Math.abs(sum) < 24) return;
+    consumed = true;
+    step(Math.sign(sum));
+    sum = 0;
+  },{passive:false});
+  window.addEventListener('keydown', event => {
+    if (!enabled() || event.ctrlKey || event.metaKey || event.altKey || exempt(event.target,1)) return;
+    if (event.key === 'PageDown' || event.key === 'PageUp') {
+      event.preventDefault();
+      if (!moving && !event.repeat) { consumed = true; step(event.key === 'PageDown' ? 1 : -1); }
+    } else if (['ArrowDown','ArrowUp','Home','End','Escape','Tab',' '].includes(event.key)) cancel();
+  });
+  // A nav click, scrollbar drag, route change or resize takes precedence.
+  window.addEventListener('pointerdown',cancel,{passive:true});
+  document.addEventListener('click', event => { if (event.target instanceof Element && event.target.closest('a,button')) cancel(); },true);
+  window.addEventListener('hashchange',cancel);
+  window.addEventListener('resize',cancel);
+})();
+
+</script>
+<!-- SECTION-PAGING:END -->
 </body>
 </html>
