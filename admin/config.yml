@@ -93,6 +93,11 @@ collections:
             name: "team"
             widget: "list"
             summary: "{{fields.name}}（{{fields.title}}）"
+            hint: >-
+              排在最前面的兩位會顯示在首頁，其餘只出現在「完整醫療團隊」頁（網址 /team/）。
+              順序＝這裡由上到下的排列；首頁是兩欄，第一位在左、第二位在右。
+              用每張卡片標題中間的拖曳把手調整位置：把第三位拖到第二位，原本的第二位會自動變成第三位，第一位不受影響。
+              把手點一下之後也可以用鍵盤上下鍵一次移一格，Home／End 直接送到最前或最後；手機沒有滑鼠，會改成顯示「上移／下移」按鈕。
             fields:
               - { label: "姓名", name: "name", widget: "string" }
               - { label: "職稱", name: "title", widget: "string" }
