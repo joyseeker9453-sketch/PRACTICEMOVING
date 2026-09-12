@@ -417,6 +417,30 @@ footer a{color:#e8efe9}
 .fit4 .hero-body p{order:3;margin:1.25rem auto 0}
 /* fit5：再放不下就收掉橫幅標題「好友募集中！」，只留橘色按鈕 */
 .fit5 .lb-title{display:none}
+
+/* ---- 特例：瀏覽器字級被調大時 ----------------------------------
+   媒體查詢裡的 rem 用的是「瀏覽器預設字級」，不是網頁自己設的字級。
+   同一個 1229x569 視窗：字級 16px = 35.6rem（不命中）、20px = 28.5rem（命中）。
+   命中後把留白、圖示、導覽列高度改成固定 px，文字維持放大，
+   版面就不會跟著膨脹 25%，服務項目與門診時間才不會被切出畫面。
+   字級 24px 以上不在保證範圍，內容會需要捲動。
+   ★ 這段必須放在樣式表最後面：媒體查詢不會增加優先權，
+     寫在 .svc / .svc-grid 這些基礎規則前面的話會被蓋掉。
+   ---------------------------------------------------------------- */
+@media(min-width:861px) and (max-height:33rem){
+  .nav{min-height:52px}
+  :root{--hdr:53px}
+  .brand img.logo{width:32px;height:32px}
+  #page-home > section{padding:16px 0}
+  .sec-head{margin-bottom:18px}
+  #services .sec-head{margin-bottom:18px}
+  .sec-head h2::after{width:44px;height:3px;margin-top:12px}
+  .svc{padding:10px}
+  .svc .icon{width:72px;height:72px;margin-bottom:10px}
+  .svc .icon svg{width:42px;height:42px}
+  .svc-grid{gap:16px}
+  .hours-table th,.hours-table td{padding:10px 7px}
+}
 </style>
 </head>
 <body>
