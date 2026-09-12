@@ -95,7 +95,9 @@ a{color:var(--pine);text-decoration:none}
 .topbar .wrap-wide{display:flex;justify-content:space-between;align-items:center;min-height:2.25rem;flex-wrap:wrap;gap:0.25rem 1rem}
 .topbar .tb-booking{font-weight:700}
 @media(max-width:560px){.topbar .wrap-wide{justify-content:center;text-align:center;padding-top:0.25rem;padding-bottom:0.25rem}}
-.topbar a{color:#e8efe9}
+.topbar a{color:#e8efe9;cursor:pointer}
+.topbar .tb-addr a{text-decoration:none;border-bottom:1px dotted rgba(232,239,233,.55)}
+.topbar .tb-addr a:hover{border-bottom-color:#e8efe9}
 header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit-backdrop-filter:blur(0.5rem);backdrop-filter:blur(0.5rem);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;min-height:4rem}
 .brand{font-family:var(--serif);font-weight:900;font-size:1.625rem;color:var(--pine);letter-spacing:0.125rem;display:flex;align-items:center;gap:0.625rem;cursor:pointer}
@@ -162,6 +164,8 @@ section{padding:4.5rem 0}
   display:flex;align-items:center;
 }
 #page-home > section > .wrap{width:100%}
+/* 子頁（健康新知、公告頁、文章頁）：標題離導覽列近一點，原本 4.5rem 上留白太空 */
+.page:not(#page-home) > section{padding-top:1.75rem}
 /* 點導覽列捲過去時，讓區塊上緣停在 sticky 導覽列下方，不被蓋住 */
 .hero,#page-home > section,#page-news > section{scroll-margin-top:var(--hdr)}
 /* 手機不強制滿版，內容照自然高度排，避免大量空白 */
@@ -420,7 +424,7 @@ footer a{color:#e8efe9}
 
 <div class="topbar">
   <div class="wrap-wide">
-    <span>📞 <a id="tb-phone" href="#">02-2518-1268</a><span class="tb-addr">　台北市中山區復興北路350號3樓</span></span>
+    <span>📞 <a id="tb-phone" href="#">02-2518-1268</a><span class="tb-addr">　<a id="tb-addr" onclick="go('home','contact')" title="查看地圖與交通">台北市中山區復興北路350號3樓</a></span></span>
     <span><a id="tb-fb" href="#" target="_blank" rel="noopener">Facebook 粉絲專頁</a>　|　<a class="tb-booking" id="tb-booking" href="#" target="_blank" rel="noopener">線上預約</a></span>
   </div>
 </div>
@@ -673,7 +677,7 @@ function initStatic(){
   $('tb-phone').href = 'tel:'+SITE.phoneLink; $('tb-phone').textContent = SITE.phone;
   $('tb-fb').href = SITE.facebook;
   $('hero-booking').href = $('f-booking').href = SITE.booking;
-  $('c-addr').textContent = $('f-addr').textContent = SITE.address;
+  $('c-addr').textContent = $('f-addr').textContent = $('tb-addr').textContent = SITE.address;
   $('c-phone').href='tel:'+SITE.phoneLink; $('c-phone').textContent=SITE.phone;
   $('c-mail').textContent = SITE.email;
   $('c-map').src = SITE.mapEmbed;

@@ -349,7 +349,7 @@ const OG_END = '<!--OG:END-->';
 function headerHtml() {
   return '<div class="topbar">\n' +
     '  <div class="wrap-wide">\n' +
-    '    <span>📞 <a href="tel:' + esc(SITE.phoneLink) + '">' + esc(SITE.phone) + '</a>　' + esc(SITE.address) + '</span>\n' +
+    '    <span>📞 <a href="tel:' + esc(SITE.phoneLink) + '">' + esc(SITE.phone) + '</a><span class="tb-addr">　<a href="/#contact" title="查看地圖與交通">' + esc(SITE.address) + '</a></span></span>\n' +
     '    <span><a href="' + esc(safeUrl(SITE.facebook)) + '" target="_blank" rel="noopener">Facebook 粉絲專頁</a>　|　<a class="tb-booking" href="' + esc(safeUrl(SITE.booking)) + '" target="_blank" rel="noopener">線上預約</a></span>\n' +
     '  </div>\n</div>\n' +
     '<header>\n  <div class="wrap-wide nav">\n' +
@@ -361,7 +361,6 @@ function headerHtml() {
     '      <li><a href="/notices/">診所公告</a></li>\n' +
     '      <li><a href="/#team">醫療團隊</a></li>\n' +
     '      <li><a href="/#news">健康新知</a></li>\n' +
-    '      <li><a href="' + esc(safeUrl(SITE.booking)) + '" target="_blank" rel="noopener">線上預約</a></li>\n' +
     '    </ul>\n  </div>\n</header>';
 }
 function footerHtml() {
