@@ -556,8 +556,8 @@ fs.writeFileSync(path.join(ROOT, 'robots.txt'),
     '<title>醫療團隊｜'+esc(SITE.name)+'</title><meta name="description" content="認識'+esc(SITE.name)+'的完整醫療團隊與醫師學經歷。">'+
     '<link rel="canonical" href="'+esc(BASE+'/team/')+'"><link rel="stylesheet" href="/styles.css">'+
     '<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">'+
-    '<style>.team-page .team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.team-page .doc{min-width:0;flex-direction:column}.team-page .photo,.team-page .photo-ph{flex:none;width:min(100%,13.75rem);margin:auto}.team-page .doc-body{width:100%}@media(max-width:760px){.team-page .team-grid{grid-template-columns:1fr}}</style></head><body>'+headerHtml()+
-    '<main class="page show team-page"><section><div class="wrap"><div class="sec-head"><span class="en">TEAM</span><h1>醫療團隊</h1></div><div class="team-grid">'+(cards||'<p>醫療團隊資訊更新中。</p>')+'</div><p style="text-align:center"><a class="back-link" href="/#team">← 回首頁醫療團隊</a></p></div></section></main>'+footerHtml()+'<script>document.querySelectorAll(".menu a").forEach(a=>{if(a.getAttribute("href")==="/team/")a.classList.add("active")})</script></body></html>';
+    '</head><body>'+headerHtml()+
+    '<main class="page show team-page"><section><div class="wrap"><div class="sec-head"><span class="en">TEAM</span><h1>醫療團隊</h1></div><div class="team-grid doc-cards">'+(cards||'<p>醫療團隊資訊更新中。</p>')+'</div><p style="text-align:center"><a class="back-link" href="/#team">← 回首頁醫療團隊</a></p></div></section></main>'+footerHtml()+'<script>document.querySelectorAll(".menu a").forEach(a=>{if(a.getAttribute("href")==="/team/")a.classList.add("active")})</script></body></html>';
   const dir=path.join(ROOT,'team');fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'index.html'),page);
 })();
 

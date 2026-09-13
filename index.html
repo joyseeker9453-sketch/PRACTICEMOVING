@@ -223,15 +223,19 @@ section{padding:4.5rem 0}
 @media(max-width:1023px){.team-grid{grid-template-columns:1fr}}
 @media(min-width:1024px) and (max-width:1279px){.doc img.photo,.doc .photo-ph{flex-basis:11rem;width:11rem}}
 @media(max-width:420px){.doc{flex-direction:column}.doc img.photo{flex:0 0 auto;width:8.125rem;margin:0 auto}}
-/* 首頁醫療團隊：照片與各自的姓名、學經歷欄對齊 */
-#page-home #team .team-grid{column-gap:1.5rem;row-gap:1.5rem}
-#page-home #team .doc{display:grid;grid-template-columns:minmax(10rem,30%) 1fr;gap:0;padding:0;overflow:hidden;align-items:stretch}
-#page-home #team .doc img.photo,#page-home #team .doc .photo-ph{width:100%;height:calc(100% - 3.75rem);min-height:0;aspect-ratio:auto;align-self:start;margin:2rem 0 0;object-fit:cover;border-radius:0;background:var(--mist)}
-#page-home #team .doc .doc-body{padding:2rem 2rem 1.75rem}
-#page-home #team .doc h3{font-size:1.55rem;margin:0 0 .4rem}
-#page-home #team .doc ul{font-size:.95rem}
-#page-home #team .doc li{padding:.3rem 0}
-@media(max-width:560px){#page-home #team .team-grid{grid-template-columns:1fr}#page-home #team .doc{grid-template-columns:30% 70%}#page-home #team .doc .doc-body{padding:1.25rem}.home-team #page-home #team .doc h3{font-size:1.25rem}}
+/* ---- 醫師卡片版型：首頁「醫療團隊」區塊與 /team/ 完整團隊頁共用 ----
+   用法：在 .team-grid 上加 doc-cards 這個 class 即可（團隊頁由 build.js 產生時也要加）。
+   注意：上面 .doc img.photo 的 min-height:100% 與 aspect-ratio:4/5 會把照片撐成超高一條，
+   這裡一定要歸零；改版型只改這一區，兩個頁面會一起變。 */
+.team-grid.doc-cards{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:1.5rem;row-gap:1.5rem}
+@media(max-width:1023px){.team-grid.doc-cards{grid-template-columns:1fr}}
+.doc-cards .doc{display:grid;grid-template-columns:minmax(10rem,30%) 1fr;gap:0;padding:0;overflow:hidden;align-items:stretch;min-width:0}
+.doc-cards .doc img.photo,.doc-cards .doc .photo-ph{flex:none;width:100%;height:calc(100% - 3.75rem);min-height:0;max-width:none;aspect-ratio:auto;align-self:start;margin:2rem 0 0;object-fit:cover;object-position:top;border-radius:0;background:var(--mist)}
+.doc-cards .doc .doc-body{width:100%;min-width:0;padding:2rem 2rem 1.75rem}
+.doc-cards .doc h3{font-size:1.55rem;margin:0 0 .4rem}
+.doc-cards .doc ul{font-size:.95rem}
+.doc-cards .doc li{padding:.3rem 0}
+@media(max-width:560px){.doc-cards .doc{grid-template-columns:30% 70%}.doc-cards .doc .doc-body{padding:1.25rem}.doc-cards .doc h3{font-size:1.25rem}.doc-cards .doc img.photo,.doc-cards .doc .photo-ph{margin-top:1.25rem;height:calc(100% - 2.5rem)}}
 
 .cat-bar{display:flex;flex-direction:column;margin-bottom:1.75rem}
 .cat-row{display:flex;gap:0.625rem;flex-wrap:wrap;align-items:center}
@@ -574,7 +578,7 @@ footer a{color:#e8efe9}
   <section class="sec-alt" id="team">
     <div class="wrap">
       <div class="sec-head"><span class="en">TEAM</span><h2>醫療團隊</h2></div>
-      <div class="team-grid" id="team-grid"></div>
+      <div class="team-grid doc-cards" id="team-grid"></div>
       <p class="team-more" style="text-align:center;margin-top:2rem"><a class="btn btn-solid" href="/team/">看完整醫療團隊資訊</a></p>
     </div>
   </section>
