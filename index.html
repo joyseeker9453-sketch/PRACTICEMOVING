@@ -225,30 +225,37 @@ section{padding:4.5rem 0}
 @media(max-width:420px){.doc{flex-direction:column}.doc img.photo{flex:0 0 auto;width:8.125rem;margin:0 auto}}
 /* ---- 醫師卡片版型：首頁「醫療團隊」區塊與 /team/ 完整團隊頁共用 ----
    用法：在 .team-grid 上加 doc-cards 這個 class（團隊頁由 build.js 產生時也要加）。
-   照片欄固定 43%：原圖是 720×1080（2:3），欄位比例比 2:3 瘦長時瀏覽器一定會裁左右，
-   43% 讓裁切量降到一成上下，只會裁到背景。要完全不裁只能換更瘦長的原始檔。
-   下面幾條 min-height:0 / aspect-ratio:auto / max-width:none 是用來壓掉上面
-   .doc img.photo 的預設值，拿掉的話照片會被撐成超高一條。改版型只改這一區。 */
-.team-grid.doc-cards{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:1.5rem;row-gap:1.5rem}
+
+   尺寸總開關：下面 .team-grid.doc-cards 的 font-size。卡片內所有尺寸都寫成 em，
+   改那一個值就整組等比例縮放，不用逐條調。刻意用 16px 而不是 1rem：
+   全站根字級在 1280px 以上會隨螢幕放大到 22px，卡片跟著放大就會又肥又長；
+   釘在 16px 等於讓這一區停在正常尺度，1280px 以下數值與 1rem 相同，手機不受影響。
+
+   照片欄 43%：原圖 720×1080（2:3），欄位比例比 2:3 瘦長時瀏覽器一定會裁左右，
+   43% 搭配現在的卡片高度，裁切量約一成、只裁到背景。要完全不裁只能換更瘦長的原始檔。
+   min-height:0 / aspect-ratio:auto / max-width:none 是用來壓掉上面 .doc img.photo
+   的預設值，拿掉的話照片會被撐成超高一條。 */
+.team-grid.doc-cards{font-size:16px;grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:1.5em;row-gap:1.5em}
 @media(max-width:1023px){.team-grid.doc-cards{grid-template-columns:1fr}}
-.doc-cards .doc{display:grid;grid-template-columns:minmax(9rem,43%) 1fr;gap:0;padding:0;
-  background:#fff;border:1px solid var(--line);border-radius:0.25rem;overflow:hidden;
+.doc-cards .doc{display:grid;grid-template-columns:minmax(9em,43%) 1fr;gap:0;padding:0;
+  background:#fff;border:1px solid var(--line);border-radius:0.25em;overflow:hidden;
   align-items:stretch;min-width:0}
 .doc-cards .doc img.photo,.doc-cards .doc .photo-ph{flex:none;width:100%;height:100%;
-  min-height:20rem;max-width:none;aspect-ratio:auto;margin:0;object-fit:cover;
+  min-height:20em;max-width:none;aspect-ratio:auto;margin:0;object-fit:cover;
   object-position:top center;border-radius:0;display:block}
-.doc-cards .doc .doc-body{width:100%;min-width:0;padding:1.9rem 2rem}
-.doc-cards .doc h3{font-size:1.6rem;font-weight:700;line-height:1.3;margin:0}
-.doc-cards .doc .role{font-size:0.9rem;font-weight:700;color:var(--dawn);margin:0.45rem 0 1.1rem}
-.doc-cards .doc li{font-size:0.95rem;color:#4b5854;line-height:1.7;padding:0.5rem 0;
+.doc-cards .doc .doc-body{width:100%;min-width:0;padding:1.9em 2em}
+.doc-cards .doc h3{font-size:1.6em;font-weight:700;line-height:1.3;margin:0}
+.doc-cards .doc .role{font-size:0.9em;font-weight:700;color:var(--dawn);margin:0.45em 0 1.1em}
+.doc-cards .doc li{font-size:0.95em;color:#4b5854;line-height:1.7;padding:0.5em 0;
   border-bottom:1px dotted var(--line)}
 .doc-cards .doc li:last-child{border-bottom:0}
 @media(max-width:560px){
   .doc-cards .doc{grid-template-columns:40% 1fr}
-  .doc-cards .doc img.photo,.doc-cards .doc .photo-ph{min-height:14rem}
-  .doc-cards .doc .doc-body{padding:1.25rem}
-  .doc-cards .doc h3{font-size:1.3rem}
-  .doc-cards .doc li{font-size:0.9rem;padding:0.4rem 0}
+  .doc-cards .doc img.photo,.doc-cards .doc .photo-ph{min-height:14em}
+  .doc-cards .doc .doc-body{padding:1.25em}
+  .doc-cards .doc h3{font-size:1.3em}
+  .doc-cards .doc li{font-size:0.9em;padding:0.4em 0}
 }
 
 .cat-bar{display:flex;flex-direction:column;margin-bottom:1.75rem}
