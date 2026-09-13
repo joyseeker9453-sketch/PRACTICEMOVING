@@ -223,6 +223,15 @@ section{padding:4.5rem 0}
 @media(max-width:1023px){.team-grid{grid-template-columns:1fr}}
 @media(min-width:1024px) and (max-width:1279px){.doc img.photo,.doc .photo-ph{flex-basis:11rem;width:11rem}}
 @media(max-width:420px){.doc{flex-direction:column}.doc img.photo{flex:0 0 auto;width:8.125rem;margin:0 auto}}
+/* 首頁醫療團隊：照片與各自的姓名、學經歷欄對齊 */
+#page-home #team .team-grid{column-gap:1.5rem;row-gap:1.5rem}
+#page-home #team .doc{display:grid;grid-template-columns:minmax(10rem,30%) 1fr;gap:0;padding:0;overflow:hidden;align-items:stretch}
+#page-home #team .doc img.photo,#page-home #team .doc .photo-ph{width:100%;height:calc(100% - 3.75rem);min-height:0;aspect-ratio:auto;align-self:start;margin:2rem 0 0;object-fit:cover;border-radius:0;background:var(--mist)}
+#page-home #team .doc .doc-body{padding:2rem 2rem 1.75rem}
+#page-home #team .doc h3{font-size:1.55rem;margin:0 0 .4rem}
+#page-home #team .doc ul{font-size:.95rem}
+#page-home #team .doc li{padding:.3rem 0}
+@media(max-width:560px){#page-home #team .team-grid{grid-template-columns:1fr}#page-home #team .doc{grid-template-columns:30% 70%}#page-home #team .doc .doc-body{padding:1.25rem}.home-team #page-home #team .doc h3{font-size:1.25rem}}
 
 .cat-bar{display:flex;flex-direction:column;margin-bottom:1.75rem}
 .cat-row{display:flex;gap:0.625rem;flex-wrap:wrap;align-items:center}
