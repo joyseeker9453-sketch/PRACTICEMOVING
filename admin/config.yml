@@ -41,6 +41,19 @@ collections:
               - { label: "置頂公告", name: "pinned", widget: "boolean", default: false, hint: "打開後會顯示在首頁最上方那一條。同時打開多則時，只會顯示日期最新的那一則。" }
 
 
+  # ---------- 關於晨昕背景圖 ----------
+  - name: "about"
+    label: "關於晨昕背景圖"
+    files:
+      - name: "about"
+        label: "關於晨昕背景圖"
+        file: "content/about.json"
+        fields:
+          - { label: "顯示背景圖", name: "show", widget: "boolean", default: true, hint: "關掉就恢復成沒有背景圖的樣子，圖片保留不用刪除" }
+          - { label: "電腦版背景圖", name: "bg", widget: "image", required: false, hint: "建議 2880x379（很扁的橫幅）。人物請放兩側，正中央要留空給「關於晨昕」四個字" }
+          - { label: "手機版背景圖", name: "bgMobile", widget: "image", required: false, hint: "建議 1200x480。沒上傳的話手機會沿用電腦版那張，但左右會被裁掉一大塊" }
+          - { label: "遮罩濃度", name: "overlay", widget: "select", default: "中", options: ["淡", "中", "濃"], hint: "圖片上面會蓋一層米白色讓標題看得清楚。圖太搶眼就調濃，圖太淡看不見就調淡" }
+
   # ---------- 診所資料（門診時間 / 醫療團隊 / 聯絡方式） ----------
   - name: "site"
     label: "診所資料(醫生資訊、開診時間)"
