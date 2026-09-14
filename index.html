@@ -457,7 +457,7 @@ footer a{color:#e8efe9}
 
 <div class="topbar">
   <div class="wrap-wide">
-    <span>📞 <a id="tb-phone" href="#">02-2518-1268</a><span class="tb-addr">　<a id="tb-addr" onclick="go('home','contact')" title="查看地圖與交通">台北市中山區復興北路350號3樓</a></span></span>
+    <span>📞 <a id="tb-phone" href="#">02-2518-1268</a><span class="tb-addr">　<a id="tb-addr" onclick="go('home','contact')" title="台北市中山區復興北路350號3樓">聯絡我們</a></span></span>
     <span><a id="tb-fb" href="#" target="_blank" rel="noopener">Facebook 粉絲專頁</a>　|　<a class="tb-booking" id="tb-booking" href="#" target="_blank" rel="noopener">線上預約</a></span>
   </div>
 </div>
@@ -720,7 +720,10 @@ function initStatic(){
   $('tb-phone').href = 'tel:'+SITE.phoneLink; $('tb-phone').textContent = SITE.phone;
   $('tb-fb').href = SITE.facebook;
   $('hero-booking').href = $('f-booking').href = SITE.booking;
-  $('c-addr').textContent = $('f-addr').textContent = $('tb-addr').textContent = SITE.address;
+  /* 頂端列只顯示「聯絡我們」四個字，真實地址移到 title（滑過會出現）；
+     聯絡區塊與頁尾仍然印完整地址，結構化資料也照舊，SEO 不受影響 */
+  $('c-addr').textContent = $('f-addr').textContent = SITE.address;
+  $('tb-addr').title = SITE.address;
   $('c-phone').href='tel:'+SITE.phoneLink; $('c-phone').textContent=SITE.phone;
   $('c-mail').textContent = SITE.email;
   $('c-map').src = SITE.mapEmbed;
