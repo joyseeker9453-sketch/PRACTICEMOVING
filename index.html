@@ -205,6 +205,9 @@ section{padding:4.5rem 0}
 .hours-table .slot{font-weight:700;color:var(--pine);white-space:nowrap}
 .hours-table .off{color:#b6b0a4}
 .hours-note{text-align:center;color:var(--ink-soft);font-size:0.9375rem;margin-top:1rem}
+/* 註記排版：只在「剛好兩行」時介入，先試著縮字級換回一行，不行才改成整句換行。
+   .sent 是句子容器，inline-block 讓一整句放不下時整句掉到下一行，不會斷在句中。 */
+.hours-note .sent{display:inline-block}
 .hours-scroll{overflow-x:auto}
 
 .team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
@@ -739,7 +742,45 @@ function initStatic(){
     `<tr><td class="slot">${esc(r.slot)}<br><small>${esc(r.time)}</small></td>`+
     daysOf(r).map(d=>`<td class="${d==='休診'?'off':''}">${esc(d)}</td>`).join('')+`</tr>`).join('');
   $('hours-note').textContent = SITE.hours.note;
-  $('hours-extra').textContent = SITE.hours.extra;
+  (function(){
+    // 門診註記的斷行處理：只有在剛好變成兩行時才介入。
+    // 一行 → 不動；三行以上（手機）→ 不動，維持原本的自然換行。
+    // 兩行 → 先把字級降到 0.875rem 試著擠回一行；擠不回來就還原字級，
+    //        改成依句號切句，讓斷點落在「。」而不是句子中間的任意一字。
+    //        切完若反而更高（第一句自己就超過一行），自動還原。
+    var el = $('hours-extra'), RAW = SITE.hours.extra || '';
+    function lineCount(){
+      var r = document.createRange(); r.selectNodeContents(el);
+      var tops = {}, n = 0;
+      [].forEach.call(r.getClientRects(), function(x){
+        if (x.width < 1) return;
+        var k = Math.round(x.top); if (!tops[k]) { tops[k] = 1; n++; }
+      });
+      return n;
+    }
+    function render(){
+      el.style.fontSize = ''; el.textContent = RAW;
+      if (!RAW || lineCount() !== 2) return;
+      el.style.fontSize = '0.875rem';
+      if (lineCount() === 1) return;                 // 縮字就回到一行，收工
+      el.style.fontSize = '';                        // 縮了還是兩行 → 還原字級，改切句
+      var parts = RAW.match(/[^。]*。|[^。]+/g) || [];
+      if (parts.length < 2) return;
+      var before = el.getBoundingClientRect().height;
+      el.textContent = '';
+      parts.forEach(function(s, i){
+        if (i) el.appendChild(document.createTextNode('\u200B'));  // 零寬空格＝斷點
+        var sp = document.createElement('span');
+        sp.className = 'sent'; sp.textContent = s; el.appendChild(sp);
+      });
+      if (el.getBoundingClientRect().height > before + 1) el.textContent = RAW;
+    }
+    render();
+    // 網頁字型載入前後的字寬不同，字型就緒後要重算一次，否則會用錯的寬度判斷行數
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(render);
+    addEventListener('load', render);
+    var t; addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(render, 150); });
+  })();
 
   $('team-grid').innerHTML = SITE.team.slice(0,2).map(t=>
     `<div class="doc">${t.photo
