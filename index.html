@@ -879,7 +879,9 @@ function renderPinned(items){
   const sorted = [...list].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
   const i = sorted[0];
   el.hidden = false;
-  el.innerHTML = `<span class="ha-title">最新公告｜${esc(i.title)}</span><span class="ha-body">${esc(i.body||'')}</span>`;
+  /* bodyHtml 是 build.js 解析並跳脫過的行內 HTML；舊資料沒有這個欄位時退回純文字 */
+  const body = i.bodyHtml != null ? i.bodyHtml : esc(i.body || '');
+  el.innerHTML = `<span class="ha-title">最新公告｜${esc(i.title)}</span><span class="ha-body">${body}</span>`;
 }
 
 /* 相容處理：舊資料是單一 category 字串，新資料是 tags 陣列，統一成陣列 */

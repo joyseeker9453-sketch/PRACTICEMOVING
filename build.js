@@ -134,7 +134,9 @@ function inline(s) {
         .replace(/`([^`]+)`/g, '<code>$1</code>')
         .replace(/~~([^~]+)~~/g, '<del>$1</del>')
         .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+        .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+        .replace(/(?<![\w])__([^_\n]+)__(?![\w])/g, '<strong>$1</strong>')
+        .replace(/(?<![\w])_([^_\n]+)_(?![\w])/g, '<em>$1</em>');
       const rawHref = unesc(href);
 
       /* 從 Facebook 貼文複製進來的 hashtag 連結只是來源平台殘留。
@@ -153,7 +155,11 @@ function inline(s) {
     .replace(/`([^`]+)`/g, (_, c) => keep('<code>' + c + '</code>'))
     .replace(/~~([^~]+)~~/g, '<del>$1</del>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    /* 後台的粗體／斜體按鈕存出來的是底線語法（__粗體__、_斜體_），標準 Markdown 兩種都算數。
+       前後的 (?<![\w]) 是防呆：file_name_here 這種不會被當成斜體；中文不屬於 \w，不受影響。 */
+    .replace(/(?<![\w])__([^_\n]+)__(?![\w])/g, '<strong>$1</strong>')
+    .replace(/(?<![\w])_([^_\n]+)_(?![\w])/g, '<em>$1</em>');
   /* 佔位符可能一層包一層（例如連結文字裡有圖片或跳脫字元），要還原到完全沒有佔位符為止；
      只還原一次的話，連結裡的圖片會消失、文字中間會夾著看不見的控制字元 */
   let res = out;
@@ -229,6 +235,12 @@ if (fs.existsSync(annSrc)) {
   catch (e) { console.error('announcements.json 格式錯誤：', e.message); process.exit(1); }
 }
 ann.items = (ann.items || []).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+/* 首頁公告條以前是直接 esc(body)，完全沒解析 Markdown，所以 **粗體** 會原字吐出來。
+   這裡先在建置時解析好存成 bodyHtml，前端直接用，避免前後端各養一套 parser。
+   .ha-body 有 white-space:pre-wrap，所以只做行內解析、保留原本的換行，不包 <p>。 */
+ann.items = ann.items.map(it => Object.assign({}, it, {
+  bodyHtml: String(it && it.body || '').split(/\r?\n/).map(inline).join('\n')
+}));
 fs.writeFileSync(path.join(DATA_DIR, 'announcements.json'), JSON.stringify(ann, null, 2));
 
 /* ---- content.js：首頁一次讀到所有內容（本機雙擊預覽也能動） ---- */
