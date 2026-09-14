@@ -159,6 +159,16 @@ section{padding:4.5rem 0}
 .sec-head .en{font-size:0.75rem;letter-spacing:0.25rem;color:var(--dawn);font-weight:700}
 .sec-head h2{font-family:var(--serif);font-weight:900;font-size:1.625rem;color:var(--pine-deep);letter-spacing:0.1875rem;margin-top:0.375rem}
 .sec-head h2::after{content:"";display:block;width:2.75rem;height:0.1875rem;background:var(--dawn);margin:0.875rem auto 0;border-radius:0.125rem}
+/* 關於晨昕：標題塊背景圖。圖片與遮罩濃度由後台「關於晨昕背景圖」控制。
+   沒設定圖片時不會掛上 has-bg，內距與背景都不生效，版面跟現在一模一樣。
+   桌機吃 --about-bg，手機吃 --about-bg-m（沒上傳手機圖時自動沿用桌機那張）。 */
+#about .sec-head.has-bg{background-image:var(--about-bg);background-size:cover;
+  background-position:center;background-repeat:no-repeat;border-radius:0.875rem;
+  padding:1.25rem 1rem}
+@media(max-width:700px){
+  #about .sec-head.has-bg{background-image:var(--about-bg-m,var(--about-bg));
+    padding:1rem 0.75rem}
+}
 .sec-alt{background:var(--mist)}
 /* services：標題與圖示距離縮小 */
 #services .sec-head{margin-bottom:1.75rem}
@@ -684,6 +694,10 @@ function applySite(s){
   ['name','phone','phoneLink','address','email','booking','line','facebook','mapEmbed','baseUrl','ogImage']
     .forEach(k=>{ if(s[k]) SITE[k]=s[k]; });
 
+  /* about 是巢狀物件，不在上面那串字串欄位裡，要單獨帶過來，
+     否則後台上傳的背景圖不會出現在前台。 */
+  if(s.about && typeof s.about==='object') SITE.about = s.about;
+
   if(Array.isArray(s.services) && s.services.length) SITE.services = s.services;
 
   if(Array.isArray(s.team) && s.team.length){
@@ -722,6 +736,20 @@ function initStatic(){
   $('hero-booking').href = $('f-booking').href = SITE.booking;
   /* 頂端列只顯示「聯絡我們」四個字，真實地址移到 title（滑過會出現）；
      聯絡區塊與頁尾仍然印完整地址，結構化資料也照舊，SEO 不受影響 */
+  (function(){
+    /* 關於晨昕的標題背景圖：後台「關於晨昕背景圖」→ content/about.json。
+       遮罩是一層米白色，蓋在圖上讓深綠標題讀得清楚，濃度三段由後台選。 */
+    const a = SITE.about || {};
+    const head = document.querySelector('#about .sec-head');
+    if (!head || !a.show || !a.bg) return;
+    const alpha = { '淡': 0.60, '中': 0.78, '濃': 0.90 }[a.overlay] || 0.78;
+    const veil = `linear-gradient(rgba(251,250,247,${alpha}),rgba(251,250,247,${alpha}))`;
+    const url = u => `url("${encodeURI(String(u)).replace(/"/g, '%22')}")`;
+    head.style.setProperty('--about-bg', `${veil},${url(a.bg)}`);
+    if (a.bgMobile) head.style.setProperty('--about-bg-m', `${veil},${url(a.bgMobile)}`);
+    head.classList.add('has-bg');
+  })();
+
   $('c-addr').textContent = $('f-addr').textContent = SITE.address;
   $('tb-addr').title = SITE.address;
   $('c-phone').href='tel:'+SITE.phoneLink; $('c-phone').textContent=SITE.phone;

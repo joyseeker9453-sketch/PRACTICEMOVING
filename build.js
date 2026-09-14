@@ -24,6 +24,14 @@ if (fs.existsSync(SITE_SRC)) {
 } else {
   console.error('找不到 content/site.json，請先建立。'); process.exit(1);
 }
+/* 關於晨昕的標題背景圖：後台獨立一個項目（content/about.json），
+   掛進 SITE.about 之後就會跟著 window.__SITE__ 一起送到前端。 */
+const ABOUT_SRC = path.join(ROOT, 'content', 'about.json');
+if (fs.existsSync(ABOUT_SRC)) {
+  try { SITE.about = JSON.parse(fs.readFileSync(ABOUT_SRC, 'utf8')); }
+  catch (e) { console.error('about.json 格式錯誤：', e.message); process.exit(1); }
+}
+
 const BASE = (SITE.baseUrl || '').replace(/\/+$/, '');
 if (!/^https:\/\/[^/]+$/.test(BASE)) {
   console.warn('!!! 後台「診所資料 → 網站網址」是「' + BASE + '」，格式應為 https://網域（結尾不要斜線）。' +
