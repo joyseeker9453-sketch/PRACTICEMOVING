@@ -370,7 +370,7 @@ function headerHtml() {
   return '<div class="topbar">\n' +
     '  <div class="wrap-wide">\n' +
     '    <span>📞 <a href="tel:' + esc(SITE.phoneLink) + '">' + esc(SITE.phone) + '</a><span class="tb-addr">　<a href="/#contact" title="' + esc(SITE.address) + '">聯絡我們</a></span></span>\n' +
-    '    <span><a href="' + esc(safeUrl(SITE.facebook)) + '" target="_blank" rel="noopener">Facebook 粉絲專頁</a>　|　<a class="tb-booking" href="' + esc(safeUrl(SITE.booking)) + '" target="_blank" rel="noopener">線上預約</a></span>\n' +
+    '    <span><a href="' + esc(safeUrl(SITE.facebook)) + '" target="_blank" rel="noopener">Facebook</a>　|　<a class="tb-booking" href="' + esc(safeUrl(SITE.booking)) + '" target="_blank" rel="noopener">線上預約</a></span>\n' +
     '  </div>\n</div>\n' +
     '<header>\n  <div class="wrap-wide nav">\n' +
     '    <a class="brand" href="/#home"><img class="logo" src="/images/logo.png" alt="' + esc(SITE.name) + ' Logo">' + esc(SITE.name) + '</a>\n' +
