@@ -50,9 +50,9 @@ collections:
         file: "content/about.json"
         fields:
           - { label: "顯示背景圖", name: "show", widget: "boolean", default: true, hint: "關掉就恢復成沒有背景圖的樣子，圖片保留不用刪除" }
-          - { label: "電腦版背景圖", name: "bg", widget: "image", required: false, hint: "建議 2880x379（很扁的橫幅）。人物請放兩側，正中央要留空給「關於晨昕」四個字" }
-          - { label: "手機版背景圖", name: "bgMobile", widget: "image", required: false, hint: "建議 1200x480。沒上傳的話手機會沿用電腦版那張，但左右會被裁掉一大塊" }
-          - { label: "遮罩濃度", name: "overlay", widget: "select", default: "中", options: ["淡", "中", "濃"], hint: "圖片上面會蓋一層米白色讓標題看得清楚。圖太搶眼就調濃，圖太淡看不見就調淡" }
+          - { label: "電腦版背景圖", name: "bg", widget: "image", required: false, hint: "橫式的診所實景照最好。圖會鋪滿整塊「關於晨昕」，上緣淡出、底部切齊內文。任何比例都會自動貼合" }
+          - { label: "手機版背景圖", name: "bgMobile", widget: "image", required: false, hint: "選填。手機版面較窄，沒上傳就沿用電腦版那張並自動裁切填滿" }
+          - { label: "標題高度(0-100)", name: "eye", widget: "number", default: 40, value_type: "int", min: 0, max: 100, required: false, hint: "「關於晨昕」白字要對齊圖片的哪個高度，數字越小越靠上。預設 40（大約是照片中人物眼睛的高度）。換圖後若標題壓到臉，微調這個數字" }
 
   # ---------- 診所資料（門診時間 / 醫療團隊 / 聯絡方式） ----------
   - name: "site"
