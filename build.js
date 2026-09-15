@@ -181,6 +181,12 @@ function mdToHtml(md) {
   return blocks.map(b => {
     const t = b.trim();
     if (!t) return '';
+    /* 標題：後台工具列「標題1～6」存成 # ~ ######。
+       整體降一級（h1→h2…）避免和頁面本身的 h1 衝突；標題5、6 都收斂到 h6（HTML 最小級）。
+       順序必須從最多井號往下比，否則 ###### 會先被 # 那條吃掉。 */
+    if (/^######\s+/.test(t)) return '<h6>' + inline(t.replace(/^######\s+/, '')) + '</h6>';
+    if (/^#####\s+/.test(t)) return '<h6>' + inline(t.replace(/^#####\s+/, '')) + '</h6>';
+    if (/^####\s+/.test(t)) return '<h5>' + inline(t.replace(/^####\s+/, '')) + '</h5>';
     if (/^###\s+/.test(t)) return '<h4>' + inline(t.replace(/^###\s+/, '')) + '</h4>';
     if (/^##\s+/.test(t)) return '<h3>' + inline(t.replace(/^##\s+/, '')) + '</h3>';
     if (/^#\s+/.test(t)) return '<h2>' + inline(t.replace(/^#\s+/, '')) + '</h2>';
