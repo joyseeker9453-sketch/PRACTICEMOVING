@@ -159,15 +159,32 @@ section{padding:4.5rem 0}
 .sec-head .en{font-size:0.75rem;letter-spacing:0.25rem;color:var(--dawn);font-weight:700}
 .sec-head h2{font-family:var(--serif);font-weight:900;font-size:1.625rem;color:var(--pine-deep);letter-spacing:0.1875rem;margin-top:0.375rem}
 .sec-head h2::after{content:"";display:block;width:2.75rem;height:0.1875rem;background:var(--dawn);margin:0.875rem auto 0;border-radius:0.125rem}
-/* 關於晨昕：標題塊背景圖。圖片與遮罩濃度由後台「關於晨昕背景圖」控制。
-   沒設定圖片時不會掛上 has-bg，內距與背景都不生效，版面跟現在一模一樣。
-   桌機吃 --about-bg，手機吃 --about-bg-m（沒上傳手機圖時自動沿用桌機那張）。 */
-#about .sec-head.has-bg{background-image:var(--about-bg);background-size:cover;
-  background-position:center;background-repeat:no-repeat;border-radius:0.875rem;
-  padding:1.25rem 1rem}
-@media(max-width:700px){
-  #about .sec-head.has-bg{background-image:var(--about-bg-m,var(--about-bg));
-    padding:1rem 0.75rem}
+/* ===== 關於晨昕：整塊背景圖 =====
+   圖片鋪滿 .wrap 的寬度、貼齊上緣，底部切齊內文（診所交通便利那段）的上緣。
+   徽章移到圖片最上緣、上方漸層淡出；標題白字，垂直錨定在圖片高度 40%
+   （＝護理師眼睛的高度）。所有尺寸由 JS 依圖片實際比例即時計算，
+   換任何比例的圖都會自動貼合。圖片與否由後台「關於晨昕背景圖」控制，
+   沒設定圖片時不掛 has-bg，版面與純文字版完全一樣。 */
+#about .wrap.has-bg{background-image:
+    linear-gradient(to bottom,rgba(251,250,247,0) 74%,rgba(251,250,247,.5) 88%,rgba(251,250,247,1) 100%),
+    linear-gradient(to bottom,rgba(251,250,247,.92) 0%,rgba(251,250,247,.55) 7%,rgba(251,250,247,.18) 16%,rgba(251,250,247,0) 28%),
+    var(--about-bg);
+  background-size:100% var(--about-img-h,0px),100% var(--about-img-h,0px),100% auto;
+  background-position:top center;background-repeat:no-repeat;border-radius:0.875rem}
+#about .wrap.has-bg .badges-top{padding:0.55rem 0 0;text-align:center}
+#about .wrap.has-bg .badges-top .badge{display:inline-block;background:var(--pine);color:#fff;
+  font-size:0.8125rem;padding:0.25rem 0.875rem;border-radius:0.875rem;margin:0 0.35rem 0}
+#about .wrap.has-bg .sec-head{margin-bottom:0}
+#about .wrap.has-bg .sec-head h2{color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.32)}
+#about .wrap.has-bg .sec-head .en{color:#ffd79a}
+#about .wrap.has-bg .about-grid>div{align-self:start}
+#about .wrap.has-bg .about-grid p{margin-top:0}
+@media(max-width:760px){
+  /* 窄版：圖片較矮蓋不住整組標題，改回一般排版、圖只當標題塊背景，徽章回到內文區 */
+  #about .wrap.has-bg{background-image:
+    linear-gradient(rgba(251,250,247,.30),rgba(251,250,247,.30)),var(--about-bg-m,var(--about-bg));
+    background-size:cover;background-position:center;padding:1rem 0.75rem}
+  #about .wrap.has-bg .sec-head h2{text-shadow:0 1px 6px rgba(0,0,0,.5)}
 }
 .sec-alt{background:var(--mist)}
 /* services：標題與圖示距離縮小 */
@@ -197,6 +214,10 @@ section{padding:4.5rem 0}
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.75rem;align-items:start}
 .about-grid .badge{display:inline-block;background:var(--pine);color:#fff;font-size:0.8125rem;padding:0.25rem 0.875rem;border-radius:0.875rem;margin:0 0.375rem 0.625rem 0}
 .about-right p{margin-top:3.4375rem}
+/* 徽章預設區塊（無背景圖時）：位置與間距比照原本 .about-grid .badge */
+.badges-top{text-align:center;margin-bottom:1.25rem}
+.badges-top .badge{display:inline-block;background:var(--pine);color:#fff;font-size:0.8125rem;padding:0.25rem 0.875rem;border-radius:0.875rem;margin:0 0.35rem}
+.about-grid .about-lead{margin-top:0.875rem}
 @media(max-width:760px){.about-grid{grid-template-columns:1fr}.about-right p{margin-top:0}}
 
 .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
@@ -550,12 +571,14 @@ footer a{color:#e8efe9}
 
   <section id="about">
     <div class="wrap">
+      <div class="badges-top">
+        <span class="badge">⭐ 糖尿病共照網認證機構</span>
+        <span class="badge">智抗糖「糖尿病好診所」推薦</span>
+      </div>
       <div class="sec-head"><span class="en">ABOUT</span><h2>關於晨昕</h2></div>
       <div class="about-grid">
         <div>
-          <span class="badge">⭐ 糖尿病共照網認證機構</span>
-          <span class="badge">智抗糖「糖尿病好診所」推薦</span>
-          <p style="margin-top:0.875rem">診所交通便利，距離捷運中山國中站僅需步行 3 分鐘，位於 3 樓設有電梯與完善的無障礙設施，即使坐輪椅也能方便前來就診。無論是想要戒菸、開立健康處方還是體重管理，皆歡迎隨時來診諮詢。</p>
+          <p class="about-lead">診所交通便利，距離捷運中山國中站僅需步行 3 分鐘，位於 3 樓設有電梯與完善的無障礙設施，即使坐輪椅也能方便前來就診。無論是想要戒菸、開立健康處方還是體重管理，皆歡迎隨時來診諮詢。</p>
         </div>
         <div class="about-right">
           <p>空間寬敞明亮，提供舒適整潔的看診環境，打造全新醫療體驗。從糖尿病、高血壓、高血脂等慢性病照護，到專業醫學減重與身心科門診，晨昕診所是您全家人的健康後盾。</p>
@@ -737,17 +760,49 @@ function initStatic(){
   /* 頂端列只顯示「聯絡我們」四個字，真實地址移到 title（滑過會出現）；
      聯絡區塊與頁尾仍然印完整地址，結構化資料也照舊，SEO 不受影響 */
   (function(){
-    /* 關於晨昕的標題背景圖：後台「關於晨昕背景圖」→ content/about.json。
-       遮罩是一層米白色，蓋在圖上讓深綠標題讀得清楚，濃度三段由後台選。 */
+    /* ===== 關於晨昕背景圖 =====
+       後台「關於晨昕背景圖」→ content/about.json（欄位：show / bg / bgMobile / eye）。
+       沒設定 bg 時什麼都不做，維持純文字版。設定後：
+       圖鋪滿 .wrap 寬度貼齊上緣、底部切齊內文上緣；標題白字，垂直中心錨定
+       圖片高度 eye%（預設 40，即護理師眼睛）。尺寸依圖片實際長寬比即時計算，
+       換圖免改 code。 */
     const a = SITE.about || {};
-    const head = document.querySelector('#about .sec-head');
-    if (!head || !a.show || !a.bg) return;
-    const alpha = { '淡': 0.60, '中': 0.78, '濃': 0.90 }[a.overlay] || 0.78;
-    const veil = `linear-gradient(rgba(251,250,247,${alpha}),rgba(251,250,247,${alpha}))`;
+    const wrap = document.querySelector('#about .wrap');
+    if (!wrap || !a.show || !a.bg) return;
     const url = u => `url("${encodeURI(String(u)).replace(/"/g, '%22')}")`;
-    head.style.setProperty('--about-bg', `${veil},${url(a.bg)}`);
-    if (a.bgMobile) head.style.setProperty('--about-bg-m', `${veil},${url(a.bgMobile)}`);
-    head.classList.add('has-bg');
+    wrap.style.setProperty('--about-bg', url(a.bg));
+    if (a.bgMobile) wrap.style.setProperty('--about-bg-m', url(a.bgMobile));
+    wrap.classList.add('has-bg');
+
+    const head = wrap.querySelector('.sec-head');
+    const h2   = head && head.querySelector('h2');
+    const lead = wrap.querySelector('.about-grid p');
+    const eye  = Math.min(0.9, Math.max(0.1, (parseFloat(a.eye) || 40) / 100));
+
+    // 讀圖片真實比例來算高度；圖載入前先用 2:3 佔位，載入後再校正
+    const img = new Image();
+    let ar = 0.5;
+    const layout = () => {
+      if (window.innerWidth <= 760 || !head || !h2 || !lead) return;
+      head.style.paddingTop = '0px'; head.style.paddingBottom = '0px';
+      const wt = wrap.getBoundingClientRect().top;
+      const imgH = wrap.clientWidth * ar;
+      wrap.style.setProperty('--about-img-h', imgH + 'px');
+      const r = h2.getBoundingClientRect();
+      const centerNow = (r.top + r.height / 2) - wt;      // 標題目前的垂直中心
+      head.style.paddingTop = Math.max(0, imgH * eye - centerNow) + 'px';
+      const used = lead.getBoundingClientRect().top - wt; // 內文上緣位置
+      head.style.paddingBottom = Math.max(0, imgH - used) + 'px';
+    };
+    const clearPad = () => {
+      if (window.innerWidth <= 760 && head) { head.style.paddingTop=''; head.style.paddingBottom=''; }
+    };
+    const run = () => { clearPad(); layout(); };
+    img.onload = () => { if (img.naturalWidth) ar = img.naturalHeight / img.naturalWidth; run(); };
+    img.src = a.bg;
+    run();
+    addEventListener('resize', run);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
   })();
 
   $('c-addr').textContent = $('f-addr').textContent = SITE.address;
