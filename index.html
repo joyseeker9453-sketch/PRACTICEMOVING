@@ -218,7 +218,11 @@ section{padding:4.5rem 0}
 .badges-top{text-align:center;margin-bottom:1.25rem}
 .badges-top .badge{display:inline-block;background:var(--pine);color:#fff;font-size:0.8125rem;padding:0.25rem 0.875rem;border-radius:0.875rem;margin:0 0.35rem}
 .about-grid .about-lead{margin-top:0.875rem}
-@media(max-width:760px){.about-grid{grid-template-columns:1fr}.about-right p{margin-top:0}}
+/* 關於晨昕改為單一段落（合併原本左右兩欄）：置中、限制行寬，長行才好讀 */
+.about-grid.about-single{display:block;max-width:52rem;margin:0 auto;text-align:center}
+.about-grid.about-single .about-lead{margin-top:0;line-height:1.9}
+.about-grid.about-single .about-lead strong{color:var(--pine);font-weight:700}
+@media(max-width:760px){.about-grid{grid-template-columns:1fr}.about-right p{margin-top:0}.about-grid.about-single{text-align:left}}
 
 .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
 .svc{background:transparent;border:0;border-radius:0.875rem;padding:0.875rem 0.625rem;text-align:center;transition:.25s}
@@ -576,13 +580,8 @@ footer a{color:#e8efe9}
         <span class="badge">智抗糖「糖尿病好診所」推薦</span>
       </div>
       <div class="sec-head"><span class="en">ABOUT</span><h2>關於晨昕</h2></div>
-      <div class="about-grid">
-        <div>
-          <p class="about-lead">診所交通便利，距離捷運中山國中站僅需步行 3 分鐘，位於 3 樓設有電梯與完善的無障礙設施，即使坐輪椅也能方便前來就診。無論是想要戒菸、開立健康處方還是體重管理，皆歡迎隨時來診諮詢。</p>
-        </div>
-        <div class="about-right">
-          <p>空間寬敞明亮，提供舒適整潔的看診環境，打造全新醫療體驗。從糖尿病、高血壓、高血脂等慢性病照護，到專業醫學減重與身心科門診，晨昕診所是您全家人的健康後盾。</p>
-        </div>
+      <div class="about-grid about-single">
+        <p class="about-lead">捷運中山國中站步行約 3 分鐘，診所位於 3 樓並設有電梯；提供一般內兒科、慢性病與過敏疾病照護、癌症篩檢及基因檢測；若有肥胖、三高等代謝問題，或同時合併脂肪肝，亦可諮詢診所的<strong>專業代謝減重服務</strong>。</p>
       </div>
     </div>
   </section>
