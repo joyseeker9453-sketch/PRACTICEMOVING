@@ -189,8 +189,13 @@ section{padding:4.5rem 0}
     border-radius:0.875rem;
     padding-top:var(--about-img-h,56vw);   /* 空出圖片的高度，讓下面的內容從圖底開始 */
   }
-  /* 徽章移回內文上方、深綠底白字，站在乾淨底色上 */
-  #about .wrap.has-bg .badges-top{padding-top:1.25rem}
+  /* 徽章移回內文上方、深綠底白字，站在乾淨底色上。
+     兩顆藥丸強制並排同一列（nowrap）；字級用 clamp 隨螢幕寬度縮放，
+     窄機（360）自動縮到約 0.66rem，寬一點就大一點，都塞得下不換行、不溢出。 */
+  #about .wrap.has-bg .badges-top{padding-top:1.5rem;display:flex;flex-wrap:nowrap;
+    justify-content:center;gap:0.4rem}
+  #about .wrap.has-bg .badges-top .badge{margin:0;white-space:nowrap;
+    font-size:clamp(0.66rem,3.1vw,0.8rem);padding:0.3rem 0.7rem}
   /* 標題與文字都用正常深色，不再壓在圖上 */
   #about .wrap.has-bg .sec-head h2{color:var(--pine-deep);text-shadow:none}
   #about .wrap.has-bg .sec-head .en{color:var(--dawn)}
@@ -242,7 +247,14 @@ section{padding:4.5rem 0}
 .svc .icon svg{width:3.5rem;height:3.5rem}
 .svc h3{font-family:var(--serif);font-size:1.1875rem;color:var(--pine-deep);margin-bottom:0}
 @media(max-width:900px){.svc-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.svc-grid{grid-template-columns:1fr}}
+/* 手機服務項目：改 2 欄格子（原本單欄 8 列太高），卡片與圖示縮小、間距收緊 */
+@media(max-width:480px){
+  .svc-grid{grid-template-columns:repeat(2,1fr);gap:0.625rem}
+  .svc{padding:0.75rem 0.5rem;background:var(--paper);border-radius:0.875rem}
+  .svc .icon{width:3.75rem;height:3.75rem;border-radius:0.875rem;margin-bottom:0.5rem}
+  .svc .icon svg{width:2.125rem;height:2.125rem}
+  .svc h3{font-size:1.0625rem}
+}
 
 .hours-table{width:100%;border-collapse:collapse;background:#fff;border-radius:0.875rem;overflow:hidden;box-shadow:0 0.25rem 1.25rem rgba(0,0,0,.05);font-size:1.25rem}
 .hours-table th,.hours-table td{padding:0.75rem 0.5rem;text-align:center;border-bottom:1px solid var(--line)}
