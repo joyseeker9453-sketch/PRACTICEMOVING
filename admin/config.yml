@@ -39,6 +39,20 @@ collections:
               - { label: "內容", name: "body", widget: "markdown" }
               - { label: "公開", name: "show", widget: "boolean", default: true, hint: "關閉即下架，公告頁不會顯示，但資料保留不用刪除" }
               - { label: "置頂公告", name: "pinned", widget: "boolean", default: false, hint: "打開後會顯示在首頁最上方那一條。同時打開多則時，只會顯示日期最新的那一則。" }
+              - label: "首頁內容太長時"
+                name: "heightMode"
+                widget: "select"
+                required: false
+                default: "inherit"
+                hint: >-
+                  只影響這則公告顯示在「首頁」的樣子，公告頁(/notices/)一律完整顯示、不受影響。
+                  另外首頁只會顯示第一張圖片，第二張以後要到公告頁才看得到。
+                  一般不用動，維持「跟隨預設」就好。
+                options:
+                  - { label: "跟隨預設（診所資料裡設定的）", value: "inherit" }
+                  - { label: "框內捲動看完（推薦）", value: "scroll" }
+                  - { label: "只顯示前面一段", value: "clip" }
+                  - { label: "整則完整顯示（長圖會把首頁拉長）", value: "full" }
 
 
   # ---------- 關於晨昕背景圖 ----------
@@ -73,6 +87,18 @@ collections:
           - { label: "LINE 加好友連結", name: "line", widget: "string" }
           - { label: "Facebook 粉專連結", name: "facebook", widget: "string" }
           - { label: "Google 地圖嵌入網址", name: "mapEmbed", widget: "text", hint: "Google 地圖 → 分享 → 嵌入地圖 → 複製 iframe 裡 src 的網址" }
+          - label: "首頁公告太長時（預設）"
+            name: "announcementHeightMode"
+            widget: "select"
+            required: false
+            default: "scroll"
+            hint: >-
+              置頂公告顯示在首頁時，內容太長要怎麼處理。這是全站預設值，單則公告可以在「診所公告」裡個別覆蓋。
+              公告頁(/notices/)一律完整顯示，不受這個設定影響。已經設定好了，通常不用動。
+            options:
+              - { label: "框內捲動看完（推薦）", value: "scroll" }
+              - { label: "只顯示前面一段", value: "clip" }
+              - { label: "整則完整顯示（長圖會把首頁拉長）", value: "full" }
 
           - label: "服務項目"
             name: "services"
