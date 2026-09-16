@@ -1,5 +1,8 @@
 {
   "name": "chenxin-clinic-site",
   "private": true,
-  "scripts": { "build": "node build.js" }
+  "type": "module",
+  "scripts": {
+    "build": "node build.js"
+  }
 }

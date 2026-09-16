@@ -6,9 +6,12 @@
    4. 抽出 styles.css、產生 sitemap.xml
    零相依套件，只用 Node 內建模組。診所人員不需要理解此檔。
    ============================================================ */
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const ROOT = __dirname;
 const ART_DIR = path.join(ROOT, 'content', 'articles');
 const DATA_DIR = path.join(ROOT, 'data');
