@@ -145,7 +145,20 @@ header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit
 .notice .tag,.pinbar .tag{flex-shrink:0;background:var(--dawn);color:#fff;font-size:0.9375rem;font-weight:700;padding:0.1875rem 0.75rem;border-radius:0.875rem;margin-top:0.125rem}
 .pinbar .tag{margin-top:0}
 .home-announcement{margin:1rem auto 0;max-width:67.5rem;padding:.75rem 1rem;background:var(--dawn-soft);border:1px solid #ecd6ac;border-radius:.75rem;color:var(--pine-deep);line-height:1.55}
-.home-announcement[hidden]{display:none}.home-announcement .ha-title{font-weight:700;color:#9a6c1c;margin-right:.75rem}.home-announcement .ha-body{display:block;max-height:calc(1.55em * 12);overflow-y:auto;padding-right:.35rem}
+.home-announcement[hidden]{display:none}.home-announcement .ha-title{font-weight:700;color:#9a6c1c;margin-right:.75rem}
+/* 首頁公告條「內容太高時怎麼處理」三種模式，後台可選（見 build.js 的 heightMode）。
+   /notices/ 公告頁不受這裡影響，那邊永遠完整顯示。
+   .ha-wrap 只是為了讓 clip 模式的漸層淡出有地方掛，不影響版面。 */
+.home-announcement .ha-wrap{position:relative;display:block}
+.home-announcement .ha-body{display:block;padding-right:.35rem}
+/* scroll：內框滾動（預設）。桌機 12 行、手機 8 行，超過就出現捲軸 */
+.home-announcement .ha-wrap[data-mode="scroll"] .ha-body{max-height:calc(1.55em * 12);overflow-y:auto}
+/* clip：裁切不滾動。底部加漸層淡出，讓人知道下面還有東西 */
+.home-announcement .ha-wrap[data-mode="clip"] .ha-body{max-height:calc(1.55em * 12);overflow:hidden}
+.home-announcement .ha-wrap[data-mode="clip"][data-clipped]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2.5em;pointer-events:none;background:linear-gradient(to bottom,rgba(253,246,233,0),var(--dawn-soft))}
+.announcement-module .home-announcement .ha-wrap[data-mode="clip"][data-clipped]::after{background:linear-gradient(to bottom,rgba(255,255,255,0),#fff)}
+/* full：完整顯示，不限高度 */
+.home-announcement .ha-wrap[data-mode="full"] .ha-body{max-height:none;overflow:visible}
 /* COMMIT 2：公告條內容改由 marked 解析，會產生真的 <p>/<h2>~<h6>/<ul>/<ol> 等區塊標籤，
    不再是純文字加 white-space:pre-wrap。這裡另外給一組較緊湊的間距，避免直接套用文章頁的大留白，
    把公告條撐爆（原本 12 行／手機 8 行的捲軸高度維持不變）。 */
@@ -160,7 +173,8 @@ header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit
 .home-announcement .ha-body hr{border:0;border-top:1px solid #ecd6ac;margin:.75rem 0}
 .home-announcement .ha-body code{background:#fff;padding:.1em .35em;border-radius:.25rem;font-size:.92em}
 .home-announcement .ha-body img{max-width:100%;height:auto;display:block;border-radius:.5rem;margin:.35em 0}
-@media(max-width:560px){.home-announcement{margin-left:1rem;margin-right:1rem;font-size:.875rem}.home-announcement .ha-body{max-height:calc(1.55em * 8)}}
+@media(max-width:560px){.home-announcement{margin-left:1rem;margin-right:1rem;font-size:.875rem}
+  .home-announcement .ha-wrap[data-mode="scroll"] .ha-body,.home-announcement .ha-wrap[data-mode="clip"] .ha-body{max-height:calc(1.55em * 8)}}
 .announcement-module{min-height:calc(100svh - var(--hdr));display:flex;align-items:center;background:var(--dawn-soft)}
 #page-home > .announcement-module{min-height:calc(100svh - var(--hdr))}
 .announcement-module .wrap{width:min(100% - 2rem,67.5rem)}
@@ -1020,11 +1034,24 @@ function renderPinned(items){
   const sorted = [...list].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
   const i = sorted[0];
   el.hidden = false;
-  /* bodyHtml 是 build.js 用 marked 解析並用 sanitize-html 洗過的 HTML（含標題/清單等區塊標籤）；
-     舊資料沒有這個欄位時退回純文字。區塊內容改用 <div>（原本是 <span>，但公告內容可能含 <p>/<h2>~<h6>/<ul> 等
-     區塊標籤，塞進 <span> 不符 HTML 規範；.ha-body 本來就有 display:block，視覺不受影響）。 */
+  /* bodyHtml 是 build.js 用 marked 解析並用 sanitize-html 洗過的 HTML（含標題/清單等區塊標籤），
+     首頁版本已經在建置時只留第一張圖；舊資料沒有這個欄位時退回純文字。
+     區塊內容用 <div>（公告內容可能含 <p>/<h2>~<h6>/<ul> 等區塊標籤，塞進 <span> 不符 HTML 規範；
+     .ha-body 本來就有 display:block，視覺不受影響）。
+     heightMode 是後台選的「內容太高時怎麼處理」，build.js 已經把「跟隨預設」解析成實際值。 */
   const body = i.bodyHtml != null ? i.bodyHtml : esc(i.body || '');
-  el.innerHTML = `<span class="ha-title">最新公告｜${esc(i.title)}</span><div class="ha-body">${body}</div>`;
+  const mode = ['scroll', 'clip', 'full'].includes(i.heightMode) ? i.heightMode : 'scroll';
+  el.innerHTML = `<span class="ha-title">最新公告｜${esc(i.title)}</span><div class="ha-wrap" data-mode="${mode}"><div class="ha-body">${body}</div></div>`;
+  /* clip 模式的漸層淡出只在「內容真的被裁掉」時才出現，
+     否則短公告底部會莫名其妙有一層陰影。圖片載入後高度會變，所以載完再量一次。 */
+  if (mode === 'clip') {
+    const wrap = el.querySelector('.ha-wrap');
+    const bodyEl = el.querySelector('.ha-body');
+    const mark = () => wrap.toggleAttribute('data-clipped', bodyEl.scrollHeight > bodyEl.clientHeight + 1);
+    mark();
+    el.querySelectorAll('.ha-body img').forEach(img => { if (!img.complete) img.addEventListener('load', mark, { once: true }); });
+    window.addEventListener('resize', mark);
+  }
 }
 
 /* 相容處理：舊資料是單一 category 字串，新資料是 tags 陣列，統一成陣列 */

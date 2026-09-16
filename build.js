@@ -210,11 +210,36 @@ if (fs.existsSync(annSrc)) {
   catch (e) { console.error('announcements.json 格式錯誤：', e.message); process.exit(1); }
 }
 ann.items = (ann.items || []).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+
+/* ---- 首頁公告條專用處理（/notices/ 公告頁不受影響，那邊永遠完整顯示）---- */
+
+/* 首頁只留第一張圖：老闆從 FB 貼一整串圖時，首頁不會變成圖片牆。
+   第二張以後整個拿掉；圖片原本自己佔一個 <p> 的話，空掉的 <p> 也一併清掉。
+   要看完整內容的人可以點下面那顆「看其他公告」到 /notices/。 */
+function keepFirstImage(html) {
+  let seen = false;
+  return String(html)
+    .replace(/<img\b[^>]*>/g, m => (seen ? '' : (seen = true, m)))
+    .replace(/<p>\s*<\/p>\s*/g, '');
+}
+
+/* 公告太高時的處理方式，後台可選：
+   scroll = 內框滾動（預設，高度可控、內容不會消失，捲軸本身會提示「下面還有」）
+   clip   = 裁切不滾動（底部加漸層淡出提示還有內容）
+   full   = 完整顯示（不限高度，長圖會把首頁撐長）
+   每則公告可以單獨指定；沒指定（或填 inherit）就跟隨「診所資料」裡的全域預設。 */
+const IMG_MODES = ['scroll', 'clip', 'full'];
+const ANN_MODE_DEFAULT = IMG_MODES.includes(SITE.announcementHeightMode) ? SITE.announcementHeightMode : 'scroll';
+function resolveMode(v) {
+  return IMG_MODES.includes(v) ? v : ANN_MODE_DEFAULT;
+}
+
 /* 首頁公告條以前只做「行內」格式（不解析標題等區塊語法），所以打 # / ##### 會原字吐出來，
    跟 /notices/ 公告頁（含標題、清單等完整區塊語法）長期不同步。
    COMMIT 2 起兩邊共用 renderMarkdown()，在建置時解析好存成 bodyHtml，前端直接用。 */
 ann.items = ann.items.map(it => Object.assign({}, it, {
-  bodyHtml: renderMarkdown(String(it && it.body || ''))
+  bodyHtml: keepFirstImage(renderMarkdown(String(it && it.body || ''))),
+  heightMode: resolveMode(it && it.heightMode)
 }));
 fs.writeFileSync(path.join(DATA_DIR, 'announcements.json'), JSON.stringify(ann, null, 2));
 
