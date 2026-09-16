@@ -4,5 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "node build.js"
+  },
+  "dependencies": {
+    "marked": "^18.0.0",
+    "sanitize-html": "^2.17.0"
   }
 }
