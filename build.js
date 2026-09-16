@@ -211,9 +211,13 @@ if (fs.existsSync(annSrc)) {
 }
 ann.items = (ann.items || []).sort((a, b) => String(b.date).localeCompare(String(a.date)));
 
-/* ---- 首頁公告條專用處理（/notices/ 公告頁不受影響，那邊永遠完整顯示）---- */
+/* ---- 首頁「精簡版」小提示條專用處理 ----
+   首頁預設顯示的是 NOTICES 區塊（#notices-announcement，跟 /notices/ 同一份完整內容，
+   只差在太高時用 scroll/clip/full 框住），不是這裡處理的對象。
+   這裡的 keepFirstImage() 只給真正的精簡小提示條用（#home-announcement，
+   要在網址加 ?announcement=inline 才會顯示），平常不會被套用到。 */
 
-/* 首頁只留第一張圖：老闆從 FB 貼一整串圖時，首頁不會變成圖片牆。
+/* 精簡小提示條只留第一張圖：老闆從 FB 貼一整串圖時，這條不會變成圖片牆。
    第二張以後整個拿掉；圖片原本自己佔一個 <p> 的話，空掉的 <p> 也一併清掉。
    要看完整內容的人可以點下面那顆「看其他公告」到 /notices/。 */
 function keepFirstImage(html) {
@@ -236,11 +240,17 @@ function resolveMode(v) {
 
 /* 首頁公告條以前只做「行內」格式（不解析標題等區塊語法），所以打 # / ##### 會原字吐出來，
    跟 /notices/ 公告頁（含標題、清單等完整區塊語法）長期不同步。
-   COMMIT 2 起兩邊共用 renderMarkdown()，在建置時解析好存成 bodyHtml，前端直接用。 */
-ann.items = ann.items.map(it => Object.assign({}, it, {
-  bodyHtml: keepFirstImage(renderMarkdown(String(it && it.body || ''))),
-  heightMode: resolveMode(it && it.heightMode)
-}));
+   COMMIT 2 起兩邊共用 renderMarkdown()，在建置時解析好存成 bodyHtml，前端直接用。
+   bodyHtml 是完整版（跟 /notices/ 一模一樣），給預設顯示的 NOTICES 區塊用；
+   bodyHtmlCompact 才是裁過圖的精簡版，只給 ?announcement=inline 那條小提示條用。 */
+ann.items = ann.items.map(it => {
+  const full = renderMarkdown(String(it && it.body || ''));
+  return Object.assign({}, it, {
+    bodyHtml: full,
+    bodyHtmlCompact: keepFirstImage(full),
+    heightMode: resolveMode(it && it.heightMode)
+  });
+});
 fs.writeFileSync(path.join(DATA_DIR, 'announcements.json'), JSON.stringify(ann, null, 2));
 
 /* ---- content.js：首頁一次讀到所有內容（本機雙擊預覽也能動） ---- */
@@ -451,7 +461,7 @@ for (const a of articles) {
     '<div class="page show">\n  <section>\n    <div class="wrap article-page">\n' +
     '      <div class="cats">' + a.tags.map(t => '<span class="cat">' + esc(t) + '</span>').join('') + '</div>\n' +
     '      <h1>' + esc(a.title) + '</h1>\n' +
-    '      <div class="meta">' + esc(a.author) + ' · 建立日期：' + esc(a.date) + '</div>\n' +
+    '      <div class="meta">' + esc(a.author) + '　·建立日期：' + esc(a.date) + '</div>\n' +
     /* 封面圖：之前只在列表卡片出現，文章內頁沒有；內文已有同一張圖就不重複 */
     ((a.thumbnail && !a.html.includes(a.thumbnail))
       ? '      <figure class="article-cover"><img src="' + esc(safeUrl(a.thumbnail)) + '" alt="' + esc(a.title) + '"></figure>\n' : '') +

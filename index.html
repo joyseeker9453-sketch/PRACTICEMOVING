@@ -1034,12 +1034,15 @@ function renderPinned(items){
   const sorted = [...list].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
   const i = sorted[0];
   el.hidden = false;
-  /* bodyHtml 是 build.js 用 marked 解析並用 sanitize-html 洗過的 HTML（含標題/清單等區塊標籤），
-     首頁版本已經在建置時只留第一張圖；舊資料沒有這個欄位時退回純文字。
+  /* bodyHtml 是 build.js 用 marked 解析並用 sanitize-html 洗過的完整版 HTML（含標題/清單等區塊標籤），
+     跟 /notices/ 頁一模一樣；舊資料沒有這個欄位時退回純文字。
+     NOTICES 區塊（預設顯示的 el）用完整版，太高就靠 heightMode 的框線滾動處理，不裁內容。
+     bodyHtmlCompact 才是裁過圖的精簡版，只給 ?announcement=inline 那條小提示條用。
      區塊內容用 <div>（公告內容可能含 <p>/<h2>~<h6>/<ul> 等區塊標籤，塞進 <span> 不符 HTML 規範；
      .ha-body 本來就有 display:block，視覺不受影響）。
      heightMode 是後台選的「內容太高時怎麼處理」，build.js 已經把「跟隨預設」解析成實際值。 */
-  const body = i.bodyHtml != null ? i.bodyHtml : esc(i.body || '');
+  const full = i.bodyHtml != null ? i.bodyHtml : esc(i.body || '');
+  const body = inline ? (i.bodyHtmlCompact != null ? i.bodyHtmlCompact : full) : full;
   const mode = ['scroll', 'clip', 'full'].includes(i.heightMode) ? i.heightMode : 'scroll';
   el.innerHTML = `<span class="ha-title">最新公告｜${esc(i.title)}</span><div class="ha-wrap" data-mode="${mode}"><div class="ha-body">${body}</div></div>`;
   /* clip 模式的漸層淡出只在「內容真的被裁掉」時才出現，
@@ -1068,7 +1071,7 @@ function cardHTML(a){
     <div class="cats">${tags.map(t=>`<span class="cat">${esc(t)}</span>`).join('')}</div>
     <h3>${esc(a.title)}</h3>
     <p>${esc(a.excerpt)}</p>
-    <div class="meta">${esc(a.author)} · ${esc(a.date)}</div>
+    <div class="meta">${esc(a.author)}　·${esc(a.date)}</div>
   </div>`;
 }
 
@@ -1122,7 +1125,7 @@ function renderArticle(slug){
   $('article-box').innerHTML = `
     <div class="cats">${tagsOf(a).map(t=>`<span class="cat">${esc(t)}</span>`).join('')}</div>
     <h1>${esc(a.title)}</h1>
-    <div class="meta">${esc(a.author)} · 建立日期：${esc(a.date)}</div>
+    <div class="meta">${esc(a.author)}　·建立日期：${esc(a.date)}</div>
     ${coverHTML(a)}
     <div class="article-body">${a.html}</div>
     <div class="share">
