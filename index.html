@@ -156,7 +156,6 @@ header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit
 /* clip：裁切不滾動。底部加漸層淡出，讓人知道下面還有東西 */
 .home-announcement .ha-wrap[data-mode="clip"] .ha-body{max-height:calc(1.55em * 12);overflow:hidden}
 .home-announcement .ha-wrap[data-mode="clip"][data-clipped]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2.5em;pointer-events:none;background:linear-gradient(to bottom,rgba(253,246,233,0),var(--dawn-soft))}
-.announcement-module .home-announcement .ha-wrap[data-mode="clip"][data-clipped]::after{background:linear-gradient(to bottom,rgba(255,255,255,0),#fff)}
 /* full：完整顯示，不限高度 */
 .home-announcement .ha-wrap[data-mode="full"] .ha-body{max-height:none;overflow:visible}
 /* COMMIT 2：公告條內容改由 marked 解析，會產生真的 <p>/<h2>~<h6>/<ul>/<ol> 等區塊標籤，
@@ -178,7 +177,17 @@ header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit
 .announcement-module{min-height:calc(100svh - var(--hdr));display:flex;align-items:center;background:var(--dawn-soft)}
 #page-home > .announcement-module{min-height:calc(100svh - var(--hdr))}
 .announcement-module .wrap{width:min(100% - 2rem,67.5rem)}
-.announcement-module .home-announcement{margin:1.5rem auto 0;background:#fff}
+/* #notices-announcement 只借用 .home-announcement 做 [hidden] 開關，視覺盒身在這裡整個重設掉，
+   改用跟 /notices/ 公告頁完全相同的 .notice / .tag / h3 / .notice-body 樣式渲染，
+   兩邊才會長得一模一樣；太高時另外用 .home-notice-wrap 包 .notice-body 做內框滾動，
+   不影響 /notices/ 頁本身（那邊永遠完整顯示，不限高度）。 */
+#notices-announcement.home-announcement{margin:1.5rem auto 0;padding:0;background:none;border:0;line-height:normal}
+.home-notice-wrap{position:relative;display:block}
+.home-notice-wrap[data-mode="scroll"] .notice-body{max-height:calc(1.55em * 12);overflow-y:auto}
+.home-notice-wrap[data-mode="clip"] .notice-body{max-height:calc(1.55em * 12);overflow:hidden}
+.home-notice-wrap[data-mode="clip"][data-clipped]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2.5em;pointer-events:none;background:linear-gradient(to bottom,rgba(253,246,233,0),var(--dawn-soft))}
+.home-notice-wrap[data-mode="full"] .notice-body{max-height:none;overflow:visible}
+@media(max-width:560px){.home-notice-wrap[data-mode="scroll"] .notice-body,.home-notice-wrap[data-mode="clip"] .notice-body{max-height:calc(1.55em * 8)}}
 .notice h3{font-size:1rem;color:var(--pine-deep)}
 .notice small{color:var(--ink-soft)}
 
@@ -1036,23 +1045,27 @@ function renderPinned(items){
   el.hidden = false;
   /* bodyHtml 是 build.js 用 marked 解析並用 sanitize-html 洗過的完整版 HTML（含標題/清單等區塊標籤），
      跟 /notices/ 頁一模一樣；舊資料沒有這個欄位時退回純文字。
-     NOTICES 區塊（預設顯示的 el）用完整版，太高就靠 heightMode 的框線滾動處理，不裁內容。
      bodyHtmlCompact 才是裁過圖的精簡版，只給 ?announcement=inline 那條小提示條用。
-     區塊內容用 <div>（公告內容可能含 <p>/<h2>~<h6>/<ul> 等區塊標籤，塞進 <span> 不符 HTML 規範；
-     .ha-body 本來就有 display:block，視覺不受影響）。
-     heightMode 是後台選的「內容太高時怎麼處理」，build.js 已經把「跟隨預設」解析成實際值。 */
+     heightMode 是後台選的「內容太高時怎麼處理」，build.js 已經把「跟隨預設」解析成實際值。
+     NOTICES 區塊（預設顯示的 el）用完整版，且整段 markup（.notice/.tag/h3/.notice-body/公告日期）
+     直接照抄 /notices/ 頁的樣板，兩邊才會渲染成一模一樣，只差在太高時用 .home-notice-wrap
+     框住 .notice-body 做內框滾動；/notices/ 頁本身沒有這層限制。 */
   const full = i.bodyHtml != null ? i.bodyHtml : esc(i.body || '');
   const body = inline ? (i.bodyHtmlCompact != null ? i.bodyHtmlCompact : full) : full;
   const mode = ['scroll', 'clip', 'full'].includes(i.heightMode) ? i.heightMode : 'scroll';
-  el.innerHTML = `<span class="ha-title">最新公告｜${esc(i.title)}</span><div class="ha-wrap" data-mode="${mode}"><div class="ha-body">${body}</div></div>`;
+  el.innerHTML = inline
+    ? `<span class="ha-title">最新公告｜${esc(i.title)}</span><div class="ha-wrap" data-mode="${mode}"><div class="ha-body">${body}</div></div>`
+    : `<div class="notice"><span class="tag">公告</span><div><h3>${esc(i.title)}</h3>` +
+      `<div class="home-notice-wrap" data-mode="${mode}"><div class="notice-body">${body}</div></div>` +
+      `<small>公告日期：${esc(i.date)}</small></div></div>`;
   /* clip 模式的漸層淡出只在「內容真的被裁掉」時才出現，
      否則短公告底部會莫名其妙有一層陰影。圖片載入後高度會變，所以載完再量一次。 */
   if (mode === 'clip') {
-    const wrap = el.querySelector('.ha-wrap');
-    const bodyEl = el.querySelector('.ha-body');
+    const wrap = el.querySelector('.ha-wrap, .home-notice-wrap');
+    const bodyEl = el.querySelector('.ha-body, .notice-body');
     const mark = () => wrap.toggleAttribute('data-clipped', bodyEl.scrollHeight > bodyEl.clientHeight + 1);
     mark();
-    el.querySelectorAll('.ha-body img').forEach(img => { if (!img.complete) img.addEventListener('load', mark, { once: true }); });
+    el.querySelectorAll('.ha-body img, .notice-body img').forEach(img => { if (!img.complete) img.addEventListener('load', mark, { once: true }); });
     window.addEventListener('resize', mark);
   }
 }

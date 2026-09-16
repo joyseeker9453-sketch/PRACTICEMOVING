@@ -227,15 +227,16 @@ function keepFirstImage(html) {
     .replace(/<p>\s*<\/p>\s*/g, '');
 }
 
-/* 公告太高時的處理方式，後台可選：
+/* 公告太高時的處理方式，後台可選。這是套在整段渲染後 HTML 上的通用高度限制，
+   不管太高的原因是文字多還是圖片多都適用，不是只有貼圖片才會觸發：
    scroll = 內框滾動（預設，高度可控、內容不會消失，捲軸本身會提示「下面還有」）
    clip   = 裁切不滾動（底部加漸層淡出提示還有內容）
-   full   = 完整顯示（不限高度，長圖會把首頁撐長）
+   full   = 完整顯示（不限高度，內容太長會把首頁撐長）
    每則公告可以單獨指定；沒指定（或填 inherit）就跟隨「診所資料」裡的全域預設。 */
-const IMG_MODES = ['scroll', 'clip', 'full'];
-const ANN_MODE_DEFAULT = IMG_MODES.includes(SITE.announcementHeightMode) ? SITE.announcementHeightMode : 'scroll';
+const HEIGHT_MODES = ['scroll', 'clip', 'full'];
+const ANN_MODE_DEFAULT = HEIGHT_MODES.includes(SITE.announcementHeightMode) ? SITE.announcementHeightMode : 'scroll';
 function resolveMode(v) {
-  return IMG_MODES.includes(v) ? v : ANN_MODE_DEFAULT;
+  return HEIGHT_MODES.includes(v) ? v : ANN_MODE_DEFAULT;
 }
 
 /* 首頁公告條以前只做「行內」格式（不解析標題等區塊語法），所以打 # / ##### 會原字吐出來，
