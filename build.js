@@ -451,7 +451,7 @@ for (const a of articles) {
     '<div class="page show">\n  <section>\n    <div class="wrap article-page">\n' +
     '      <div class="cats">' + a.tags.map(t => '<span class="cat">' + esc(t) + '</span>').join('') + '</div>\n' +
     '      <h1>' + esc(a.title) + '</h1>\n' +
-    '      <div class="meta">' + esc(a.author) + '　·　建立日期：' + esc(a.date) + '</div>\n' +
+    '      <div class="meta">' + esc(a.author) + ' · 建立日期：' + esc(a.date) + '</div>\n' +
     /* 封面圖：之前只在列表卡片出現，文章內頁沒有；內文已有同一張圖就不重複 */
     ((a.thumbnail && !a.html.includes(a.thumbnail))
       ? '      <figure class="article-cover"><img src="' + esc(safeUrl(a.thumbnail)) + '" alt="' + esc(a.title) + '"></figure>\n' : '') +

@@ -1068,7 +1068,7 @@ function cardHTML(a){
     <div class="cats">${tags.map(t=>`<span class="cat">${esc(t)}</span>`).join('')}</div>
     <h3>${esc(a.title)}</h3>
     <p>${esc(a.excerpt)}</p>
-    <div class="meta">${esc(a.author)}　·　${esc(a.date)}</div>
+    <div class="meta">${esc(a.author)} · ${esc(a.date)}</div>
   </div>`;
 }
 
@@ -1122,7 +1122,7 @@ function renderArticle(slug){
   $('article-box').innerHTML = `
     <div class="cats">${tagsOf(a).map(t=>`<span class="cat">${esc(t)}</span>`).join('')}</div>
     <h1>${esc(a.title)}</h1>
-    <div class="meta">${esc(a.author)}　·　建立日期：${esc(a.date)}</div>
+    <div class="meta">${esc(a.author)} · 建立日期：${esc(a.date)}</div>
     ${coverHTML(a)}
     <div class="article-body">${a.html}</div>
     <div class="share">
