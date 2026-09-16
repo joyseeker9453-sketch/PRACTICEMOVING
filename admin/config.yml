@@ -46,13 +46,13 @@ collections:
                 default: "inherit"
                 hint: >-
                   只影響這則公告顯示在「首頁」的樣子，公告頁(/notices/)一律完整顯示、不受影響。
-                  另外首頁只會顯示第一張圖片，第二張以後要到公告頁才看得到。
-                  一般不用動，維持「跟隨預設」就好。
+                  首頁跟公告頁的內容（含全部圖片）現在完全一樣，這個設定只決定「太長時」怎麼處理，
+                  不管太長的原因是文字多還是圖片多都適用。一般不用動，維持「跟隨預設」就好。
                 options:
                   - { label: "跟隨預設（診所資料裡設定的）", value: "inherit" }
                   - { label: "框內捲動看完（推薦）", value: "scroll" }
                   - { label: "只顯示前面一段", value: "clip" }
-                  - { label: "整則完整顯示（長圖會把首頁拉長）", value: "full" }
+                  - { label: "整則完整顯示（內容太長會把首頁拉長）", value: "full" }
 
 
   # ---------- 關於晨昕背景圖 ----------
@@ -98,7 +98,7 @@ collections:
             options:
               - { label: "框內捲動看完（推薦）", value: "scroll" }
               - { label: "只顯示前面一段", value: "clip" }
-              - { label: "整則完整顯示（長圖會把首頁拉長）", value: "full" }
+              - { label: "整則完整顯示（內容太長會把首頁拉長）", value: "full" }
 
           - label: "服務項目"
             name: "services"
