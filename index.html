@@ -177,18 +177,42 @@ header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit
 .announcement-module{min-height:calc(100svh - var(--hdr));display:flex;align-items:center;background:var(--dawn-soft)}
 #page-home > .announcement-module{min-height:calc(100svh - var(--hdr))}
 .announcement-module .wrap{width:min(100% - 2rem,67.5rem)}
-/* 電腦版（861px 以上）：「太長」的定義＝「一個螢幕裝不下」，不是固定行數。
+/* 電腦版留白跟著螢幕高度連續縮放（步驟 1）。
+   矮螢幕上，純裝飾的留白會吃掉大半預算（量過 460px 視窗：固定開銷 463px 已經超過
+   407px 的預算，其中 188px、約 46% 是純留白），內文因此被壓成一條縫。
+   優先順序應該是「先犧牲裝飾、再犧牲內容」，所以這些留白改用 clamp 綁 svh：
+   高螢幕維持原本的數值完全不變，矮螢幕自動收緊，而且是連續的，不是用斷點硬切。 */
+@media(min-width:861px){
+  .announcement-module{padding-top:clamp(1.5rem,6svh,4.5rem);padding-bottom:clamp(1.5rem,6svh,4.5rem)}
+  .announcement-module .sec-head{margin-bottom:clamp(1rem,4svh,2.75rem)}
+  #notices-announcement.home-announcement{margin-top:clamp(.75rem,2svh,1.5rem)}
+  .announcement-module .wrap > p{margin-top:clamp(.75rem,2svh,1.25rem)}
+  /* 桌機的保底上限：8 行（行高 1.75 的整數倍，裁切剛好落在整行邊界）。
+     螢幕夠高時會在下面被解除、改用剩餘空間計算。
+     刻意寫成「預設有上限、夠高才解除」而不是用 max-height:699px 另外開一條規則：
+     視窗高度可能是小數（例如 699.5），兩條規則會同時落空、變成完全沒有上限。 */
+  .home-notice-wrap[data-mode="scroll"] .notice-body,
+  .home-notice-wrap[data-mode="clip"] .notice-body{max-height:calc(1.75em * 8)}
+}
+/* 電腦版且螢幕夠高（700px 以上）：「太長」的定義＝「一個螢幕裝不下」，不是固定行數。
    區塊上下都鎖在一個螢幕高（min-height = max-height），裡面改直向 flex 排版，
    公告內文是唯一可被壓縮的部分：塞得下就完整顯示，塞不下才出現內框捲軸。
-   螢幕多高、區塊留白多少、標題折幾行、日期佔幾行，全部由瀏覽器即時算，不用猜行數，
-   所以換螢幕、瀏覽器縮放都會自己跟著對。
+   螢幕多高、區塊留白多少、標題折幾行、日期佔幾行，全部由瀏覽器即時算，不用猜行數。
    （全域是 box-sizing:border-box，max-height 已含區塊自己的上下留白，不必手動扣。）
    heightMode=full 時把上限整個拿掉，恢復成「內容多長、首頁就被拉多長」。
    justify-content 寫兩次是保險：舊瀏覽器不認得 safe 就退回上面那行。
    為什麼只在 861px 以上：這個站本來就有「手機不強制滿版、區塊照自然高度排」的設計
    （見上面 @media(max-width:860px) 的 #page-home > section 規則，區塊在那邊是 display:block
-   且不滿版），沒有「一個螢幕」可言，剩餘空間也就無從算起。 */
-@media(min-width:861px){
+   且不滿版），沒有「一個螢幕」可言，剩餘空間也就無從算起。
+   為什麼還要限定 700px 以上（步驟 2、3）：一個螢幕的預算再怎麼分配都有下限，
+   低於 6 行的內文已經不是摘要而是一條縫，沒有閱讀價值。螢幕矮到連這個下限都給不起時，
+   就該放棄「一個螢幕」這個原則（見下面 max-height:699px 的規則），
+   而不是繼續壓縮內容。這裡不能改用 min-height 擋，因為 flex 項目撐不下去時
+   會直接溢出區塊、蓋到下一個區塊上，只能整組換掉。 */
+@media(min-width:861px) and (min-height:700px){
+  /* 解除上面的行數保底，改由 flex 即時算剩餘空間 */
+  .home-notice-wrap[data-mode="scroll"] .notice-body,
+  .home-notice-wrap[data-mode="clip"] .notice-body{max-height:none}
   .announcement-module{max-height:calc(100svh - var(--hdr));flex-direction:column;align-items:normal;justify-content:center;justify-content:safe center}
   .announcement-module[data-mode="full"]{max-height:none}
   .announcement-module .wrap{display:flex;flex-direction:column;min-height:0}
