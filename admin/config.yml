@@ -39,10 +39,14 @@ collections:
               - { label: "內容", name: "body", widget: "markdown" }
               - { label: "公開", name: "show", widget: "boolean", default: true, hint: "關閉即下架，公告頁不會顯示，但資料保留不用刪除" }
               - { label: "置頂公告", name: "pinned", widget: "boolean", default: false, hint: "打開後會顯示在首頁最上方那一條。同時打開多則時，只會顯示日期最新的那一則。" }
+              # required: true 是刻意的：設成非必填時，CMS 會自動多出一個「(無)」選項，
+              # 但它跟「跟隨預設」實際效果完全一樣（build.js 只認 scroll/clip/full，
+              # 其餘一律套用全站預設），只會讓填表的人困惑。改成必填就不會再出現那個選項。
+              # default 保留 inherit，所以永遠有一個安全的預設值被選起來，不會真的卡住存檔。
               - label: "首頁內容太長時"
                 name: "heightMode"
                 widget: "select"
-                required: false
+                required: true
                 default: "inherit"
                 hint: >-
                   只影響這則公告顯示在「首頁」的樣子，公告頁(/notices/)一律完整顯示、不受影響。
@@ -87,10 +91,11 @@ collections:
           - { label: "LINE 加好友連結", name: "line", widget: "string" }
           - { label: "Facebook 粉專連結", name: "facebook", widget: "string" }
           - { label: "Google 地圖嵌入網址", name: "mapEmbed", widget: "text", hint: "Google 地圖 → 分享 → 嵌入地圖 → 複製 iframe 裡 src 的網址" }
+          # 同上：非必填會讓 CMS 多出一個沒有意義的「(無)」選項，改成必填把它拿掉。
           - label: "首頁公告太長時（預設）"
             name: "announcementHeightMode"
             widget: "select"
-            required: false
+            required: true
             default: "scroll"
             hint: >-
               置頂公告顯示在首頁時，內容太長要怎麼處理。這是全站預設值，單則公告可以在「診所公告」裡個別覆蓋。
