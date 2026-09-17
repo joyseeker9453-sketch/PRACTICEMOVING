@@ -177,17 +177,76 @@ header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit
 .announcement-module{min-height:calc(100svh - var(--hdr));display:flex;align-items:center;background:var(--dawn-soft)}
 #page-home > .announcement-module{min-height:calc(100svh - var(--hdr))}
 .announcement-module .wrap{width:min(100% - 2rem,67.5rem)}
+/* 電腦版（861px 以上）：「太長」的定義＝「一個螢幕裝不下」，不是固定行數。
+   區塊上下都鎖在一個螢幕高（min-height = max-height），裡面改直向 flex 排版，
+   公告內文是唯一可被壓縮的部分：塞得下就完整顯示，塞不下才出現內框捲軸。
+   螢幕多高、區塊留白多少、標題折幾行、日期佔幾行，全部由瀏覽器即時算，不用猜行數，
+   所以換螢幕、瀏覽器縮放都會自己跟著對。
+   （全域是 box-sizing:border-box，max-height 已含區塊自己的上下留白，不必手動扣。）
+   heightMode=full 時把上限整個拿掉，恢復成「內容多長、首頁就被拉多長」。
+   justify-content 寫兩次是保險：舊瀏覽器不認得 safe 就退回上面那行。
+   為什麼只在 861px 以上：這個站本來就有「手機不強制滿版、區塊照自然高度排」的設計
+   （見上面 @media(max-width:860px) 的 #page-home > section 規則，區塊在那邊是 display:block
+   且不滿版），沒有「一個螢幕」可言，剩餘空間也就無從算起。 */
+@media(min-width:861px){
+  .announcement-module{max-height:calc(100svh - var(--hdr));flex-direction:column;align-items:normal;justify-content:center;justify-content:safe center}
+  .announcement-module[data-mode="full"]{max-height:none}
+  .announcement-module .wrap{display:flex;flex-direction:column;min-height:0}
+  .announcement-module .sec-head,.announcement-module .wrap > p{flex:0 0 auto}
+  /* 由上到下每一層都要能收縮（flex:0 1 auto + min-height:0），
+     內框捲軸才會落在內文那一層，而不是把整張卡片擠破。 */
+  #notices-announcement.home-announcement{display:flex;flex-direction:column;flex:0 1 auto;min-height:0;align-self:stretch}
+  #notices-announcement .notice{flex:0 1 auto;min-height:0;align-items:stretch}
+  /* .notice 是橫向 flex，橫向 flex 項目的「高度」不吃 flex-shrink，只看 align-items。
+     維持預設的 flex-start 的話，文字欄高度永遠等於內容原始高度，高度限制傳不進去，
+     內容會直接溢出卡片（量過：478px 的區塊裡內文還是 922px，日期整個被擠到畫面外）。
+     改成 stretch 讓文字欄高度跟著被限制住的卡片，限制才會一路傳到內文那層。
+     標籤要單獨拉回 flex-start，否則它會被拉成整張卡片一樣高。 */
+  #notices-announcement .notice > .tag{align-self:flex-start}
+  #notices-announcement .notice > div{display:flex;flex-direction:column;min-height:0}
+  #notices-announcement .notice h3,#notices-announcement .notice small{flex:0 0 auto}
+  #notices-announcement .home-notice-wrap{flex:0 1 auto;min-height:0;display:flex;flex-direction:column}
+}
+/* 手機／平板（860px 以下）：區塊本來就不滿版，暫時沿用原本的行數上限。
+   這是已知的過渡作法——行數會因為螢幕窄、文字折行而失準，之後改成「等比例縮小」時一起換掉。 */
+@media(max-width:860px){
+  .home-notice-wrap[data-mode="scroll"] .notice-body{max-height:calc(1.55em * 12)}
+  /* clip 的高度用行高（body 是 1.75）的整數倍，裁切才會落在整行邊界上。
+     原本寫 1.55em 跟行高不成整數倍，實際只有 10.6 行／7.07 行，會把下一行的頂端
+     露出一小截（量過手機是 198px ÷ 28px = 7.07 行）。
+     scroll 刻意維持 1.55em 不動：手機的捲軸平常不會顯示，露出半行才是「下面還有」的提示，
+     切齊反而會讓人以為內容就到這裡。 */
+  .home-notice-wrap[data-mode="clip"] .notice-body{max-height:calc(1.75em * 12)}
+}
+@media(max-width:560px){
+  .home-notice-wrap[data-mode="scroll"] .notice-body{max-height:calc(1.55em * 8)}
+  .home-notice-wrap[data-mode="clip"] .notice-body{max-height:calc(1.75em * 8)}
+}
 /* #notices-announcement 只借用 .home-announcement 做 [hidden] 開關，視覺盒身在這裡整個重設掉，
    改用跟 /notices/ 公告頁完全相同的 .notice / .tag / h3 / .notice-body 樣式渲染，
    兩邊才會長得一模一樣；太高時另外用 .home-notice-wrap 包 .notice-body 做內框滾動，
    不影響 /notices/ 頁本身（那邊永遠完整顯示，不限高度）。 */
-#notices-announcement.home-announcement{margin:1.5rem auto 0;padding:0;background:none;border:0;line-height:normal}
+/* 左右 margin 一定要是 0 不能是 auto：電腦版 .wrap 是 flex 容器，flex 項目的 auto margin
+   會吸掉左右剩餘空間，而且依規範它的優先權高於 align-self:stretch，
+   結果就是卡片縮成內容寬度（量過：916px 的容器裡只剩 281px）。
+   寬度改由 align-self:stretch 撐滿，.wrap 本身已經有置中與最大寬度，不需要這裡再置中。 */
+/* line-height 要用 inherit 不能用 normal：.home-announcement 自己帶 1.55，
+   直接寫 normal 會變成約 24px，比公告頁的 28px 緊一行，兩邊文字疏密就不一樣了。
+   inherit 會拿到跟 /notices/ 頁同一個來源（body 的行高），這樣才真的一致。 */
+#notices-announcement.home-announcement{margin:1.5rem 0 0;padding:0;background:none;border:0;line-height:inherit}
+/* 文字欄填滿剩餘寬度。.notice 是橫向 flex，這一欄原本沒設 flex-grow，寬度是「內容自己多寬就多寬」，
+   短行的公告只會用掉可用寬度的一小部分（量過：可用 704px 時實際只用 136~166px），
+   手機上等於白白浪費寬度、多折好幾行。min-width:0 是讓長字串和圖片能正常收縮，不會撐破卡片。
+   /notices/ 公告頁用同一個 .notice 樣板，所以兩邊一起修正。 */
+.notice > div{flex:1 1 auto;min-width:0}
 .home-notice-wrap{position:relative;display:block}
-.home-notice-wrap[data-mode="scroll"] .notice-body{max-height:calc(1.55em * 12);overflow-y:auto}
-.home-notice-wrap[data-mode="clip"] .notice-body{max-height:calc(1.55em * 12);overflow:hidden}
+.home-notice-wrap[data-mode="scroll"] .notice-body{min-height:0;overflow-y:auto}
+.home-notice-wrap[data-mode="clip"] .notice-body{min-height:0;overflow:hidden}
 .home-notice-wrap[data-mode="clip"][data-clipped]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2.5em;pointer-events:none;background:linear-gradient(to bottom,rgba(253,246,233,0),var(--dawn-soft))}
-.home-notice-wrap[data-mode="full"] .notice-body{max-height:none;overflow:visible}
-@media(max-width:560px){.home-notice-wrap[data-mode="scroll"] .notice-body,.home-notice-wrap[data-mode="clip"] .notice-body{max-height:calc(1.55em * 8)}}
+.home-notice-wrap[data-mode="full"] .notice-body{overflow:visible}
+/* 手機版內文字級跟 /notices/ 公告頁對齊：舊的 .home-announcement 手機規則會把字縮成 .875rem，
+   讓首頁比公告頁小一號，違反「兩邊渲染一樣」。 */
+@media(max-width:560px){#notices-announcement.home-announcement{font-size:1rem}}
 .notice h3{font-size:1rem;color:var(--pine-deep)}
 .notice small{color:var(--ink-soft)}
 
@@ -1053,6 +1112,9 @@ function renderPinned(items){
   const full = i.bodyHtml != null ? i.bodyHtml : esc(i.body || '');
   const body = inline ? (i.bodyHtmlCompact != null ? i.bodyHtmlCompact : full) : full;
   const mode = ['scroll', 'clip', 'full'].includes(i.heightMode) ? i.heightMode : 'scroll';
+  /* 高度上限鎖在區塊層級（見 .announcement-module 的 max-height），
+     所以模式也要掛到區塊上，full 才有辦法把上限整個解除。 */
+  if (module) module.dataset.mode = mode;
   el.innerHTML = inline
     ? `<span class="ha-title">最新公告｜${esc(i.title)}</span><div class="ha-wrap" data-mode="${mode}"><div class="ha-body">${body}</div></div>`
     : `<div class="notice"><span class="tag">公告</span><div><h3>${esc(i.title)}</h3>` +
