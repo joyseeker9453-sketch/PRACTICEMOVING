@@ -356,6 +356,12 @@ section{padding:4.5rem 0}
 /* 關於晨昕改為單一段落（合併原本左右兩欄）：置中、限制行寬，長行才好讀 */
 .about-grid.about-single{display:block;max-width:52rem;margin:0 auto;text-align:center}
 .about-grid.about-single .about-lead{margin-top:0;line-height:1.9}
+/* 第二段（以及之後的段落）跟前一段之間留 0.5em。上面那條把 margin-top 歸零是為了
+   讓第一段緊貼標題，所以這裡用相鄰選擇器只補後續段落，不影響第一段。
+   第二條選擇器不能省：有背景圖時 #about .wrap.has-bg .about-grid p{margin-top:0}
+   帶了 ID 選擇器，優先權比單純的 class 高，只寫第一條會被它壓掉。 */
+.about-grid.about-single .about-lead + .about-lead,
+#about .wrap.has-bg .about-grid .about-lead + .about-lead{margin-top:0.5em}
 .about-grid.about-single .about-lead strong{color:var(--pine);font-weight:700}
 @media(max-width:760px){.about-grid{grid-template-columns:1fr}.about-right p{margin-top:0}.about-grid.about-single{text-align:left}}
 
@@ -736,7 +742,8 @@ footer a{color:#e8efe9}
       </div>
       <div class="sec-head"><span class="en">ABOUT</span><h2>關於晨昕</h2></div>
       <div class="about-grid about-single">
-        <p class="about-lead">捷運中山國中站步行約 3 分鐘，診所位於 3 樓並設有電梯；提供一般內兒科、慢性病與過敏疾病照護、癌症篩檢及基因檢測；若有肥胖、三高等代謝問題，或同時合併脂肪肝，亦可諮詢診所的<strong>專業代謝減重服務</strong>。</p>
+        <p class="about-lead">捷運中山國中站步行約 3 分鐘，交通便捷；診所專精糖尿病、高血壓、高血脂等慢性疾病照顧，若同時合併肥胖或脂肪肝等疾病，診所醫療團隊能提供<strong>專業減重和慢性病管理的整合性醫療服務</strong>。</p>
+        <p class="about-lead">此外，也提供一般內兒科急慢性病、過敏疾病照護、癌症篩檢、基因檢測等服務。</p>
       </div>
     </div>
   </section>
