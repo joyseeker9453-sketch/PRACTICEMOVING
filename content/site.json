@@ -1,6 +1,6 @@
 {
   "name": "晨昕診所",
-  "baseUrl": "https://practicemoving.joyseeker9453.workers.dev",
+  "baseUrl": "https://drjennyleiclinic.drjennyleiclinic.workers.dev",
   "ogImage": "/images/line-banner.png",
   "phone": "02-2518-1268",
   "phoneLink": "0225181268",
@@ -111,7 +111,7 @@
     {
       "name": "林俊言",
       "title": "醫師",
-      "photo": "",
+      "photo": "/images/uploads/line_oa_chat_260918_104326.jpg",
       "creds": [
         "台大醫學系",
         "台大醫院小兒科住院醫生",
