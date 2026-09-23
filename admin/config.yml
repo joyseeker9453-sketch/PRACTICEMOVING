@@ -35,7 +35,13 @@ collections:
             summary: "{{fields.title}}（{{fields.date}}）"
             fields:
               - { label: "標題", name: "title", widget: "string" }
-              - { label: "公告日期", name: "date", widget: "string", hint: "格式：2026-07-07" }
+              # 改用日期選擇器：新增公告時自動帶入今天，要改就點日曆選。
+              # 原本是純文字輸入，結果出現過打成 2026/09/23（斜線）的情況——
+              # 排序是拿日期當字串比大小，格式混用遲早會排錯，畫面上也會一則斜線一則減號。
+              # format 決定存進檔案的樣子，一律是 2026-09-23 這種格式。
+              - { label: "公告日期", name: "date", widget: "datetime",
+                  format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false,
+                  hint: "點一下跳出日曆，預設是今天。不用自己打字，格式也不會錯。" }
               - { label: "內容", name: "body", widget: "markdown" }
               - { label: "公開", name: "show", widget: "boolean", default: true, hint: "關閉即下架，公告頁不會顯示，但資料保留不用刪除" }
               - { label: "置頂公告", name: "pinned", widget: "boolean", default: false, hint: "打開後會顯示在首頁的「診所公告」區塊。打開多則時首頁會自動輪播（最多 3 則，超過就取日期最新的 3 則），只打開一則就固定顯示那一則。" }
