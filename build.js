@@ -556,10 +556,14 @@ const noticeList = (ann.items || []).filter(i => i && i.show !== false);
   fs.writeFileSync(path.join(NOTICE_OUT, 'index.html'), page);
 })();
 
-/* 置頂公告檢查：後台可以勾多則，但首頁只顯示日期最新的一則 */
+/* 置頂公告檢查：首頁最多輪播 3 則，超過的部分不會出現（取日期最新的 3 則） */
 const pinned = noticeList.filter(i => i.pinned);
-if (pinned.length > 1) {
-  console.log('✓ 首頁公告採用置頂清單中日期最新的一則：「' + pinned[0].title + '」');
+if (pinned.length > 3) {
+  console.warn('! 置頂了 ' + pinned.length + ' 則，但首頁最多輪播 3 則，只會顯示日期最新的：' +
+    pinned.slice(0, 3).map(p => '「' + p.title + '」').join('、'));
+} else if (pinned.length > 1) {
+  console.log('✓ 首頁公告輪播 ' + pinned.length + ' 則：' +
+    pinned.map(p => '「' + p.title + '」').join('、'));
 } else if (!pinned.length) {
   console.warn('! 目前沒有任何置頂公告，首頁不會顯示公告條（到後台把某則的「置頂公告」打開即可）');
 }

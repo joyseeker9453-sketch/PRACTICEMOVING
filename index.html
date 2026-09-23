@@ -7,15 +7,15 @@
 <meta name="description" content="晨昕診所-中山內科診所｜糖尿病治療｜家醫科｜高血壓高血脂｜慢病體重管理｜身心科">
 <!--OG:START-->
 <!-- 以下由 build.js 自動產生，資料來自後台「診所資料」。手動修改會在下次部署被覆蓋。 -->
-<link rel="canonical" href="https://practicemoving.joyseeker9453.workers.dev/">
+<link rel="canonical" href="https://drjennyleiclinic.drjennyleiclinic.workers.dev/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="晨昕診所">
 <meta property="og:title" content="晨昕診所｜台北市中山區內科・糖尿病・慢病體重管理">
 <meta property="og:description" content="晨昕診所-中山內科診所｜糖尿病治療｜家醫科｜高血壓高血脂｜慢病體重管理｜身心科">
-<meta property="og:url" content="https://practicemoving.joyseeker9453.workers.dev/">
-<meta property="og:image" content="https://practicemoving.joyseeker9453.workers.dev/images/line-banner.png">
+<meta property="og:url" content="https://drjennyleiclinic.drjennyleiclinic.workers.dev/">
+<meta property="og:image" content="https://drjennyleiclinic.drjennyleiclinic.workers.dev/images/line-banner.png">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"MedicalClinic","name":"晨昕診所","url":"https://practicemoving.joyseeker9453.workers.dev/","description":"晨昕診所-中山內科診所｜糖尿病治療｜家醫科｜高血壓高血脂｜慢病體重管理｜身心科","telephone":"02-2518-1268","email":"leiwengchi@gmail.com","image":"https://practicemoving.joyseeker9453.workers.dev/images/line-banner.png","logo":"https://practicemoving.joyseeker9453.workers.dev/images/logo.png","address":{"@type":"PostalAddress","addressCountry":"TW","addressRegion":"台北市","addressLocality":"中山區","streetAddress":"復興北路350號3樓"},"sameAs":["https://www.facebook.com/Dr.JennyLei","https://line.me/R/ti/p/@598wqthm"],"medicalSpecialty":["專業減重","糖尿病","高血壓","高血脂","代謝症候群","慢性處方籤","內科急慢性疾病","預防保健健檢"],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:00","closes":"12:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"16:00","closes":"21:00"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"MedicalClinic","name":"晨昕診所","url":"https://drjennyleiclinic.drjennyleiclinic.workers.dev/","description":"晨昕診所-中山內科診所｜糖尿病治療｜家醫科｜高血壓高血脂｜慢病體重管理｜身心科","telephone":"02-2518-1268","email":"leiwengchi@gmail.com","image":"https://drjennyleiclinic.drjennyleiclinic.workers.dev/images/line-banner.png","logo":"https://drjennyleiclinic.drjennyleiclinic.workers.dev/images/logo.png","address":{"@type":"PostalAddress","addressCountry":"TW","addressRegion":"台北市","addressLocality":"中山區","streetAddress":"復興北路350號3樓"},"sameAs":["https://www.facebook.com/Dr.JennyLei","https://line.me/R/ti/p/@598wqthm"],"medicalSpecialty":["專業減重","糖尿病","高血壓","高血脂","代謝症候群","慢性處方籤","內科急慢性疾病","預防保健健檢"],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:00","closes":"12:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"16:00","closes":"21:00"}]}</script>
 <!--OG:END-->
 <link rel="icon" type="image/png" href="images/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -220,6 +220,13 @@ header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit
   /* 由上到下每一層都要能收縮（flex:0 1 auto + min-height:0），
      內框捲軸才會落在內文那一層，而不是把整張卡片擠破。 */
   #notices-announcement.home-announcement{display:flex;flex-direction:column;flex:0 1 auto;min-height:0;align-self:stretch}
+  /* 輪播在卡片外面多包了三層（.notice-car → .nc-viewport → .nc-track → .nc-slide），
+     高度鏈要一路接下去，否則卡片會溢出區塊、日期被擠到畫面外（跟先前那個 bug 同一個成因）。
+     .nc-track 是橫向 flex，靠預設的 align-items:stretch 把高度分給每一張 slide。 */
+  #notices-announcement .notice-car{flex:0 1 auto;min-height:0;display:flex;flex-direction:column}
+  #notices-announcement .nc-viewport{flex:0 1 auto;min-height:0}
+  #notices-announcement .nc-track{height:100%;min-height:0}
+  #notices-announcement .nc-slide{min-height:0;display:flex;flex-direction:column}
   #notices-announcement .notice{flex:0 1 auto;min-height:0;align-items:stretch}
   /* .notice 是橫向 flex，橫向 flex 項目的「高度」不吃 flex-shrink，只看 align-items。
      維持預設的 flex-start 的話，文字欄高度永遠等於內容原始高度，高度限制傳不進去，
@@ -271,6 +278,38 @@ header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit
 /* 手機版內文字級跟 /notices/ 公告頁對齊：舊的 .home-announcement 手機規則會把字縮成 .875rem，
    讓首頁比公告頁小一號，違反「兩邊渲染一樣」。 */
 @media(max-width:560px){#notices-announcement.home-announcement{font-size:1rem}}
+/* ---- 首頁公告輪播（最多 3 則置頂公告）----
+   .nc-viewport 負責裁切，.nc-track 橫向平移，每張 slide 固定佔 100% 寬。
+   track 是橫向 flex、預設 align-items:stretch，所以幾張 slide 的高度會自動對齊到最高那張，
+   切換時高度不會忽高忽低。只有一則置頂時 JS 根本不產生輪播結構，箭頭與圓點都不存在。 */
+.notice-car{position:relative}
+.nc-viewport{overflow:hidden}
+.nc-track{display:flex;transition:transform .45s ease}
+.nc-slide{flex:0 0 100%;min-width:0;display:flex;flex-direction:column}
+/* 卡片撐滿整張 slide，三張的卡片框才會一樣大。
+   不這樣做的話，track 高度是「最高那張」，較矮的卡片下方會空一截
+   （量過手機：三張卡片 205／292／177px，短的那兩張下面各空 100px 和 128px）。
+   選擇器要帶 #notices-announcement 才壓得過下面電腦版那條 flex:0 1 auto；
+   而且限定在 .nc-slide 底下，只有一則公告（不做輪播）時不受影響，
+   短公告才不會被拉成一張佔滿整個區塊的大卡片。 */
+#notices-announcement .nc-slide > .notice{flex:1 1 auto;min-height:0}
+/* 箭頭壓在卡片左右內緣。手機卡片本來就窄，箭頭會蓋到文字，所以 560px 以下不顯示，
+   改用滑動和圓點操作。 */
+.nc-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:2.5rem;height:2.5rem;
+  border:0;border-radius:50%;background:rgba(255,255,255,.85);color:var(--pine-deep);
+  font-size:1.5rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 .125rem .5rem rgba(28,74,67,.18);transition:.2s}
+.nc-arrow:hover{background:#fff;box-shadow:0 .25rem .75rem rgba(28,74,67,.28)}
+.nc-prev{left:.4rem}
+.nc-next{right:.4rem}
+/* 圓點：外框 1.5rem 是為了手指好按（實心點只有 .5rem，直接當按鈕會太小按不到） */
+.nc-dots{display:flex;justify-content:center;gap:.35rem;margin-top:.85rem;flex:0 0 auto}
+.nc-dots button{width:1.5rem;height:1.5rem;padding:0;border:0;background:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center}
+.nc-dots button::before{content:"";width:.5rem;height:.5rem;border-radius:50%;background:#cfd8d4;transition:.2s}
+.nc-dots button.on::before{background:var(--pine);transform:scale(1.25)}
+@media(max-width:560px){.nc-arrow{display:none}}
+@media(prefers-reduced-motion:reduce){.nc-track{transition:none}}
 .notice h3{font-size:1rem;color:var(--pine-deep)}
 .notice small{color:var(--ink-soft)}
 
@@ -1123,8 +1162,60 @@ async function loadContent(){
   }
 }
 
-/* 首頁只顯示「一則」置頂公告，固定高度，不影響排版。
-   後台「置頂公告」開關 = pinned；同時開多則時取日期最新的一則。 */
+/* clip 模式的漸層淡出只在「內容真的被裁掉」時才出現，
+   否則短公告底部會莫名其妙有一層陰影。圖片載入後高度會變，所以載完再量一次。
+   輪播有多張卡片，所以要對每一個 clip 的框各自處理。 */
+function markClipped(root){
+  root.querySelectorAll('.ha-wrap[data-mode="clip"],.home-notice-wrap[data-mode="clip"]').forEach(wrap => {
+    const bodyEl = wrap.querySelector('.ha-body,.notice-body');
+    if(!bodyEl) return;
+    const mark = () => wrap.toggleAttribute('data-clipped', bodyEl.scrollHeight > bodyEl.clientHeight + 1);
+    mark();
+    bodyEl.querySelectorAll('img').forEach(img => { if(!img.complete) img.addEventListener('load', mark, { once:true }); });
+    window.addEventListener('resize', mark);
+  });
+}
+
+/* 公告輪播的操作：箭頭、圓點、手機滑動、自動播放。
+   自動播放 6 秒換一則，但滑鼠移上去或使用者自己滑動時停住，離開才續播——
+   避免病患讀到一半被抽走。系統開了「減少動態效果」就完全不自動播。 */
+function initCarousel(car, count){
+  const track = car.querySelector('.nc-track');
+  const dots = [...car.querySelectorAll('.nc-dots button')];
+  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let idx = 0, timer = null, held = false;
+  const go = n => {
+    idx = (n + count) % count;
+    track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+    dots.forEach((d,k) => d.classList.toggle('on', k === idx));
+  };
+  const stop = () => { if(timer){ clearInterval(timer); timer = null; } };
+  const play = () => { stop(); if(!reduce && !held) timer = setInterval(() => go(idx + 1), 6000); };
+  car.querySelector('.nc-prev').addEventListener('click', () => { go(idx - 1); play(); });
+  car.querySelector('.nc-next').addEventListener('click', () => { go(idx + 1); play(); });
+  dots.forEach((d,k) => d.addEventListener('click', () => { go(k); play(); }));
+  car.addEventListener('mouseenter', () => { held = true; stop(); });
+  car.addEventListener('mouseleave', () => { held = false; play(); });
+  /* 滑動切換：水平位移要超過 40px、而且比垂直位移大，才算滑動。
+     否則使用者想上下捲頁時會誤觸換頁。 */
+  let x0 = null, y0 = null;
+  car.addEventListener('pointerdown', e => { x0 = e.clientX; y0 = e.clientY; held = true; stop(); });
+  car.addEventListener('pointerup', e => {
+    if(x0 !== null){
+      const dx = e.clientX - x0, dy = e.clientY - y0;
+      if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(idx + (dx < 0 ? 1 : -1));
+    }
+    x0 = null; held = false; play();
+  });
+  car.addEventListener('pointercancel', () => { x0 = null; held = false; play(); });
+  /* 區塊捲出畫面就不用跑計時器 */
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? play() : stop()), { threshold:0.2 }).observe(car);
+  } else { play(); }
+}
+
+/* 首頁顯示置頂公告：一則就直接顯示，兩則以上做成輪播（最多 3 則）。
+   後台「置頂公告」開關 = pinned；超過 3 則時取日期最新的 3 則。 */
 function renderPinned(items){
   const inline = new URLSearchParams(location.search).get('announcement') === 'inline';
   const inlineEl = $('home-announcement');
@@ -1136,7 +1227,6 @@ function renderPinned(items){
   const list = (items||[]).filter(i => i && i.show !== false && i.pinned);
   if(!list.length){ el.hidden = true; return; }
   const sorted = [...list].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
-  const i = sorted[0];
   el.hidden = false;
   /* bodyHtml 是 build.js 用 marked 解析並用 sanitize-html 洗過的完整版 HTML（含標題/清單等區塊標籤），
      跟 /notices/ 頁一模一樣；舊資料沒有這個欄位時退回純文字。
@@ -1145,27 +1235,48 @@ function renderPinned(items){
      NOTICES 區塊（預設顯示的 el）用完整版，且整段 markup（.notice/.tag/h3/.notice-body/公告日期）
      直接照抄 /notices/ 頁的樣板，兩邊才會渲染成一模一樣，只差在太高時用 .home-notice-wrap
      框住 .notice-body 做內框滾動；/notices/ 頁本身沒有這層限制。 */
-  const full = i.bodyHtml != null ? i.bodyHtml : esc(i.body || '');
-  const body = inline ? (i.bodyHtmlCompact != null ? i.bodyHtmlCompact : full) : full;
-  const mode = ['scroll', 'clip', 'full'].includes(i.heightMode) ? i.heightMode : 'scroll';
-  /* 高度上限鎖在區塊層級（見 .announcement-module 的 max-height），
-     所以模式也要掛到區塊上，full 才有辦法把上限整個解除。 */
-  if (module) module.dataset.mode = mode;
-  el.innerHTML = inline
-    ? `<span class="ha-title">最新公告｜${esc(i.title)}</span><div class="ha-wrap" data-mode="${mode}"><div class="ha-body">${body}</div></div>`
-    : `<div class="notice"><span class="tag">公告</span><div><h3>${esc(i.title)}</h3>` +
-      `<div class="home-notice-wrap" data-mode="${mode}"><div class="notice-body">${body}</div></div>` +
-      `<small>公告日期：${esc(i.date)}</small></div></div>`;
-  /* clip 模式的漸層淡出只在「內容真的被裁掉」時才出現，
-     否則短公告底部會莫名其妙有一層陰影。圖片載入後高度會變，所以載完再量一次。 */
-  if (mode === 'clip') {
-    const wrap = el.querySelector('.ha-wrap, .home-notice-wrap');
-    const bodyEl = el.querySelector('.ha-body, .notice-body');
-    const mark = () => wrap.toggleAttribute('data-clipped', bodyEl.scrollHeight > bodyEl.clientHeight + 1);
-    mark();
-    el.querySelectorAll('.ha-body img, .notice-body img').forEach(img => { if (!img.complete) img.addEventListener('load', mark, { once: true }); });
-    window.addEventListener('resize', mark);
+  const modeOf = it => ['scroll','clip','full'].includes(it.heightMode) ? it.heightMode : 'scroll';
+  const bodyOf = it => {
+    const full = it.bodyHtml != null ? it.bodyHtml : esc(it.body || '');
+    return inline ? (it.bodyHtmlCompact != null ? it.bodyHtmlCompact : full) : full;
+  };
+
+  /* ?announcement=inline 那條小提示條不做輪播，維持只顯示最新一則 */
+  if (inline) {
+    const i = sorted[0], mode = modeOf(i);
+    if (module) module.dataset.mode = mode;
+    el.innerHTML = `<span class="ha-title">最新公告｜${esc(i.title)}</span><div class="ha-wrap" data-mode="${mode}"><div class="ha-body">${bodyOf(i)}</div></div>`;
+    markClipped(el);
+    return;
   }
+
+  const slides = sorted.slice(0, 3);
+  /* 高度上限鎖在區塊層級（見 .announcement-module 的 max-height），所以模式要掛到區塊上。
+     三則的 heightMode 可能不一樣，但區塊只有一個上限：只要任一則是 full 就整段放行。
+     否則切到 full 那則時區塊會突然變高，看起來像壞掉。 */
+  if (module) module.dataset.mode = slides.some(s => modeOf(s) === 'full') ? 'full' : 'scroll';
+
+  const cardHTML = it =>
+    `<div class="notice"><span class="tag">公告</span><div><h3>${esc(it.title)}</h3>` +
+    `<div class="home-notice-wrap" data-mode="${modeOf(it)}"><div class="notice-body">${bodyOf(it)}</div></div>` +
+    `<small>公告日期：${esc(it.date)}</small></div></div>`;
+
+  /* 只有一則時完全不做輪播，輸出跟改版前一模一樣 */
+  if (slides.length === 1) { el.innerHTML = cardHTML(slides[0]); markClipped(el); return; }
+
+  el.innerHTML =
+    '<div class="notice-car">' +
+      '<div class="nc-viewport"><div class="nc-track">' +
+        slides.map(s => `<div class="nc-slide">${cardHTML(s)}</div>`).join('') +
+      '</div></div>' +
+      '<button class="nc-arrow nc-prev" type="button" aria-label="上一則公告">&#8249;</button>' +
+      '<button class="nc-arrow nc-next" type="button" aria-label="下一則公告">&#8250;</button>' +
+      '<div class="nc-dots">' +
+        slides.map((s,n) => `<button type="button" aria-label="第 ${n+1} 則公告"${n === 0 ? ' class="on"' : ''}></button>`).join('') +
+      '</div>' +
+    '</div>';
+  markClipped(el);
+  initCarousel(el.querySelector('.notice-car'), slides.length);
 }
 
 /* 相容處理：舊資料是單一 category 字串，新資料是 tags 陣列，統一成陣列 */
