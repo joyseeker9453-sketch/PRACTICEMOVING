@@ -38,7 +38,7 @@ collections:
               - { label: "公告日期", name: "date", widget: "string", hint: "格式：2026-07-07" }
               - { label: "內容", name: "body", widget: "markdown" }
               - { label: "公開", name: "show", widget: "boolean", default: true, hint: "關閉即下架，公告頁不會顯示，但資料保留不用刪除" }
-              - { label: "置頂公告", name: "pinned", widget: "boolean", default: false, hint: "打開後會顯示在首頁最上方那一條。同時打開多則時，只會顯示日期最新的那一則。" }
+              - { label: "置頂公告", name: "pinned", widget: "boolean", default: false, hint: "打開後會顯示在首頁的「診所公告」區塊。打開多則時首頁會自動輪播（最多 3 則，超過就取日期最新的 3 則），只打開一則就固定顯示那一則。" }
               # required: true 是刻意的：設成非必填時，CMS 會自動多出一個「(無)」選項，
               # 但它跟「跟隨預設」實際效果完全一樣（build.js 只認 scroll/clip/full，
               # 其餘一律套用全站預設），只會讓填表的人困惑。改成必填就不會再出現那個選項。
