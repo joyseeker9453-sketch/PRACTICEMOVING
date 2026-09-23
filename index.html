@@ -295,19 +295,27 @@ header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit
 #notices-announcement .nc-slide > .notice{flex:1 1 auto;min-height:0}
 /* 箭頭壓在卡片左右內緣。手機卡片本來就窄，箭頭會蓋到文字，所以 560px 以下不顯示，
    改用滑動和圓點操作。 */
+/* 箭頭是霧面半透明的圓圈（毛玻璃），不用純白是因為純白會變成一塊實心色塊、壓在文字上很搶眼。
+   箭頭本身用深綠：卡片是米色底，白色箭頭會完全沒有對比、幾乎看不見。
+   backdrop-filter 不支援時會自動退回成單純的半透明白底，不影響可用性。 */
 .nc-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:2.5rem;height:2.5rem;
-  border:0;border-radius:50%;background:rgba(255,255,255,.85);color:var(--pine-deep);
+  border:1px solid rgba(255,255,255,.55);border-radius:50%;background:rgba(255,255,255,.38);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:var(--pine-deep);
   font-size:1.5rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 .125rem .5rem rgba(28,74,67,.18);transition:.2s}
-.nc-arrow:hover{background:#fff;box-shadow:0 .25rem .75rem rgba(28,74,67,.28)}
+  transition:.2s}
+.nc-arrow:hover,.nc-arrow:focus-visible{background:rgba(255,255,255,.72)}
 .nc-prev{left:.4rem}
 .nc-next{right:.4rem}
-/* 圓點：外框 1.5rem 是為了手指好按（實心點只有 .5rem，直接當按鈕會太小按不到） */
-.nc-dots{display:flex;justify-content:center;gap:.35rem;margin-top:.85rem;flex:0 0 auto}
+/* 圓點放在卡片內的右下角，而且是絕對定位——所以完全不佔版面高度。
+   放在卡片下方的話，一列圓點（1.5rem）加上間距（.85rem）會讓區塊多長約 38px。
+   公告日期在左下角、圓點在右下角，兩者不會打架。
+   外框 1.5rem 是為了手指好按（實心點只有 .5rem，直接當按鈕會太小按不到）。 */
+.nc-dots{position:absolute;right:1.375rem;bottom:1.125rem;z-index:2;display:flex;gap:.3rem}
 .nc-dots button{width:1.5rem;height:1.5rem;padding:0;border:0;background:none;cursor:pointer;
   display:flex;align-items:center;justify-content:center}
-.nc-dots button::before{content:"";width:.5rem;height:.5rem;border-radius:50%;background:#cfd8d4;transition:.2s}
-.nc-dots button.on::before{background:var(--pine);transform:scale(1.25)}
+.nc-dots button::before{content:"";width:.5rem;height:.5rem;border-radius:50%;
+  background:var(--pine-deep);opacity:.22;transition:.2s}
+.nc-dots button.on::before{opacity:.8;transform:scale(1.25)}
 @media(max-width:560px){.nc-arrow{display:none}}
 @media(prefers-reduced-motion:reduce){.nc-track{transition:none}}
 .notice h3{font-size:1rem;color:var(--pine-deep)}
