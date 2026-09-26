@@ -9,6 +9,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
 import { marked } from 'marked';
 import sanitizeHtml from 'sanitize-html';
 
@@ -36,6 +37,36 @@ if (fs.existsSync(ABOUT_SRC)) {
   try { SITE.about = JSON.parse(fs.readFileSync(ABOUT_SRC, 'utf8')); }
   catch (e) { console.error('about.json 格式錯誤：', e.message); process.exit(1); }
 }
+
+/* ---------- 班表更新時間：自動抓「門診時間」最後一次被改動的日期 ----------
+   不能直接用建置時間：改公告、改文章也會重新建置，日期就會亂跳。
+   做法是翻 git 紀錄，從新到舊比對每一版 site.json 的 hours，
+   找到「門診時間真的有變」的那一次存檔，用它的時間。
+   抓不到（例如本機沒有 git）就不顯示這行，不會壞掉。 */
+(function stampHours() {
+  if (!SITE.hours || typeof SITE.hours !== 'object') return;
+  const git = args => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], timeout: 30000 });
+  const FILE = 'content/site.json';
+  const hoursAt = sha => {
+    try { const h = JSON.parse(git(['show', sha + ':' + FILE])).hours || {}; return JSON.stringify([h.rows, h.note, h.extra]); }
+    catch (e) { return null; }
+  };
+  try {
+    /* Cloudflare 可能只抓最近幾次紀錄，先試著補齊完整歷史（失敗也沒關係） */
+    try { if (git(['rev-parse', '--is-shallow-repository']).trim() === 'true') git(['fetch', '--unshallow', '--quiet']); } catch (e) {}
+    const log = git(['log', '--format=%H %cI', '--', FILE]).trim().split('\n').filter(Boolean).map(l => l.split(' '));
+    if (!log.length) return;
+    let when = log[log.length - 1][1];              // 找不到變動點 → 用最早那次
+    for (let i = 0; i < log.length - 1; i++) {
+      if (hoursAt(log[i][0]) !== hoursAt(log[i + 1][0])) { when = log[i][1]; break; }
+    }
+    const d = new Date(when);
+    SITE.hours.updated = d.toLocaleDateString('zh-TW', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit' });
+    console.log('班表更新時間：' + SITE.hours.updated);
+  } catch (e) {
+    console.warn('! 抓不到班表更新時間（沒有 git 紀錄），首頁不顯示這行');
+  }
+})();
 
 const BASE = (SITE.baseUrl || '').replace(/\/+$/, '');
 if (!/^https:\/\/[^/]+$/.test(BASE)) {

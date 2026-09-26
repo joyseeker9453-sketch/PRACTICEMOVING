@@ -812,6 +812,7 @@ footer a{color:#e8efe9}
         </table>
       </div>
       <p class="hours-note" id="hours-note"></p>
+      <p class="hours-note" id="hours-updated" style="margin-top:0.25rem" hidden></p>
       <p class="hours-note" id="hours-extra" style="color:var(--pine);font-weight:500"></p>
     </div>
   </section>
@@ -941,6 +942,7 @@ function applySite(s){
   if(s.hours && typeof s.hours==='object'){
     if(s.hours.note  != null) SITE.hours.note  = s.hours.note;
     if(s.hours.extra != null) SITE.hours.extra = s.hours.extra;
+    if(s.hours.updated)       SITE.hours.updated = s.hours.updated;
     if(Array.isArray(s.hours.rows) && s.hours.rows.length) SITE.hours.rows = s.hours.rows;
   }
   return true;
@@ -1048,6 +1050,11 @@ function initStatic(){
     `<tr><td class="slot">${esc(r.slot)}<br><small>${esc(r.time)}</small></td>`+
     daysOf(r).map(d=>`<td class="${d==='休診'?'off':''}">${esc(d)}</td>`).join('')+`</tr>`).join('');
   $('hours-note').textContent = SITE.hours.note;
+  // 班表更新時間由 build.js 從 git 紀錄自動產生，抓不到就整行不顯示
+  if(SITE.hours.updated){
+    $('hours-updated').textContent = '班表更新於 ' + SITE.hours.updated + '，如有異動以現場為準';
+    $('hours-updated').hidden = false;
+  }
   (function(){
     // 門診註記的斷行處理：只有在剛好變成兩行時才介入。
     // 一行 → 不動；三行以上（手機）→ 不動，維持原本的自然換行。
