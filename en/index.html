@@ -82,6 +82,38 @@ section{padding:4.5rem 0}
 .badge{display:inline-block;background:var(--dawn-soft);color:#8a5a14;border:1px solid #ecd6ac;border-radius:1.25rem;padding:0.3rem 1rem;font-size:0.875rem;font-weight:500;margin-bottom:1.5rem}
 .center{text-align:center}
 
+/* about photo (same image as the Chinese site) */
+.about-wrap{max-width:72rem}
+.about-photo{position:relative;border-radius:0.875rem;overflow:hidden;margin-bottom:1.75rem}
+.about-photo img{width:100%;height:auto}
+.about-photo::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(251,250,247,.85) 0%,rgba(251,250,247,0) 22%,rgba(251,250,247,0) 78%,rgba(251,250,247,.7) 100%)}
+.about-photo .badge{position:absolute;top:0.75rem;left:50%;transform:translateX(-50%);z-index:1;margin:0;
+  background:var(--pine);color:#fff;border:none;white-space:nowrap}
+.about-photo .sec-head{position:absolute;left:0;right:0;top:var(--eye);transform:translateY(-50%);z-index:1;margin:0}
+.about-photo .sec-head h2{color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+.about-photo .sec-head .en{color:#ffd79a;text-shadow:0 1px 4px rgba(0,0,0,.35)}
+.about-photo .sec-head h2::after{content:"";display:block;width:4.5rem;height:3px;background:var(--dawn);margin:0.75rem auto 0;border-radius:2px}
+/* phone: photo on top, badge + title below on plain background */
+@media(max-width:760px){
+  .about-photo{overflow:visible;border-radius:0}
+  .about-photo img{border-radius:0.875rem}
+  .about-photo::after{display:none}
+  .about-photo .badge,.about-photo .sec-head{position:static;transform:none}
+  .about-photo .badge{display:inline-block;margin-top:1.25rem;white-space:normal}
+  .about-photo .sec-head{margin-top:1rem}
+  .about-photo .sec-head h2{color:var(--pine-deep);text-shadow:none}
+  .about-photo .sec-head .en{color:var(--dawn);text-shadow:none}
+}
+/* no photo set in admin: plain layout */
+.about-photo.no-photo{overflow:visible}
+.about-photo.no-photo picture,.about-photo.no-photo::after{display:none}
+.about-photo.no-photo .badge,.about-photo.no-photo .sec-head{position:static;transform:none}
+.about-photo.no-photo .badge{display:inline-block;margin-bottom:1.25rem}
+.about-photo.no-photo .sec-head h2{color:var(--pine-deep);text-shadow:none}
+.about-photo.no-photo .sec-head .en{color:var(--dawn);text-shadow:none}
+.eng-pill{display:inline-block;margin-top:1.1rem;background:#fff;border:1.5px solid var(--pine);color:var(--pine);font-weight:700;border-radius:1.5rem;padding:0.4rem 1.1rem;font-size:0.9375rem}
+.sec-sub{text-align:center;color:var(--pine);font-weight:500;margin:-1.25rem 0 2rem}
 /* services: text only */
 .svc{max-width:46rem;margin:0 auto;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 2.5rem}
 .svc li{padding:1rem 0;border-bottom:1px solid #d3ddd8}
@@ -181,6 +213,7 @@ footer a{color:#e8efe9}
   <h1>Dr. Jenny Lei's Clinic</h1>
   <p>Diabetes, blood pressure, cholesterol and medical weight management — in Zhongshan District, 3 minutes from the MRT.</p>
   <div class="zhname zh">晨昕診所</div>
+  <div class="eng-pill">💬 All of our doctors speak English</div>
   <div class="btns">
     <a class="btn btn-solid" href="#hours">Clinic hours</a>
     <a class="btn btn-ghost" href="#contact">How to visit</a>
@@ -188,9 +221,17 @@ footer a{color:#e8efe9}
 </div>
 
 <section id="about">
-  <div class="wrap center">
-    <span class="badge">⭐ Certified Diabetes Shared Care Network clinic</span>
-    <div class="sec-head"><span class="en">ABOUT</span><h2>About the Clinic</h2></div>
+  <div class="wrap center about-wrap">
+    <!-- Photo + eye height come from the Chinese admin (關於晨昕背景圖 → content/about.json),
+         so changing the photo there updates this page too. -->
+    <div class="about-photo" id="about-photo" style="--eye:40%">
+      <picture>
+        <source id="about-src-m" media="(max-width:760px)" srcset="">
+        <img id="about-img" src="/images/uploads/about-clinic.webp" alt="Our clinic team at the front desk">
+      </picture>
+      <span class="badge">⭐ Certified Diabetes Shared Care Network clinic</span>
+      <div class="sec-head"><span class="en">ABOUT</span><h2>About the Clinic</h2></div>
+    </div>
     <p class="lead">We are about a 3-minute walk from MRT Zhongshan Junior High School Station (Brown Line). Our clinic focuses on long-term care for diabetes, high blood pressure and high cholesterol. For patients who also live with obesity or fatty liver disease, our team offers <strong>integrated weight management and chronic disease care</strong>.</p>
     <p class="lead">We also treat common acute and chronic illnesses in adults and children, manage allergic conditions, and provide cancer screening and genetic testing.</p>
   </div>
@@ -221,13 +262,14 @@ footer a{color:#e8efe9}
       <li><span class="d">Saturday</span><span class="t"><span>09:00–12:30</span></span></li>
       <li class="off"><span class="d">Sunday</span><span class="t">Closed</span></li>
     </ul>
-    <p class="note">Closed on Taiwan national holidays. Holiday hours may vary — please call before visiting.</p>
+    <p class="note">Closed on Taiwan national holidays.<br>Holiday hours may vary — please call before visiting.</p>
   </div>
 </section>
 
 <section class="sec-alt" id="team">
   <div class="wrap">
     <div class="sec-head"><span class="en">DOCTORS</span><h2>Our Doctors</h2></div>
+    <p class="sec-sub">All of our doctors speak English.</p>
     <div class="team">
       <div class="doc">
         <img src="/images/team/li-yongzi.jpg" alt="Dr. Lei" loading="lazy">
@@ -323,6 +365,19 @@ footer a{color:#e8efe9}
 <script>
 /* Close the language menu when clicking elsewhere */
 document.addEventListener('click',e=>{document.querySelectorAll('details.lang[open]').forEach(d=>{if(!d.contains(e.target))d.open=false})});
+
+/* About photo: follow the Chinese admin (關於晨昕背景圖). */
+(function(){
+  fetch('/content/about.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(a=>{
+    if(!a)return;
+    const box=document.getElementById('about-photo');
+    if(!a.show||!a.bg){box.classList.add('no-photo');return;}
+    document.getElementById('about-img').src=a.bg;
+    if(a.bgMobile)document.getElementById('about-src-m').srcset=a.bgMobile;
+    const eye=Math.min(90,Math.max(10,parseFloat(a.eye)||40));
+    box.style.setProperty('--eye',eye+'%');
+  }).catch(()=>{});
+})();
 
 /* Hours: times only. Which days are open is read from the Chinese site's admin
    (診所資料 → 門診時間), so there is nothing to maintain here. A day/slot counts as
