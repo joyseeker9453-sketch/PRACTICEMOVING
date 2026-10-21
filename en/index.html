@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Jenny Lei's Clinic | Internal Medicine & Weight Management in Zhongshan, Taipei</title>
+<meta name="description" content="Dr. Jenny Lei's Clinic (晨昕診所) in Zhongshan District, Taipei — diabetes, hypertension, high cholesterol, medical weight management and general internal medicine. 3 minutes from MRT Zhongshan Junior High School Station.">
+<link rel="alternate" hreflang="zh-Hant" href="/">
+<link rel="alternate" hreflang="en" href="/en/">
+<link rel="icon" type="image/png" href="/images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600;700;800&family=Noto+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pine:#1c4a43;--pine-deep:#123430;
+  --dawn:#d99a3d;--dawn-soft:#f7ead2;
+  --paper:#fbfaf7;--mist:#edf1ee;
+  --ink:#26302d;--ink-soft:#5c6a65;--line:#dde4e0;
+  --serif:'Noto Serif',serif;--sans:'Noto Sans','Noto Sans TC',sans-serif;
+  --gutter:clamp(1.25rem,4vw,5rem);--hdr:3.3125rem;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:var(--hdr)}
+@media(min-width:1280px){html{font-size:clamp(16px,min(1.25vw,2.6vh),20px)}}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.7;font-size:1rem}
+img{max-width:100%;display:block}
+a{color:var(--pine);text-decoration:none}
+.wrap{max-width:60rem;margin:0 auto;padding:0 1.25rem}
+.wrap-wide{max-width:calc(84rem + 2 * var(--gutter));margin:0 auto;padding:0 var(--gutter)}
+.zh{font-family:'Noto Sans TC',sans-serif}
+
+/* ---- top bar + language switcher (same as Chinese site) ---- */
+.topbar{background:var(--pine-deep);color:#e8efe9;font-size:0.9375rem;position:relative;z-index:60}
+.topbar .wrap-wide{display:flex;justify-content:space-between;align-items:center;min-height:2.25rem;flex-wrap:wrap;gap:0.25rem 1rem}
+.topbar a{color:#e8efe9}
+@media(max-width:560px){.topbar .wrap-wide{justify-content:center;text-align:center;padding-top:0.25rem;padding-bottom:0.25rem}}
+.lang{position:relative;display:inline-block}
+.lang summary{list-style:none;cursor:pointer;display:inline;font-weight:700;user-select:none}
+.lang summary::-webkit-details-marker{display:none}
+.lang summary::after{content:" ▾";font-size:0.75em;opacity:.8}
+.lang-menu{position:absolute;right:0;top:calc(100% + 0.4rem);min-width:10rem;background:#fff;border:1px solid var(--line);border-radius:0.75rem;box-shadow:0 0.75rem 1.75rem rgba(0,0,0,.14);padding:0.35rem;text-align:left}
+.lang-menu a{display:block;padding:0.45rem 0.8rem;border-radius:0.5rem;color:var(--ink)!important;font-size:0.9375rem;white-space:nowrap}
+.lang-menu a:hover{background:var(--mist)}
+.lang-menu a[aria-current]{color:var(--pine)!important;font-weight:700;background:var(--mist)}
+@media(max-width:560px){.lang-menu{right:auto;left:50%;transform:translateX(-50%)}}
+
+/* ---- header ---- */
+header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit-backdrop-filter:blur(0.5rem);backdrop-filter:blur(0.5rem);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;min-height:3.25rem;gap:1rem}
+.brand{font-family:var(--serif);font-weight:800;font-size:1.25rem;color:var(--pine);display:flex;align-items:center;gap:0.6rem;white-space:nowrap}
+.brand img{width:2rem;height:2rem}
+.menu{display:flex;gap:0.25rem;list-style:none}
+.menu a{display:block;padding:0.4rem 0.8rem;border-radius:1.25rem;font-size:0.9375rem;color:var(--ink);transition:.2s;white-space:nowrap}
+.menu a:hover{background:var(--pine);color:#fff}
+@media(max-width:860px){.menu{display:none}}
+
+/* ---- hero ---- */
+.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#f2f6f3 0%,var(--paper) 78%);text-align:center;padding:4.5rem 0 5rem}
+.horizon{position:absolute;left:50%;bottom:-8.75rem;transform:translateX(-50%);width:87.5rem;height:17.5rem;border-radius:50% 50% 0 0/100% 100% 0 0;background:linear-gradient(180deg,var(--dawn-soft),transparent 70%);pointer-events:none}
+.hero>*:not(.horizon){position:relative}
+.eyebrow{display:inline-block;font-size:0.875rem;letter-spacing:0.22rem;color:var(--dawn);font-weight:700;margin-bottom:0.9rem;text-transform:uppercase}
+.hero h1{font-family:var(--serif);font-weight:800;font-size:clamp(2rem,4.6vw,3.25rem);color:var(--pine-deep);line-height:1.2;margin-bottom:1rem}
+.hero p{max-width:36rem;margin:0 auto;color:var(--ink-soft);font-size:1.0625rem}
+.hero .zhname{margin-top:0.75rem;font-size:0.9375rem;color:var(--ink-soft);letter-spacing:0.15rem}
+.btn{display:inline-block;padding:0.75rem 1.75rem;border-radius:1.75rem;font-weight:700;font-size:0.9375rem;transition:.2s}
+.btn-solid{background:var(--pine);color:#fff}
+.btn-solid:hover{background:var(--pine-deep)}
+.btn-line{background:#06c755;color:#fff}
+.btn-line:hover{background:#05a948}
+.btn-ghost{border:1.5px solid var(--pine);color:var(--pine)}
+.btn-ghost:hover{background:var(--pine);color:#fff}
+.hero .btns{margin-top:1.75rem;display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap}
+
+/* ---- sections ---- */
+section{padding:4.5rem 0}
+.sec-alt{background:var(--mist)}
+.sec-head{text-align:center;margin-bottom:2.25rem}
+.sec-head .en{display:block;font-size:0.8125rem;letter-spacing:0.25rem;color:var(--dawn);font-weight:700}
+.sec-head h2{font-family:var(--serif);font-weight:800;font-size:clamp(1.6rem,3vw,2.1rem);color:var(--pine-deep);margin-top:0.25rem}
+.lead{max-width:44rem;margin:0 auto 1rem;font-size:1.0625rem;text-align:center}
+.lead strong{color:var(--pine)}
+.badge{display:inline-block;background:var(--dawn-soft);color:#8a5a14;border:1px solid #ecd6ac;border-radius:1.25rem;padding:0.3rem 1rem;font-size:0.875rem;font-weight:500;margin-bottom:1.5rem}
+.center{text-align:center}
+
+/* services: text only */
+.svc{max-width:46rem;margin:0 auto;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 2.5rem}
+.svc li{padding:1rem 0;border-bottom:1px solid #d3ddd8}
+.svc b{display:block;font-family:var(--serif);color:var(--pine-deep);font-size:1.0625rem}
+.svc span{color:var(--ink-soft);font-size:0.9375rem}
+@media(max-width:640px){.svc{grid-template-columns:1fr}}
+.svc-more{max-width:46rem;margin:1.5rem auto 0;color:var(--ink-soft);font-size:0.9375rem;text-align:center}
+
+/* hours: times only, no doctors */
+.hours{list-style:none;max-width:32rem;margin:0 auto;background:#fff;border-radius:0.75rem;box-shadow:0 0 0 1px var(--line);overflow:hidden}
+.hours li{display:flex;justify-content:space-between;gap:1rem;padding:0.85rem 1.15rem;border-bottom:1px solid var(--line);font-size:1rem}
+.hours li:last-child{border-bottom:none}
+.hours .d{font-weight:700;color:var(--pine-deep)}
+.hours .t{text-align:right}
+.hours .t span{display:block}
+.hours li.off .t{color:#a3aeaa}
+/* closure notice (edited in admin: 外文版停診公告) */
+.notice{display:flex;gap:0.75rem;align-items:flex-start;max-width:44rem;margin:0 auto;background:#fff4e0;border:1px solid #ecc98a;border-left:0.3rem solid var(--dawn);border-radius:0.75rem;padding:0.85rem 1.1rem;text-align:left;font-size:0.9375rem;white-space:pre-line}
+.notice b{color:#8a5a14;white-space:nowrap}
+.notice[hidden]{display:none}
+.hero .notice{margin-bottom:1.75rem}
+#hours .notice{max-width:32rem;margin-bottom:1.25rem}
+.note{max-width:36rem;margin:1rem auto 0;font-size:0.9375rem;color:var(--ink-soft);text-align:center}
+
+/* team */
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;align-items:start}
+.doc{background:#fff;border-radius:1rem;overflow:hidden;box-shadow:0 0 0 1px var(--line)}
+.doc img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 15%;background:var(--mist)}
+.doc-body{padding:1.25rem 1.25rem 1.5rem}
+.doc h3{font-family:var(--serif);font-size:1.375rem;color:var(--pine-deep)}
+.doc .role{color:var(--dawn);font-weight:700;font-size:0.875rem;letter-spacing:0.05rem;margin-bottom:0.75rem}
+.doc ul{list-style:none;font-size:0.875rem;color:var(--ink-soft)}
+.doc li{position:relative;padding-left:0.9rem;margin-bottom:0.35rem;line-height:1.5}
+.doc li::before{content:"";position:absolute;left:0;top:0.55em;width:0.35rem;height:0.35rem;border-radius:50%;background:var(--dawn)}
+@media(max-width:900px){.team{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.team{grid-template-columns:1fr}.doc{display:grid;grid-template-columns:34% 66%}.doc img{height:100%;aspect-ratio:auto}}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1.15fr;gap:2rem;align-items:stretch}
+.info{list-style:none}
+.info li{padding:0.85rem 0;border-bottom:1px solid var(--line)}
+.info .k{display:block;font-size:0.8125rem;letter-spacing:0.12rem;color:var(--dawn);font-weight:700;text-transform:uppercase}
+.info .zh{display:block;color:var(--ink-soft);font-size:0.875rem}
+.howto{margin-top:1.25rem;background:var(--dawn-soft);border:1px solid #ecd6ac;border-radius:0.75rem;padding:1rem 1.15rem;font-size:0.9375rem}
+.howto b{color:var(--pine-deep)}
+.howto ul{margin:0.4rem 0 0 1.1rem}
+.map{border-radius:1rem;overflow:hidden;min-height:22rem;box-shadow:0 0 0 1px var(--line)}
+.map iframe{width:100%;height:100%;min-height:22rem;border:0;display:block}
+.findus{display:grid;grid-template-columns:2fr 1fr;gap:1.25rem;margin-top:2.5rem}
+.findus figure{margin:0;background:#fff;border-radius:1rem;overflow:hidden;box-shadow:0 0 0 1px var(--line);display:flex;flex-direction:column}
+.findus img{width:100%;flex:1;min-height:0;object-fit:cover}
+.findus .wide img{aspect-ratio:1360/907}
+.findus .tall img{aspect-ratio:765/1020}
+.findus figcaption{padding:0.75rem 1rem;font-size:0.875rem;color:var(--ink-soft)}
+.findus figcaption b{color:var(--pine-deep)}
+@media(max-width:700px){.findus{grid-template-columns:1fr}}
+.contact .btns{display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem}
+@media(max-width:800px){.contact{grid-template-columns:1fr}}
+
+footer{background:var(--pine-deep);color:#c8d6cf;padding:2.25rem 0;text-align:center;font-size:0.875rem}
+footer .brand{color:#fff;justify-content:center;margin-bottom:0.5rem}
+footer a{color:#e8efe9}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap-wide">
+    <span>📞 <a href="tel:+886225181268">+886-2-2518-1268</a></span>
+    <span><details class="lang">
+      <summary>Language</summary>
+      <div class="lang-menu">
+        <a href="/" lang="zh-Hant">中文</a>
+        <a href="/en/" aria-current="page">English</a>
+      </div>
+    </details></span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap-wide nav">
+    <a class="brand" href="#top"><img src="/images/logo.png" alt="">Dr. Jenny Lei's Clinic</a>
+    <ul class="menu">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#hours">Hours</a></li>
+      <li><a href="#team">Doctors</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="horizon"></div>
+  <div class="wrap"><div class="notice" data-notice hidden></div></div>
+  <span class="eyebrow">Family &amp; Internal Medicine · Taipei</span>
+  <h1>Dr. Jenny Lei's Clinic</h1>
+  <p>Diabetes, blood pressure, cholesterol and medical weight management — in Zhongshan District, 3 minutes from the MRT.</p>
+  <div class="zhname zh">晨昕診所</div>
+  <div class="btns">
+    <a class="btn btn-solid" href="#hours">Clinic hours</a>
+    <a class="btn btn-ghost" href="#contact">How to visit</a>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap center">
+    <span class="badge">⭐ Certified Diabetes Shared Care Network clinic</span>
+    <div class="sec-head"><span class="en">ABOUT</span><h2>About the Clinic</h2></div>
+    <p class="lead">We are about a 3-minute walk from MRT Zhongshan Junior High School Station (Brown Line). Our clinic focuses on long-term care for diabetes, high blood pressure and high cholesterol. For patients who also live with obesity or fatty liver disease, our team offers <strong>integrated weight management and chronic disease care</strong>.</p>
+    <p class="lead">We also treat common acute and chronic illnesses in adults and children, manage allergic conditions, and provide cancer screening and genetic testing.</p>
+  </div>
+</section>
+
+<section class="sec-alt" id="services">
+  <div class="wrap">
+    <div class="sec-head"><span class="en">SERVICES</span><h2>Services</h2></div>
+    <ul class="svc">
+      <li><b>Medical Weight Management</b><span>Doctor-supervised, GLP-1 based treatment plans with regular follow-up.</span></li>
+      <li><b>Diabetes</b><span>Diagnosis, medication, blood sugar monitoring and complication screening.</span></li>
+      <li><b>High Blood Pressure</b><span>Assessment, treatment and long-term blood pressure control.</span></li>
+      <li><b>High Cholesterol</b><span>Lipid testing, cardiovascular risk assessment and treatment.</span></li>
+      <li><b>Metabolic Syndrome</b><span>Combined care for weight, blood sugar, blood pressure and lipids.</span></li>
+      <li><b>Chronic Prescription Refills</b><span>Refillable prescriptions for stable chronic conditions.</span></li>
+      <li><b>General Internal Medicine</b><span>Colds, flu, stomach problems and other acute or chronic illnesses.</span></li>
+      <li><b>Preventive Health Check-ups</b><span>Health screenings and preventive care.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="hours">
+  <div class="wrap">
+    <div class="sec-head"><span class="en">HOURS</span><h2>Clinic Hours</h2></div>
+    <div class="notice" data-notice hidden></div>
+    <ul class="hours" id="hours-list">
+      <li><span class="d">Monday – Friday</span><span class="t"><span>09:00–12:30</span><span>16:00–21:00</span></span></li>
+      <li><span class="d">Saturday</span><span class="t"><span>09:00–12:30</span></span></li>
+      <li class="off"><span class="d">Sunday</span><span class="t">Closed</span></li>
+    </ul>
+    <p class="note">Closed on Taiwan national holidays. Holiday hours may vary — please call before visiting.</p>
+  </div>
+</section>
+
+<section class="sec-alt" id="team">
+  <div class="wrap">
+    <div class="sec-head"><span class="en">DOCTORS</span><h2>Our Doctors</h2></div>
+    <div class="team">
+      <div class="doc">
+        <img src="/images/team/li-yongzi.jpg" alt="Dr. Lei" loading="lazy">
+        <div class="doc-body">
+          <h3>Dr. Lei</h3>
+          <div class="role">Director</div>
+          <ul>
+            <li>M.D., College of Medicine, National Taiwan University</li>
+            <li>EMBA, College of Management, National Taiwan University</li>
+            <li>Board-certified in Internal Medicine</li>
+            <li>Board-certified in Hematology and Medical Oncology</li>
+            <li>Former Attending Physician, Department of Internal Medicine, National Taiwan University Hospital Zhudong Branch</li>
+            <li>Former Resident, Department of Internal Medicine, National Taiwan University Hospital</li>
+            <li>Member, Taiwan Association for the Study of Obesity</li>
+            <li>Certified Physician, Diabetes Shared Care Network</li>
+          </ul>
+        </div>
+      </div>
+      <div class="doc">
+        <img src="/images/team/ho-kuojung.jpg" alt="Dr. Ho" loading="lazy">
+        <div class="doc-body">
+          <h3>Dr. Ho</h3>
+          <div class="role">Physician</div>
+          <ul>
+            <li>Research Fellow, Harvard Medical School affiliated hospital</li>
+            <li>Master of Public Health, Kaohsiung Medical University</li>
+            <li>M.D., Chung Shan Medical University</li>
+            <li>Physician, Department of Internal Medicine, National Taiwan University Hospital</li>
+          </ul>
+        </div>
+      </div>
+      <div class="doc">
+        <img src="/images/uploads/line_oa_chat_260918_104326.jpg" alt="Dr. Lin" loading="lazy">
+        <div class="doc-body">
+          <h3>Dr. Lin</h3>
+          <div class="role">Physician</div>
+          <ul>
+            <li>M.D., College of Medicine, National Taiwan University</li>
+            <li>Former Pediatric Resident, National Taiwan University Hospital</li>
+            <li>Board-certified Pediatrician</li>
+            <li>Board-certified in Pediatric Neurology</li>
+            <li>Certified Physician, Diabetes Shared Care Network</li>
+            <li>Certified Physician, Chronic Kidney Disease Care</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head"><span class="en">CONTACT</span><h2>Contact &amp; Location</h2></div>
+    <div class="contact">
+      <div>
+        <ul class="info">
+          <li><span class="k">Address</span>3F, No. 350, Fuxing N. Rd., Zhongshan Dist., Taipei City 104<span class="zh">台北市中山區復興北路350號3樓</span></li>
+          <li><span class="k">MRT</span>Zhongshan Junior High School Station (Brown Line) — about 3 minutes on foot</li>
+          <li><span class="k">Phone</span><a href="tel:+886225181268">+886-2-2518-1268</a></li>
+          <li><span class="k">Email</span><a href="mailto:leiwengchi@gmail.com">leiwengchi@gmail.com</a></li>
+        </ul>
+        <div class="howto">
+          <b>Visiting us</b>
+          <ul>
+            <li>Please register in person at the front desk during clinic hours.</li>
+            <li>Our online booking system is available in Chinese only.</li>
+            <li>Bring your NHI card, or your passport / ARC if you are not enrolled in Taiwan's National Health Insurance.</li>
+          </ul>
+        </div>
+        <div class="btns">
+          <a class="btn btn-line" href="https://line.me/R/ti/p/@598wqthm" target="_blank" rel="noopener">Add us on LINE</a>
+        </div>
+      </div>
+      <div class="map">
+        <iframe title="Map to Dr. Jenny Lei's Clinic" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.233863070999!2d121.54393459999999!3d25.0600615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442abe46125fcb9%3A0x4a4c6cf29a6e996e!2zMTA0Nzjlj7DljJfluILkuK3lsbHljYDlvqnoiIjljJfot68zNTDomZ8z5qiT!5e0!3m2!1sen!2stw!4v1718851999581!5m2!1sen!2stw"></iframe>
+      </div>
+    </div>
+    <div class="findus">
+      <figure class="wide"><img src="/images/en/storefront.webp" alt="Orange clinic sign reading 晨昕診所 on the 3rd floor, above a dental clinic, on Fuxing North Road" loading="lazy" width="1360" height="907"><figcaption><b>Look for the orange sign.</b> We are on the 3rd floor, above a dental clinic (晴美牙醫), on Fuxing North Road.</figcaption></figure>
+      <figure class="tall"><img src="/images/en/sign-3f.webp" alt="3F sign for 晨昕診所 listing conditions treated" loading="lazy" width="765" height="1020"><figcaption><b>3F</b> — this sign marks our floor.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand"><img src="/images/logo.png" alt="">Dr. Jenny Lei's Clinic</div>
+    <p class="zh">晨昕診所</p>
+    <p style="margin-top:0.75rem;font-size:0.78rem;color:#8fa79c">© Dr. Jenny Lei's Clinic. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+/* Close the language menu when clicking elsewhere */
+document.addEventListener('click',e=>{document.querySelectorAll('details.lang[open]').forEach(d=>{if(!d.contains(e.target))d.open=false})});
+
+/* Hours: times only. Which days are open is read from the Chinese site's admin
+   (診所資料 → 門診時間), so there is nothing to maintain here. A day/slot counts as
+   open unless it says 休診. If the data can't be read, the list above stays as is. */
+(function(){
+  const DAYS=[['mon','Monday'],['tue','Tuesday'],['wed','Wednesday'],['thu','Thursday'],['fri','Friday'],['sat','Saturday'],['sun','Sunday']];
+  const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  fetch('/content/site.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(s=>{
+    const rows=s&&s.hours&&s.hours.rows;
+    if(!Array.isArray(rows)||!rows.length||rows.some(r=>!r||!r.time))return;
+    const open=v=>{v=String(v||'').trim();return v!==''&&v!=='休診'};
+    const slots=DAYS.map(([k])=>rows.filter(r=>open(r[k])).map(r=>String(r.time).trim()));
+    const groups=[];
+    slots.forEach((sl,i)=>{const key=sl.join('|');const g=groups[groups.length-1];
+      if(g&&g.key===key)g.end=i;else groups.push({key,start:i,end:i,sl})});
+    const label=g=>g.start===g.end?DAYS[g.start][1]:DAYS[g.start][1]+(g.end-g.start>1?' – ':' & ')+DAYS[g.end][1];
+    document.getElementById('hours-list').innerHTML=groups.map(g=>g.sl.length
+      ?'<li><span class="d">'+label(g)+'</span><span class="t">'+g.sl.map(t=>'<span>'+esc(t)+'</span>').join('')+'</span></li>'
+      :'<li class="off"><span class="d">'+label(g)+'</span><span class="t">Closed</span></li>').join('');
+  }).catch(()=>{});
+})();
+
+/* Closure notice: admin → 外文版停診公告 (content/en-notice.json).
+   Shown only when switched on and not past its end date (Taiwan time). */
+(function(){
+  fetch('/content/en-notice.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(n=>{
+    if(!n||!n.show)return;
+    const msg=String(n.en||'').trim(); if(!msg)return;
+    if(n.until){const today=new Date(Date.now()+8*3600e3).toISOString().slice(0,10);if(today>String(n.until).slice(0,10))return;}
+    document.querySelectorAll('[data-notice]').forEach(el=>{
+      el.innerHTML='<b>Notice</b><span></span>';el.lastChild.textContent=msg;el.hidden=false;});
+  }).catch(()=>{});
+})();
+</script>
+</body>
+</html>
