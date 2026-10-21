@@ -131,8 +131,11 @@ section{padding:4.5rem 0}
 .hours .t span{display:block}
 .hours li.off .t{color:#a3aeaa}
 /* closure notice (edited in admin: 外文版停診公告) */
-.notice{display:flex;gap:0.75rem;align-items:flex-start;max-width:44rem;margin:0 auto;background:#fff4e0;border:1px solid #ecc98a;border-left:0.3rem solid var(--dawn);border-radius:0.75rem;padding:0.85rem 1.1rem;text-align:left;font-size:0.9375rem;white-space:pre-line}
+.notice{display:flex;gap:0.75rem;align-items:flex-start;max-width:44rem;margin:0 auto;background:#fff4e0;border:1px solid #ecc98a;border-left:0.3rem solid var(--dawn);border-radius:0.75rem;padding:0.85rem 1.1rem;text-align:left;font-size:0.9375rem}
+.notice .msg{white-space:pre-line}
 .notice b{color:#8a5a14;white-space:nowrap}
+.notice .msg{display:block}
+.notice .date{display:block;margin-top:0.35rem;font-size:0.8125rem;color:#9a7a45;white-space:normal}
 .notice[hidden]{display:none}
 .hero .notice{margin-bottom:1.75rem}
 #hours .notice{max-width:32rem;margin-bottom:1.25rem}
@@ -400,15 +403,21 @@ document.addEventListener('click',e=>{document.querySelectorAll('details.lang[op
   }).catch(()=>{});
 })();
 
-/* Closure notice: admin → 外文版停診公告 (content/en-notice.json).
+/* Notice: admin → 外文版公告（停診、疫苗等） (content/en-notice.json).
    Shown only when switched on and not past its end date (Taiwan time). */
 (function(){
   fetch('/content/en-notice.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(n=>{
     if(!n||!n.show)return;
     const msg=String(n.en||'').trim(); if(!msg)return;
     if(n.until){const today=new Date(Date.now()+8*3600e3).toISOString().slice(0,10);if(today>String(n.until).slice(0,10))return;}
+    const M=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(n.date||''));
+    const posted=m?M[+m[2]-1]+' '+(+m[3])+', '+m[1]:'';
     document.querySelectorAll('[data-notice]').forEach(el=>{
-      el.innerHTML='<b>Notice</b><span></span>';el.lastChild.textContent=msg;el.hidden=false;});
+      el.innerHTML='<b>Notice</b><div><span class="msg"></span>'+(posted?'<span class="date"></span>':'')+'</div>';
+      el.querySelector('.msg').textContent=msg;
+      if(posted)el.querySelector('.date').textContent='Posted '+posted;
+      el.hidden=false;});
   }).catch(()=>{});
 })();
 </script>
