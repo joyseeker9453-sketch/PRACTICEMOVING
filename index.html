@@ -99,6 +99,17 @@ a{color:var(--pine);text-decoration:none}
 .topbar a{color:#e8efe9;cursor:pointer}
 .topbar .tb-addr a{text-decoration:none;border-bottom:1px dotted rgba(232,239,233,.55)}
 .topbar .tb-addr a:hover{border-bottom-color:#e8efe9}
+/* 語言切換（線上預約右邊）：點 Language 展開選單；非中文版都是 /<語言>/ 的一頁式網站 */
+.topbar{position:relative;z-index:60}
+.lang{position:relative;display:inline-block}
+.lang summary{list-style:none;cursor:pointer;display:inline;font-weight:700;user-select:none}
+.lang summary::-webkit-details-marker{display:none}
+.lang summary::after{content:" ▾";font-size:0.75em;opacity:.8}
+.lang-menu{position:absolute;right:0;top:calc(100% + 0.5rem);min-width:9rem;background:#fff;border:1px solid var(--line);border-radius:0.75rem;box-shadow:0 0.75rem 1.75rem rgba(0,0,0,.14);padding:0.35rem;text-align:left}
+.topbar .lang-menu a{display:block;padding:0.45rem 0.8rem;border-radius:0.5rem;color:var(--ink);font-size:0.9375rem;white-space:nowrap}
+.topbar .lang-menu a:hover{background:var(--mist)}
+.topbar .lang-menu a[aria-current]{color:var(--pine);font-weight:700;background:var(--mist)}
+@media(max-width:560px){.lang-menu{right:auto;left:50%;transform:translateX(-50%)}}
 header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit-backdrop-filter:blur(0.5rem);backdrop-filter:blur(0.5rem);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;min-height:3.25rem}
 .brand{font-family:var(--serif);font-weight:900;font-size:1.5rem;color:var(--pine);letter-spacing:0.125rem;display:flex;align-items:center;gap:0.625rem;cursor:pointer}
@@ -701,7 +712,7 @@ footer a{color:#e8efe9}
 <div class="topbar">
   <div class="wrap-wide">
     <span>📞 <a id="tb-phone" href="#">02-2518-1268</a><span class="tb-addr">　<a id="tb-addr" onclick="go('home','contact')" title="台北市中山區復興北路350號3樓">聯絡我們</a></span></span>
-    <span><a id="tb-fb" href="#" target="_blank" rel="noopener">Facebook 粉絲專頁</a>　|　<a class="tb-booking" id="tb-booking" href="#" target="_blank" rel="noopener">線上預約</a></span>
+    <span><a id="tb-fb" href="#" target="_blank" rel="noopener">Facebook 粉絲專頁</a>　|　<a class="tb-booking" id="tb-booking" href="#" target="_blank" rel="noopener">線上預約</a>　|　<details class="lang"><summary>Language</summary><div class="lang-menu"><a href="/" lang="zh-Hant" aria-current="page">中文</a><a href="/en/" lang="en">English</a></div></details></span>
   </div>
 </div>
 
@@ -1556,5 +1567,6 @@ window.addEventListener('hashchange', () => route());
 
 </script>
 <!-- SECTION-PAGING:END -->
+<script>document.addEventListener('click',e=>{document.querySelectorAll('details.lang[open]').forEach(d=>{if(!d.contains(e.target))d.open=false})});</script>
 </body>
 </html>
