@@ -83,7 +83,8 @@ function parseFrontmatter(raw) {
   let curKey = null;
   const unquote = s => s.trim().replace(/^["']|["']$/g, '');
 
-  for (const line of lines) {
+for (let n = 0; n < lines.length; n++) {
+   const line = lines[n];
     if (!line.trim()) continue;
     const li = line.match(/^\s*-\s+(.*)$/);
     if (li && curKey) {
@@ -96,6 +97,19 @@ function parseFrontmatter(raw) {
     const key = line.slice(0, i).trim();
     let val = unquote(line.slice(i + 1));
     if (val === '') { curKey = key; meta[key] = ''; continue; }
+       /* YAML 多行文字（| 、|- 、> 、>-）：後台「摘要」欄位按了 Enter 換行時，
+          Sveltia 會存成這種格式。把底下縮排的行收集起來當作值。 */
+       const block = val.match(/^([|>])([+-]?)\d*$/);
+       if (block) {
+         const buf = [];
+         while (n + 1 < lines.length && (/^\s+\S/.test(lines[n + 1]) || !lines[n + 1].trim())) {
+           buf.push(lines[++n].trim());
+         }
+         while (buf.length && buf[buf.length - 1] === '') buf.pop();
+         meta[key] = block[1] === '|' ? buf.join('\n') : buf.join(' ').replace(/\s+/g, ' ');
+         curKey = null;
+         continue;
+       }   
     curKey = null;
     if (val === 'true') val = true;
     else if (val === 'false') val = false;
@@ -404,7 +418,7 @@ function headerHtml() {
   return '<div class="topbar">\n' +
     '  <div class="wrap-wide">\n' +
     '    <span>📞 <a href="tel:' + esc(SITE.phoneLink) + '">' + esc(SITE.phone) + '</a><span class="tb-addr">　<a href="/#contact" title="' + esc(SITE.address) + '">聯絡我們</a></span></span>\n' +
-    '    <span><a href="' + esc(safeUrl(SITE.facebook)) + '" target="_blank" rel="noopener">Facebook 粉絲專頁</a>　|　<a class="tb-booking" href="' + esc(safeUrl(SITE.booking)) + '" target="_blank" rel="noopener">線上預約</a>　|　<details class="lang"><summary>Language</summary><div class="lang-menu"><a href="/" lang="zh-Hant" aria-current="page">中文</a><a href="/en/indexen" lang="en">English</a><a href="/id/indexid" lang="id">Bahasa Indonesia</a><a href="/vn/indexvn" lang="vi">Tiếng Việt</a></div></details><script>fetch(\'/content/languages.json\',{cache:\'no-store\'}).then(r=>r.ok?r.json():null).then(c=>{if(c)[\'id\',\'vi\'].forEach(l=>{if(c[l]===false)document.querySelectorAll(\'.lang-menu a[lang="\'+l+\'"]:not([aria-current])\').forEach(a=>a.remove())})}).catch(()=>{})</script></span>\n' +
+    '    <span><a href="' + esc(safeUrl(SITE.facebook)) + '" target="_blank" rel="noopener">Facebook 粉絲專頁</a>　|　<a class="tb-booking" href="' + esc(safeUrl(SITE.booking)) + '" target="_blank" rel="noopener">線上預約</a>　|　<details class="lang"><summary>Language</summary><div class="lang-menu"><a href="/" lang="zh-Hant" aria-current="page">中文</a><a href="/en/indexen" lang="en">English</a><a href="/id/indexid" lang="id">Bahasa Indonesia</a><a href="/vn/indexvn" lang="vi">Tiếng Việt</a><a href="/jp/indexjp" lang="ja">日本語</a></div></details><script>fetch(\'/content/languages.json\',{cache:\'no-store\'}).then(r=>r.ok?r.json():null).then(c=>{if(c)[\'id\',\'vi\',\'ja\'].forEach(l=>{if(c[l]===false)document.querySelectorAll(\'.lang-menu a[lang="\'+l+\'"]:not([aria-current])\').forEach(a=>a.remove())})}).catch(()=>{})</script></span>\n' +
     '  </div>\n</div>\n' +
     '<header>\n  <div class="wrap-wide nav">\n' +
     '    <a class="brand" href="/#home"><img class="logo" src="/images/logo.png" alt="' + esc(SITE.name) + ' Logo">' + esc(SITE.name) + '</a>\n' +
