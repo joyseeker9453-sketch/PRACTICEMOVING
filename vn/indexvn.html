@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phòng khám Dr. Jenny Lei | Nội khoa & Quản lý cân nặng tại quận Zhongshan, Đài Bắc</title>
+<meta name="description" content="Phòng khám Dr. Jenny Lei (晨昕診所) tại quận Zhongshan, Đài Bắc — tiểu đường, tăng huyết áp, mỡ máu cao, quản lý cân nặng y khoa và nội khoa tổng quát. Cách ga MRT Zhongshan Junior High School 3 phút đi bộ.">
+<link rel="alternate" hreflang="zh-Hant" href="/">
+<link rel="alternate" hreflang="en" href="/en/indexen">
+<link rel="alternate" hreflang="id" href="/id/indexid">
+<link rel="alternate" hreflang="vi" href="/vn/indexvn">
+<link rel="icon" type="image/png" href="/images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600;700;800&family=Noto+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pine:#1c4a43;--pine-deep:#123430;
+  --dawn:#d99a3d;--dawn-soft:#f7ead2;
+  --paper:#fbfaf7;--mist:#edf1ee;
+  --ink:#26302d;--ink-soft:#5c6a65;--line:#dde4e0;
+  --serif:'Noto Serif',serif;--sans:'Noto Sans','Noto Sans TC',sans-serif;
+  --gutter:clamp(1.25rem,4vw,5rem);--hdr:3.3125rem;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:var(--hdr)}
+@media(min-width:1280px){html{font-size:clamp(16px,min(1.25vw,2.6vh),20px)}}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.7;font-size:1rem}
+img{max-width:100%;display:block}
+a{color:var(--pine);text-decoration:none}
+.wrap{max-width:60rem;margin:0 auto;padding:0 1.25rem}
+.wrap-wide{max-width:calc(84rem + 2 * var(--gutter));margin:0 auto;padding:0 var(--gutter)}
+.zh{font-family:'Noto Sans TC',sans-serif}
+
+/* ---- top bar + language switcher (same as Chinese site) ---- */
+.topbar{background:var(--pine-deep);color:#e8efe9;font-size:0.9375rem;position:relative;z-index:60}
+.topbar .wrap-wide{display:flex;justify-content:space-between;align-items:center;min-height:2.25rem;flex-wrap:wrap;gap:0.25rem 1rem}
+.topbar a{color:#e8efe9}
+@media(max-width:560px){.topbar .wrap-wide{justify-content:center;text-align:center;padding-top:0.25rem;padding-bottom:0.25rem}}
+.lang{position:relative;display:inline-block}
+.lang summary{list-style:none;cursor:pointer;display:inline;font-weight:700;user-select:none}
+.lang summary::-webkit-details-marker{display:none}
+.lang summary::after{content:" ▾";font-size:0.75em;opacity:.8}
+.lang-menu{position:absolute;right:0;top:calc(100% + 0.4rem);min-width:10rem;background:#fff;border:1px solid var(--line);border-radius:0.75rem;box-shadow:0 0.75rem 1.75rem rgba(0,0,0,.14);padding:0.35rem;text-align:left}
+.lang-menu a{display:block;padding:0.45rem 0.8rem;border-radius:0.5rem;color:var(--ink)!important;font-size:0.9375rem;white-space:nowrap}
+.lang-menu a:hover{background:var(--mist)}
+.lang-menu a[aria-current]{color:var(--pine)!important;font-weight:700;background:var(--mist)}
+@media(max-width:560px){.lang-menu{right:auto;left:50%;transform:translateX(-50%)}}
+
+/* ---- header ---- */
+header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.94);-webkit-backdrop-filter:blur(0.5rem);backdrop-filter:blur(0.5rem);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;min-height:3.25rem;gap:1rem}
+.brand{font-family:var(--serif);font-weight:800;font-size:1.25rem;color:var(--pine);display:flex;align-items:center;gap:0.6rem;white-space:nowrap}
+.brand img{width:2rem;height:2rem}
+.menu{display:flex;gap:0.25rem;list-style:none}
+.menu a{display:block;padding:0.4rem 0.8rem;border-radius:1.25rem;font-size:0.9375rem;color:var(--ink);transition:.2s;white-space:nowrap}
+.menu a:hover{background:var(--pine);color:#fff}
+@media(max-width:860px){.menu{display:none}}
+
+/* ---- hero ---- */
+.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#f2f6f3 0%,var(--paper) 78%);text-align:center;padding:4.5rem 0 5rem}
+.horizon{position:absolute;left:50%;bottom:-8.75rem;transform:translateX(-50%);width:87.5rem;height:17.5rem;border-radius:50% 50% 0 0/100% 100% 0 0;background:linear-gradient(180deg,var(--dawn-soft),transparent 70%);pointer-events:none}
+.hero>*:not(.horizon){position:relative}
+.eyebrow{display:inline-block;font-size:0.875rem;letter-spacing:0.22rem;color:var(--dawn);font-weight:700;margin-bottom:0.9rem;text-transform:uppercase}
+.hero h1{font-family:var(--serif);font-weight:800;font-size:clamp(2rem,4.6vw,3.25rem);color:var(--pine-deep);line-height:1.2;margin-bottom:1rem}
+.hero p{max-width:36rem;margin:0 auto;color:var(--ink-soft);font-size:1.0625rem}
+.hero .zhname{margin-top:0.75rem;font-size:0.9375rem;color:var(--ink-soft);letter-spacing:0.15rem}
+.btn{display:inline-block;padding:0.75rem 1.75rem;border-radius:1.75rem;font-weight:700;font-size:0.9375rem;transition:.2s}
+.btn-solid{background:var(--pine);color:#fff}
+.btn-solid:hover{background:var(--pine-deep)}
+.btn-line{background:#06c755;color:#fff}
+.btn-line:hover{background:#05a948}
+.btn-ghost{border:1.5px solid var(--pine);color:var(--pine)}
+.btn-ghost:hover{background:var(--pine);color:#fff}
+.hero .btns{margin-top:1.75rem;display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap}
+
+/* ---- sections ---- */
+section{padding:4.5rem 0}
+.sec-alt{background:var(--mist)}
+.sec-head{text-align:center;margin-bottom:2.25rem}
+.sec-head .en{display:block;font-size:0.8125rem;letter-spacing:0.25rem;color:var(--dawn);font-weight:700}
+.sec-head h2{font-family:var(--serif);font-weight:800;font-size:clamp(1.6rem,3vw,2.1rem);color:var(--pine-deep);margin-top:0.25rem}
+.lead{max-width:44rem;margin:0 auto 1rem;font-size:1.0625rem;text-align:center}
+.lead strong{color:var(--pine)}
+.badge{display:inline-block;background:var(--dawn-soft);color:#8a5a14;border:1px solid #ecd6ac;border-radius:1.25rem;padding:0.3rem 1rem;font-size:0.875rem;font-weight:500;margin-bottom:1.5rem}
+.center{text-align:center}
+
+/* about photo (same image as the Chinese site) */
+.about-wrap{max-width:72rem}
+.about-photo{position:relative;border-radius:0.875rem;overflow:hidden;margin-bottom:1.75rem}
+.about-photo img{width:100%;height:auto}
+.about-photo::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(251,250,247,.85) 0%,rgba(251,250,247,0) 22%,rgba(251,250,247,0) 78%,rgba(251,250,247,.7) 100%)}
+.about-photo .badge{position:absolute;top:0.75rem;left:50%;transform:translateX(-50%);z-index:1;margin:0;
+  background:var(--pine);color:#fff;border:none;white-space:nowrap}
+.about-photo .sec-head{position:absolute;left:0;right:0;top:var(--eye);transform:translateY(-50%);z-index:1;margin:0}
+.about-photo .sec-head h2{color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+.about-photo .sec-head .en{color:#ffd79a;text-shadow:0 1px 4px rgba(0,0,0,.35)}
+.about-photo .sec-head h2::after{content:"";display:block;width:4.5rem;height:3px;background:var(--dawn);margin:0.75rem auto 0;border-radius:2px}
+/* phone: photo on top, badge + title below on plain background */
+@media(max-width:760px){
+  .about-photo{overflow:visible;border-radius:0}
+  .about-photo img{border-radius:0.875rem}
+  .about-photo::after{display:none}
+  .about-photo .badge,.about-photo .sec-head{position:static;transform:none}
+  .about-photo .badge{display:inline-block;margin-top:1.25rem;white-space:normal}
+  .about-photo .sec-head{margin-top:1rem}
+  .about-photo .sec-head h2{color:var(--pine-deep);text-shadow:none}
+  .about-photo .sec-head .en{color:var(--dawn);text-shadow:none}
+}
+/* no photo set in admin: plain layout */
+.about-photo.no-photo{overflow:visible}
+.about-photo.no-photo picture,.about-photo.no-photo::after{display:none}
+.about-photo.no-photo .badge,.about-photo.no-photo .sec-head{position:static;transform:none}
+.about-photo.no-photo .badge{display:inline-block;margin-bottom:1.25rem}
+.about-photo.no-photo .sec-head h2{color:var(--pine-deep);text-shadow:none}
+.about-photo.no-photo .sec-head .en{color:var(--dawn);text-shadow:none}
+.eng-pill{display:inline-block;margin-top:1.1rem;background:#fff;border:1.5px solid var(--pine);color:var(--pine);font-weight:700;border-radius:1.5rem;padding:0.4rem 1.1rem;font-size:0.9375rem}
+.sec-sub{text-align:center;color:var(--pine);font-weight:500;margin:-1.25rem 0 2rem}
+/* services: text only */
+.svc{max-width:46rem;margin:0 auto;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 2.5rem}
+.svc li{padding:1rem 0;border-bottom:1px solid #d3ddd8}
+.svc b{display:block;font-family:var(--serif);color:var(--pine-deep);font-size:1.0625rem}
+.svc span{color:var(--ink-soft);font-size:0.9375rem}
+@media(max-width:640px){.svc{grid-template-columns:1fr}}
+.svc-more{max-width:46rem;margin:1.5rem auto 0;color:var(--ink-soft);font-size:0.9375rem;text-align:center}
+
+/* hours: times only, no doctors */
+.hours{list-style:none;max-width:32rem;margin:0 auto;background:#fff;border-radius:0.75rem;box-shadow:0 0 0 1px var(--line);overflow:hidden}
+.hours li{display:flex;justify-content:space-between;gap:1rem;padding:0.85rem 1.15rem;border-bottom:1px solid var(--line);font-size:1rem}
+.hours li:last-child{border-bottom:none}
+.hours .d{font-weight:700;color:var(--pine-deep)}
+.hours .t{text-align:right}
+.hours .t span{display:block}
+.hours li.off .t{color:#a3aeaa}
+/* closure notice (edited in admin: 外文版停診公告) */
+.notice{display:flex;gap:0.75rem;align-items:flex-start;max-width:44rem;margin:0 auto;background:#fff4e0;border:1px solid #ecc98a;border-left:0.3rem solid var(--dawn);border-radius:0.75rem;padding:0.85rem 1.1rem;text-align:left;font-size:0.9375rem}
+.notice .msg{white-space:pre-line}
+.notice b{color:#8a5a14;white-space:nowrap}
+.notice .msg{display:block}
+.notice .date{display:block;margin-top:0.35rem;font-size:0.8125rem;color:#9a7a45;white-space:normal}
+.notice[hidden]{display:none}
+.hero .notice{margin-bottom:1.75rem}
+/* several notices: slide one at a time (dots, swipe, auto-advance), same idea as the Chinese site.
+   The track stretches every slide to the tallest one, so the box height does not jump. */
+.notice.is-car{display:block;position:relative;padding-left:0;padding-right:0}
+.nc-viewport{overflow:hidden}
+.nc-track{display:flex;transition:transform .45s ease}
+.nc-slide{flex:0 0 100%;min-width:0;display:flex;gap:0.75rem;align-items:flex-start;padding:0 1.1rem 1.1rem;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.nc-dots{position:absolute;right:0.6rem;bottom:0.35rem;display:flex;gap:0.15rem}
+.nc-dots button{width:1.5rem;height:1.5rem;padding:0;border:0;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.nc-dots button::before{content:"";width:0.5rem;height:0.5rem;border-radius:50%;background:#8a5a14;opacity:.25;transition:.2s}
+.nc-dots button.on::before{opacity:.85;transform:scale(1.25)}
+@media(prefers-reduced-motion:reduce){.nc-track{transition:none}}
+.note{max-width:36rem;margin:1rem auto 0;font-size:0.9375rem;color:var(--ink-soft);text-align:center}
+
+/* team */
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;align-items:start}
+.doc{background:#fff;border-radius:1rem;overflow:hidden;box-shadow:0 0 0 1px var(--line)}
+.doc img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 15%;background:var(--mist)}
+.doc-body{padding:1.25rem 1.25rem 1.5rem}
+.doc h3{font-family:var(--serif);font-size:1.375rem;color:var(--pine-deep)}
+.doc .role{color:var(--dawn);font-weight:700;font-size:0.875rem;letter-spacing:0.05rem;margin-bottom:0.75rem}
+.doc ul{list-style:none;font-size:0.875rem;color:var(--ink-soft)}
+.doc li{position:relative;padding-left:0.9rem;margin-bottom:0.35rem;line-height:1.5}
+.doc li::before{content:"";position:absolute;left:0;top:0.55em;width:0.35rem;height:0.35rem;border-radius:50%;background:var(--dawn)}
+@media(max-width:900px){.team{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.team{grid-template-columns:1fr}}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1.15fr;gap:2rem;align-items:stretch}
+.info{list-style:none}
+.info li{padding:0.85rem 0;border-bottom:1px solid var(--line)}
+.info .k{display:block;font-size:0.8125rem;letter-spacing:0.12rem;color:var(--dawn);font-weight:700;text-transform:uppercase}
+.info .zh{display:block;color:var(--ink-soft);font-size:0.875rem}
+.howto{margin-top:1.25rem;background:var(--dawn-soft);border:1px solid #ecd6ac;border-radius:0.75rem;padding:1rem 1.15rem;font-size:0.9375rem}
+.howto b{color:var(--pine-deep)}
+.howto ul{margin:0.4rem 0 0 1.1rem}
+.map{border-radius:1rem;overflow:hidden;min-height:22rem;box-shadow:0 0 0 1px var(--line)}
+.map iframe{width:100%;height:100%;min-height:22rem;border:0;display:block}
+.findus{display:grid;grid-template-columns:2fr 1fr;gap:1.25rem;margin-top:2.5rem}
+.findus figure{margin:0;background:#fff;border-radius:1rem;overflow:hidden;box-shadow:0 0 0 1px var(--line);display:flex;flex-direction:column}
+.findus img{width:100%;flex:1;min-height:0;object-fit:cover}
+.findus .wide img{aspect-ratio:1360/907}
+.findus .tall img{aspect-ratio:765/1020}
+.findus figcaption{padding:0.75rem 1rem;font-size:0.875rem;color:var(--ink-soft)}
+.findus figcaption b{color:var(--pine-deep)}
+@media(max-width:700px){.findus{grid-template-columns:1fr}}
+.contact .btns{display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem}
+@media(max-width:800px){.contact{grid-template-columns:1fr}}
+
+footer{background:var(--pine-deep);color:#c8d6cf;padding:2.25rem 0;text-align:center;font-size:0.875rem}
+footer .brand{color:#fff;justify-content:center;margin-bottom:0.5rem}
+footer a{color:#e8efe9}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap-wide">
+    <span>📞 <a href="tel:+886225181268">+886-2-2518-1268</a></span>
+    <span><details class="lang">
+      <summary>Language</summary>
+      <div class="lang-menu">
+        <a href="/" lang="zh-Hant">中文</a>
+        <a href="/en/indexen" lang="en">English</a>
+        <a href="/id/indexid" lang="id">Bahasa Indonesia</a>
+        <a href="/vn/indexvn" lang="vi" aria-current="page">Tiếng Việt</a>
+      </div>
+    </details><script>fetch('/content/languages.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(c=>{if(c)['id','vi'].forEach(l=>{if(c[l]===false)document.querySelectorAll('.lang-menu a[lang="'+l+'"]:not([aria-current])').forEach(a=>a.remove())})}).catch(()=>{})</script></span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap-wide nav">
+    <a class="brand" href="#top"><img src="/images/logo.png" alt="">Phòng khám Dr. Jenny Lei</a>
+    <ul class="menu">
+      <li><a href="#about">Giới thiệu</a></li>
+      <li><a href="#services">Dịch vụ</a></li>
+      <li><a href="#hours">Giờ khám</a></li>
+      <li><a href="#team">Bác sĩ</a></li>
+      <li><a href="#contact">Liên hệ</a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="horizon"></div>
+  <div class="wrap"><div class="notice" data-notice hidden></div></div>
+  <span class="eyebrow">Y học gia đình &amp; Nội khoa · Giảm cân y khoa</span>
+  <h1>Phòng khám Dr. Jenny Lei</h1>
+  <p>Tiểu đường, huyết áp, mỡ máu và quản lý cân nặng — tại quận Zhongshan, Đài Bắc, cách ga MRT 3 phút đi bộ.</p>
+  <div class="zhname zh">晨昕診所</div>
+  <div class="eng-pill">💬 Tất cả bác sĩ của chúng tôi đều nói được tiếng Anh</div>
+  <div class="btns">
+    <a class="btn btn-solid" href="#hours">Giờ khám</a>
+    <a class="btn btn-ghost" href="#contact">Cách đến khám</a>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap center about-wrap">
+    <!-- Photo + eye height come from the Chinese admin (關於晨昕背景圖 → content/about.json),
+         so changing the photo there updates this page too. -->
+    <div class="about-photo" id="about-photo" style="--eye:40%">
+      <picture>
+        <source id="about-src-m" media="(max-width:760px)" srcset="">
+        <img id="about-img" src="/images/uploads/about-clinic.webp" alt="Đội ngũ phòng khám tại quầy lễ tân">
+      </picture>
+      <span class="badge">⭐ Phòng khám được chứng nhận Mạng lưới Chăm sóc Chung Bệnh Tiểu đường</span>
+      <div class="sec-head"><span class="en">ABOUT</span><h2>Giới thiệu phòng khám</h2></div>
+    </div>
+    <p class="lead">Phòng khám cách ga MRT Zhongshan Junior High School (tuyến Nâu) khoảng 3 phút đi bộ. Chúng tôi tập trung chăm sóc lâu dài cho bệnh tiểu đường, tăng huyết áp và mỡ máu cao. Với những bệnh nhân đồng thời bị béo phì hoặc gan nhiễm mỡ, đội ngũ của chúng tôi cung cấp <strong>chương trình kết hợp quản lý cân nặng và điều trị bệnh mạn tính</strong>.</p>
+    <p class="lead">Chúng tôi cũng điều trị các bệnh cấp tính và mạn tính thường gặp ở người lớn và trẻ em, điều trị các bệnh dị ứng, đồng thời cung cấp dịch vụ tầm soát ung thư và xét nghiệm di truyền.</p>
+  </div>
+</section>
+
+<section class="sec-alt" id="services">
+  <div class="wrap">
+    <div class="sec-head"><span class="en">SERVICES</span><h2>Dịch vụ</h2></div>
+    <ul class="svc">
+      <li><b>Quản lý cân nặng y khoa</b><span>Phác đồ điều trị dựa trên GLP-1 dưới sự theo dõi của bác sĩ, có tái khám định kỳ.</span></li>
+      <li><b>Tiểu đường</b><span>Chẩn đoán, dùng thuốc, theo dõi đường huyết và tầm soát biến chứng.</span></li>
+      <li><b>Tăng huyết áp</b><span>Đánh giá, điều trị và kiểm soát huyết áp lâu dài.</span></li>
+      <li><b>Mỡ máu cao</b><span>Xét nghiệm mỡ máu, đánh giá nguy cơ tim mạch và điều trị.</span></li>
+      <li><b>Hội chứng chuyển hóa</b><span>Chăm sóc kết hợp cân nặng, đường huyết, huyết áp và mỡ máu.</span></li>
+      <li><b>Đơn thuốc bệnh mạn tính</b><span>Đơn thuốc lĩnh nhiều lần cho bệnh mạn tính đã ổn định.</span></li>
+      <li><b>Nội khoa tổng quát</b><span>Cảm lạnh, cúm, bệnh dạ dày và các bệnh cấp tính hoặc mạn tính khác.</span></li>
+      <li><b>Khám sức khỏe dự phòng</b><span>Tầm soát sức khỏe và chăm sóc phòng bệnh.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="hours">
+  <div class="wrap">
+    <div class="sec-head"><span class="en">HOURS</span><h2>Giờ khám</h2></div>
+    <ul class="hours" id="hours-list">
+      <li><span class="d">Thứ Hai – Thứ Sáu</span><span class="t"><span>09:00–12:30</span><span>16:00–21:00</span></span></li>
+      <li><span class="d">Thứ Bảy</span><span class="t"><span>09:00–12:30</span></span></li>
+      <li class="off"><span class="d">Chủ Nhật</span><span class="t">Nghỉ</span></li>
+    </ul>
+    <p class="note">Nghỉ vào các ngày lễ quốc gia của Đài Loan và <br> ngày nghỉ bão chính thức (theo thông báo của Chính quyền thành phố Đài Bắc).<br>Giờ khám vào dịp lễ có thể thay đổi — vui lòng gọi điện trước khi đến.</p>
+  </div>
+</section>
+
+<section class="sec-alt" id="team">
+  <div class="wrap">
+    <div class="sec-head"><span class="en">DOCTORS</span><h2>Đội ngũ bác sĩ</h2></div>
+    <p class="sec-sub">Tất cả bác sĩ của chúng tôi đều nói được tiếng Anh.</p>
+    <div class="team">
+      <div class="doc">
+        <img src="/images/team/li-yongzi.jpg" alt="Bác sĩ Lei" loading="lazy">
+        <div class="doc-body">
+          <h3>Bác sĩ Lei</h3>
+          <div class="role">Giám đốc phòng khám</div>
+          <ul>
+            <li>Bác sĩ Y khoa, Trường Y, Đại học Quốc gia Đài Loan</li>
+            <li>EMBA, Học viện Quản lý, Đại học Quốc gia Đài Loan</li>
+            <li>Chứng chỉ chuyên khoa Nội</li>
+            <li>Chứng chỉ chuyên khoa Huyết học và Ung thư nội khoa</li>
+            <li>Nguyên Bác sĩ điều trị, Khoa Nội, Bệnh viện Đại học Quốc gia Đài Loan</li>
+            <li>Hội viên, Hiệp hội Nghiên cứu Béo phì Đài Loan</li>
+            <li>Bác sĩ được chứng nhận, Mạng lưới Chăm sóc Chung Bệnh Tiểu đường</li>
+          </ul>
+        </div>
+      </div>
+      <div class="doc">
+        <img src="/images/team/ho-kuojung.jpg" alt="Bác sĩ Ho" loading="lazy">
+        <div class="doc-body">
+          <h3>Bác sĩ Ho</h3>
+          <div class="role">Bác sĩ</div>
+          <ul>
+            <li>Nghiên cứu viên (Research Fellow), bệnh viện liên kết với Trường Y Harvard</li>
+            <li>Thạc sĩ Y tế Công cộng, Đại học Y Cao Hùng (Kaohsiung Medical University)</li>
+            <li>Bác sĩ Y khoa, Đại học Y Trung Sơn (Chung Shan Medical University)</li>
+            <li>Bác sĩ, Khoa Nội, Bệnh viện Đại học Quốc gia Đài Loan</li>
+          </ul>
+        </div>
+      </div>
+      <div class="doc">
+        <img src="/images/uploads/line_oa_chat_260918_104326.jpg" alt="Bác sĩ Lin" loading="lazy">
+        <div class="doc-body">
+          <h3>Bác sĩ Lin</h3>
+          <div class="role">Bác sĩ</div>
+          <ul>
+            <li>Bác sĩ Y khoa, Trường Y, Đại học Quốc gia Đài Loan</li>
+            <li>Nguyên Bác sĩ nội trú Nhi khoa, Bệnh viện Đại học Quốc gia Đài Loan</li>
+            <li>Chứng chỉ chuyên khoa Nhi</li>
+            <li>Chứng chỉ chuyên khoa Thần kinh Nhi</li>
+            <li>Bác sĩ được chứng nhận, Mạng lưới Chăm sóc Chung Bệnh Tiểu đường</li>
+            <li>Bác sĩ được chứng nhận, Chăm sóc Bệnh thận mạn</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head"><span class="en">CONTACT</span><h2>Liên hệ &amp; Địa chỉ</h2></div>
+    <div class="contact">
+      <div>
+        <ul class="info">
+          <li><span class="k">Địa chỉ</span>3F, No. 350, Fuxing N. Rd., Zhongshan Dist., Taipei City 104<span class="zh">台北市中山區復興北路350號3樓</span></li>
+          <li><span class="k">MRT</span>Ga Zhongshan Junior High School (tuyến Nâu) — khoảng 3 phút đi bộ</li>
+          <li><span class="k">Điện thoại</span><a href="tel:+886225181268">+886-2-2518-1268</a></li>
+          <li><span class="k">Email</span><a href="mailto:leiwengchi@gmail.com">leiwengchi@gmail.com</a></li>
+        </ul>
+        <div class="howto">
+          <b>Khi đến khám</b>
+          <ul>
+            <li>Vui lòng đăng ký trực tiếp tại quầy lễ tân trong giờ khám.</li>
+            <li>Hệ thống đặt lịch trực tuyến của chúng tôi chỉ có tiếng Trung.</li>
+            <li>Vui lòng mang theo thẻ bảo hiểm y tế (NHI), hoặc hộ chiếu / thẻ cư trú (ARC) nếu bạn chưa tham gia Bảo hiểm Y tế Quốc gia Đài Loan.</li>
+          </ul>
+        </div>
+        <div class="btns">
+          <a class="btn btn-line" href="https://line.me/R/ti/p/@598wqthm" target="_blank" rel="noopener">Kết bạn với chúng tôi trên LINE</a>
+        </div>
+      </div>
+      <div class="map">
+        <iframe title="Bản đồ đến Phòng khám Dr. Jenny Lei" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.233863070999!2d121.54393459999999!3d25.0600615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442abe46125fcb9%3A0x4a4c6cf29a6e996e!2zMTA0Nzjlj7DljJfluILkuK3lsbHljYDlvqnoiIjljJfot68zNTDomZ8z5qiT!5e0!3m2!1svi!2stw!4v1718851999581!5m2!1sen!2stw"></iframe>
+      </div>
+    </div>
+    <div class="findus">
+      <figure class="wide"><img src="/images/clinic/storefront.webp" alt="Biển hiệu màu cam ghi 晨昕診所 ở tầng 3, phía trên một phòng khám nha khoa, trên đường Fuxing North" loading="lazy" width="1360" height="907"><figcaption><b>Hãy tìm biển hiệu màu cam.</b> Chúng tôi ở tầng 3, phía trên phòng khám nha khoa (晴美牙醫), trên đường Fuxing North (復興北路).</figcaption></figure>
+      <figure class="tall"><img src="/images/clinic/sign-3f.webp" alt="Biển hiệu tầng 3 của 晨昕診所 liệt kê các bệnh được điều trị" loading="lazy" width="765" height="1020"><figcaption><b>Tầng 3 (3F)</b> — biển hiệu này đánh dấu tầng của chúng tôi.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand"><img src="/images/logo.png" alt="">Phòng khám Dr. Jenny Lei</div>
+    <p class="zh">晨昕診所</p>
+    <p style="margin-top:0.75rem;font-size:0.78rem;color:#8fa79c">© Phòng khám Dr. Jenny Lei. Bảo lưu mọi quyền.</p>
+  </div>
+</footer>
+
+<script>
+/* Close the language menu when clicking elsewhere */
+document.addEventListener('click',e=>{document.querySelectorAll('details.lang[open]').forEach(d=>{if(!d.contains(e.target))d.open=false})});
+
+/* About photo: follow the Chinese admin (關於晨昕背景圖). */
+(function(){
+  fetch('/content/about.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(a=>{
+    if(!a)return;
+    const box=document.getElementById('about-photo');
+    if(!a.show||!a.bg){box.classList.add('no-photo');return;}
+    document.getElementById('about-img').src=a.bg;
+    if(a.bgMobile)document.getElementById('about-src-m').srcset=a.bgMobile;
+    const eye=Math.min(90,Math.max(10,parseFloat(a.eye)||40));
+    box.style.setProperty('--eye',eye+'%');
+  }).catch(()=>{});
+})();
+
+/* Hours: times only. Which days are open is read from the Chinese site's admin
+   (診所資料 → 門診時間), so there is nothing to maintain here. A day/slot counts as
+   open unless it says 休診. If the data can't be read, the list above stays as is. */
+(function(){
+  const DAYS=[['mon','Thứ Hai'],['tue','Thứ Ba'],['wed','Thứ Tư'],['thu','Thứ Năm'],['fri','Thứ Sáu'],['sat','Thứ Bảy'],['sun','Chủ Nhật']];
+  const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  fetch('/content/site.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(s=>{
+    const rows=s&&s.hours&&s.hours.rows;
+    if(!Array.isArray(rows)||!rows.length||rows.some(r=>!r||!r.time))return;
+    const open=v=>{v=String(v||'').trim();return v!==''&&v!=='休診'};
+    const slots=DAYS.map(([k])=>rows.filter(r=>open(r[k])).map(r=>String(r.time).trim()));
+    const groups=[];
+    slots.forEach((sl,i)=>{const key=sl.join('|');const g=groups[groups.length-1];
+      if(g&&g.key===key)g.end=i;else groups.push({key,start:i,end:i,sl})});
+    const label=g=>g.start===g.end?DAYS[g.start][1]:DAYS[g.start][1]+(g.end-g.start>1?' – ':' & ')+DAYS[g.end][1];
+    document.getElementById('hours-list').innerHTML=groups.map(g=>g.sl.length
+      ?'<li><span class="d">'+label(g)+'</span><span class="t">'+g.sl.map(t=>'<span>'+esc(t)+'</span>').join('')+'</span></li>'
+      :'<li class="off"><span class="d">'+label(g)+'</span><span class="t">Nghỉ</span></li>').join('');
+  }).catch(()=>{});
+})();
+
+/* Notice: admin → 外文版公告（停診、疫苗等） (content/en-notice.json).
+   Several notices can be added. Each one shows only when switched on and not past its
+   end date (Taiwan time). Newest first. One notice = a plain box; two or more = a slider
+   with dots, swipe, and auto-advance every 6 s (paused while hovered or touched). */
+(function(){
+  const M=['1','2','3','4','5','6','7','8','9','10','11','12'];
+  const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  /* this page's language if filled in (admin field "越南文內容"), otherwise the English text */
+  const txt=n=>String((n.other&&n.other.vi)||n.vi||n.en||'').trim();
+  fetch('/content/en-notice.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{
+    if(!d)return;
+    /* old format (a single notice, before the list) still works */
+    const raw=Array.isArray(d.items)?d.items:[d];
+    const today=new Date(Date.now()+8*3600e3).toISOString().slice(0,10);
+    const list=raw.filter(n=>n&&n.show&&txt(n)&&!(n.until&&today>String(n.until).slice(0,10)))
+      .sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+    if(!list.length)return;
+    const posted=n=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(n.date||''));return m?'Đăng ngày '+(+m[3])+'/'+M[+m[2]-1]+'/'+m[1]:''};
+    const inner=n=>{const p=posted(n);return '<b>Thông báo</b><div><span class="msg">'+esc(txt(n))+'</span>'+(p?'<span class="date">'+p+'</span>':'')+'</div>'};
+    document.querySelectorAll('[data-notice]').forEach(el=>{
+      if(list.length===1){el.innerHTML=inner(list[0]);el.hidden=false;return;}
+      el.classList.add('is-car');
+      el.innerHTML='<div class="nc-viewport"><div class="nc-track">'+list.map(n=>'<div class="nc-slide">'+inner(n)+'</div>').join('')+'</div></div>'+
+        '<div class="nc-dots">'+list.map((n,i)=>'<button type="button" aria-label="Thông báo '+(i+1)+'/'+list.length+'"'+(i?'':' class="on"')+'></button>').join('')+'</div>';
+      el.hidden=false;
+      const track=el.querySelector('.nc-track'),dots=[...el.querySelectorAll('.nc-dots button')],count=list.length;
+      const reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+      let idx=0,timer=null,held=false,x0=null,y0=null;
+      const go=k=>{idx=(k+count)%count;track.style.transform='translateX(-'+(idx*100)+'%)';dots.forEach((b,j)=>b.classList.toggle('on',j===idx));};
+      const stop=()=>{if(timer){clearInterval(timer);timer=null;}};
+      const play=()=>{stop();if(!reduce&&!held)timer=setInterval(()=>go(idx+1),6000);};
+      dots.forEach((b,j)=>b.addEventListener('click',()=>{go(j);play();}));
+      el.addEventListener('mouseenter',()=>{held=true;stop();});
+      el.addEventListener('mouseleave',()=>{held=false;play();});
+      /* swipe: must move more than 40px sideways and more sideways than up/down,
+         so scrolling the page does not change the notice by accident */
+      const vp=el.querySelector('.nc-viewport');
+      vp.addEventListener('pointerdown',e=>{x0=e.clientX;y0=e.clientY;held=true;stop();});
+      vp.addEventListener('pointerup',e=>{if(x0!==null){const dx=e.clientX-x0,dy=e.clientY-y0;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy))go(idx+(dx<0?1:-1));}x0=null;held=false;play();});
+      vp.addEventListener('pointercancel',()=>{x0=null;held=false;play();});
+      if('IntersectionObserver' in window)new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?play():stop()),{threshold:0.2}).observe(el);
+      else play();
+    });
+  }).catch(()=>{});
+})();
+</script>
+</body>
+</html>
