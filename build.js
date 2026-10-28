@@ -404,7 +404,7 @@ function headerHtml() {
   return '<div class="topbar">\n' +
     '  <div class="wrap-wide">\n' +
     '    <span>📞 <a href="tel:' + esc(SITE.phoneLink) + '">' + esc(SITE.phone) + '</a><span class="tb-addr">　<a href="/#contact" title="' + esc(SITE.address) + '">聯絡我們</a></span></span>\n' +
-    '    <span><a href="' + esc(safeUrl(SITE.facebook)) + '" target="_blank" rel="noopener">Facebook 粉絲專頁</a>　|　<a class="tb-booking" href="' + esc(safeUrl(SITE.booking)) + '" target="_blank" rel="noopener">線上預約</a>　|　<details class="lang"><summary>Language</summary><div class="lang-menu"><a href="/" lang="zh-Hant" aria-current="page">中文</a><a href="/en/" lang="en">English</a></div></details></span>\n' +
+    '    <span><a href="' + esc(safeUrl(SITE.facebook)) + '" target="_blank" rel="noopener">Facebook 粉絲專頁</a>　|　<a class="tb-booking" href="' + esc(safeUrl(SITE.booking)) + '" target="_blank" rel="noopener">線上預約</a>　|　<details class="lang"><summary>Language</summary><div class="lang-menu"><a href="/" lang="zh-Hant" aria-current="page">中文</a><a href="/en/indexen" lang="en">English</a><a href="/id/indexid" lang="id">Bahasa Indonesia</a><a href="/vn/indexvn" lang="vi">Tiếng Việt</a></div></details><script>fetch(\'/content/languages.json\',{cache:\'no-store\'}).then(r=>r.ok?r.json():null).then(c=>{if(c)[\'id\',\'vi\'].forEach(l=>{if(c[l]===false)document.querySelectorAll(\'.lang-menu a[lang="\'+l+\'"]:not([aria-current])\').forEach(a=>a.remove())})}).catch(()=>{})</script></span>\n' +
     '  </div>\n</div>\n' +
     '<header>\n  <div class="wrap-wide nav">\n' +
     '    <a class="brand" href="/#home"><img class="logo" src="/images/logo.png" alt="' + esc(SITE.name) + ' Logo">' + esc(SITE.name) + '</a>\n' +
