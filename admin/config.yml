@@ -66,7 +66,7 @@ collections:
 
 
   # ---------- 外文版公告（停診、疫苗等） ----------
-  # 只出現在外文版一頁式網站（/en/indexen、/id/indexid、/vn/indexvn）的最上方。中文公告不受影響。
+  # 只出現在外文版一頁式網站（/en/indexen、/id/indexid、/vn/indexvn、/jp/indexjp）的最上方。中文公告不受影響。
   - name: "en-notice"
     label: "外文版公告（停診、疫苗等）"
     files:
@@ -88,24 +88,26 @@ collections:
                   hint: "照範本改日期就好：The clinic will be closed on Saturday, October 24. ／ 只停上午：Closed on the morning of Monday, November 2. ／ 連假：Closed from February 14 to February 18 for Lunar New Year. ／ 疫苗：Flu vaccines are now available. Please bring your NHI card." }
               # 印尼文、越南文收在一個預設收合的框裡：平常只看得到英文，要翻譯時才點開。
               # 留空＝那個語言的網站直接顯示英文內容。則數、日期、開關三個語言共用，不用另外設定。
-              - label: "印尼文／越南文（選填，點開編輯）"
+              - label: "印尼文／越南文／日文（選填，點開編輯）"
                 name: "other"
                 widget: "object"
                 collapsed: true
                 required: false
-                hint: "不點開、不填也沒關係：印尼文和越南文網站會自動顯示上面的英文內容。"
+                hint: "不點開、不填也沒關係：印尼文、越南文、日文網站會自動顯示上面的英文內容。"
                 fields:
                   - { label: "印尼文內容", name: "id", widget: "text", required: false,
                       hint: "印尼文網站（/id/indexid）顯示這段；留空就顯示英文內容" }
                   - { label: "越南文內容", name: "vi", widget: "text", required: false,
                       hint: "越南文網站（/vn/indexvn）顯示這段；留空就顯示英文內容" }
+                  - { label: "日文內容", name: "ja", widget: "text", required: false,
+                      hint: "日文網站（/jp/indexjp）顯示這段；留空就顯示英文內容" }
               - { label: "顯示到哪一天", name: "until", widget: "datetime", required: false,
                   format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false,
                   hint: "填公告的最後一天（例如停診最後一天、疫苗打完那天），過了這天會自動消失，不用記得回來關。留空＝一直顯示直到手動關掉" }
 
   # ---------- 語言選單 ----------
-  # 控制網站右上角「Language」選單要不要出現印尼文、越南文。中文和英文一律保留。
-  # 關掉只是把選單裡的連結拿掉，頁面本身（/id/indexid、/vn/indexvn）不會刪除，之後要恢復打開就好。
+  # 控制網站右上角「Language」選單要不要出現印尼文、越南文、日文。中文和英文一律保留。
+  # 關掉只是把選單裡的連結拿掉，頁面本身（/id/indexid、/vn/indexvn、/jp/indexjp）不會刪除，之後要恢復打開就好。
   - name: "languages"
     label: "語言選單"
     files:
@@ -115,6 +117,7 @@ collections:
         fields:
           - { label: "顯示印尼文（Bahasa Indonesia）", name: "id", widget: "boolean", default: true, hint: "關掉後，所有頁面右上角的語言選單就不會出現印尼文。中文、英文不受影響" }
           - { label: "顯示越南文（Tiếng Việt）", name: "vi", widget: "boolean", default: true, hint: "關掉後，所有頁面右上角的語言選單就不會出現越南文。中文、英文不受影響" }
+          - { label: "顯示日文（日本語）", name: "ja", widget: "boolean", default: true, hint: "關掉後，所有頁面右上角的語言選單就不會出現日文。中文、英文不受影響" }
 
   # ---------- 關於晨昕背景圖 ----------
   - name: "about"
