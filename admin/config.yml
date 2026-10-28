@@ -8,13 +8,13 @@
 # ============================================================
 backend:
   name: github
-  repo: drjennyleiclinic-lgtm/drjennyleiclinic-site
+  repo: joyseeker9453-sketch/PRACTICEMOVING
   branch: main
-  base_url: https://sveltia-cms-auth.drjennyleiclinic.workers.dev
+  base_url: https://sveltia-cms-auth.joyseeker9453.workers.dev
   auth_endpoint: auth
 
-site_url: https://drjennyleiclinic.drjennyleiclinic.workers.dev
-display_url: https://drjennyleiclinic.drjennyleiclinic.workers.dev
+site_url: https://practicemoving.joyseeker9453.workers.dev
+display_url: https://practicemoving.joyseeker9453.workers.dev
 locale: zh-Hant
 
 media_folder: "images/uploads"   # 圖片上傳後存放的位置
