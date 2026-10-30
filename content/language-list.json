@@ -1,0 +1,8 @@
+[
+  { "lang": "zh-Hant", "label": "中文", "href": "/", "file": "index.html" },
+  { "lang": "en", "label": "English", "href": "/en/indexen", "file": "en/indexen.html" },
+  { "lang": "id", "label": "Bahasa Indonesia", "href": "/id/indexid", "file": "id/indexid.html", "key": "id" },
+  { "lang": "vi", "label": "Tiếng Việt", "href": "/vn/indexvn", "file": "vn/indexvn.html", "key": "vi" },
+  { "lang": "ja", "label": "日本語", "href": "/jp/indexjp", "file": "jp/indexjp.html", "key": "ja" },
+  { "lang": "ko", "label": "한국어", "href": "/kr/indexkr", "file": "kr/indexkr.html", "key": "ko" }
+]
