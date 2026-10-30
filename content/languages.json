@@ -1,6 +1,10 @@
 {
-  "id": false,
+  "id": true,
   "vi": true,
   "ja": true,
-  "ko": true
+  "ko": true,
+  "idPage": true,
+  "viPage": true,
+  "jaPage": true,
+  "koPage": true
 }
