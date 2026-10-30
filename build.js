@@ -617,6 +617,37 @@ if (pinned.length > 3) {
 fs.writeFileSync(path.join(ROOT, 'robots.txt'),
   'User-agent: *\nDisallow: /admin/\nDisallow: /content/\n\nSitemap: ' + BASE + '/sitemap.xml\n');
 
+/* ---------- 外文網頁開關（後台「語言選單」第二層） ----------
+   content/languages.json 的 idPage / viPage / jaPage / koPage 關掉（false）時，
+   那個語言的網頁在這次部署裡換成「404 — The website has been removed」，
+   /id、/id/、/id/indexid 都會看到這一頁（短網址照常轉過去）。
+   同時把那個語言的選單開關也當成關閉，所有頁面的語言選單就不會再連過去。
+   只改 Cloudflare 建置機器上的檔案，GitHub 上的原始檔不會動，打開再部署一次就回來。
+   在自己電腦上跑 npm run build 不會改任何檔案（只有 Cloudflare 建置時才執行）。 */
+const REMOVED_PAGE = '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n' +
+  '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+  '<meta name="robots" content="noindex">\n<title>404 — The website has been removed</title>\n' +
+  '<style>body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;' +
+  'background:#fbfaf7;color:#26302d;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center;padding:1.5rem}' +
+  'h1{font-size:clamp(4rem,18vw,7rem);margin:0;color:#1c4a43;line-height:1}' +
+  'p{font-size:1.25rem;margin:1rem 0 0;color:#5c6a65}</style>\n</head>\n<body>\n' +
+  '<main><h1>404</h1><p>The website has been removed</p></main>\n</body>\n</html>\n';
+(function langPageSwitch() {
+  const SRC = path.join(ROOT, 'content', 'languages.json');
+  let L;
+  try { L = JSON.parse(fs.readFileSync(SRC, 'utf8')); } catch (e) { return; }
+  const PAGES = { id: 'id/indexid.html', vi: 'vn/indexvn.html', ja: 'jp/indexjp.html', ko: 'kr/indexkr.html' };
+  const off = Object.keys(PAGES).filter(l => L[l + 'Page'] === false);
+  if (!off.length) return;
+  if (!process.env.WORKERS_CI_COMMIT_SHA && !process.env.CF_PAGES_COMMIT_SHA) {
+    console.warn('! 本機建置：外文網頁開關（' + off.map(l => PAGES[l]).join('、') + '）只在 Cloudflare 部署時生效，這裡不改檔');
+    return;
+  }
+  off.forEach(l => { fs.writeFileSync(path.join(ROOT, PAGES[l]), REMOVED_PAGE); L[l] = false; });
+  fs.writeFileSync(SRC, JSON.stringify(L, null, 2) + '\n');
+  console.warn('! 外文網頁已下架（顯示 404 — The website has been removed）：' + off.map(l => PAGES[l]).join('、'));
+})();
+
 /* Full medical team: array order is the single source of display rank. */
 (function buildTeamPage(){
   const doctors=Array.isArray(SITE.team)?SITE.team:[];
