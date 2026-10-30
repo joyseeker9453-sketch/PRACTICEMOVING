@@ -3,7 +3,7 @@
   "vi": true,
   "ja": true,
   "ko": true,
-  "idPage": false,
+  "idPage": true,
   "viPage": true,
   "jaPage": true,
   "koPage": true
