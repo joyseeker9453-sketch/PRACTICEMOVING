@@ -414,11 +414,70 @@ const OG_END = '<!--OG:END-->';
   console.log('✓ 首頁 OG 已注入（og:image = ' + ogImg + '，門診時段 ' + openSpec.length + ' 組）');
 })();
 
+/* ---------- 語言清單：所有頁面的 Language 選單都從這裡產生 ----------
+   content/language-list.json 是唯一的語言清單（順序＝選單順序）。
+   新增一個語言只要：1. 新增那個語言的網頁檔（裡面放 LANG-MENU、HREFLANG 標記）
+                     2. 清單加一筆   3. admin/config.yml 的「語言選單」加兩個開關（key、key + 'Page'）
+   其他頁面的選單、hreflang、短網址（_redirects）每次部署自動更新，不用一頁一頁改。
+   後台開關在 content/languages.json：key 關掉＝選單拿掉；key + 'Page' 關掉＝網頁下架（見下方外文網頁開關）。
+   清單裡沒有 key 的語言（中文、英文）一律顯示。 */
+const LANG_LIST = (() => {
+  try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'content', 'language-list.json'), 'utf8')); }
+  catch (e) { console.error('content/language-list.json 讀不到或格式錯誤：', e.message); process.exit(1); }
+})();
+const LANG_SW = (() => {
+  try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'content', 'languages.json'), 'utf8')); }
+  catch (e) { return {}; }
+})();
+/* 網頁下架只在 Cloudflare 部署時生效：本機建置不會把網頁換掉，選單也就照常列出 */
+const ON_CLOUDFLARE = !!(process.env.WORKERS_CI_COMMIT_SHA || process.env.CF_PAGES_COMMIT_SHA);
+const langPageOn = l => !(l.key && ON_CLOUDFLARE && LANG_SW[l.key + 'Page'] === false);
+const langMenuOn = l => langPageOn(l) && !(l.key && LANG_SW[l.key] === false);
+/* current＝這一頁自己的語言：一律列出並標成目前頁（跟原本一樣，關掉選單也看得到自己） */
+function langMenuHtml(current) {
+  return '<details class="lang"><summary>Language</summary><div class="lang-menu">' +
+    LANG_LIST.filter(l => l.lang === current || langMenuOn(l)).map(l =>
+      '<a href="' + esc(l.href) + '" lang="' + esc(l.lang) + '"' + (l.lang === current ? ' aria-current="page"' : '') + '>' +
+      esc(l.label) + '</a>').join('') +
+    '</div></details>';
+}
+function hreflangHtml() {
+  return LANG_LIST.filter(langPageOn).map(l =>
+    '<link rel="alternate" hreflang="' + esc(l.lang) + '" href="' + esc(l.href) + '">').join('\n');
+}
+/* 把 <!--NAME:START--> 和 <!--NAME:END--> 中間換成新內容；沒有標記就原樣回傳 */
+function fillMarker(html, name, content) {
+  const re = new RegExp('(<!--' + name + ':START-->)[\\s\\S]*?(<!--' + name + ':END-->)');
+  return html.replace(re, (m, a, b) => a + content + b);
+}
+
+(function injectLangMenus() {
+  LANG_LIST.filter(l => l.file).forEach(l => {
+    const f = path.join(ROOT, l.file);
+    if (!fs.existsSync(f)) { console.warn('! 語言清單裡的 ' + l.file + ' 找不到，跳過'); return; }
+    const html = fs.readFileSync(f, 'utf8');
+    if (!html.includes('<!--LANG-MENU:START-->')) console.warn('! ' + l.file + ' 沒有 LANG-MENU 標記，選單不會更新');
+    const out = fillMarker(fillMarker(html, 'LANG-MENU', langMenuHtml(l.lang)), 'HREFLANG', '\n' + hreflangHtml() + '\n');
+    if (out !== html) fs.writeFileSync(f, out);
+  });
+  /* 短網址：/kr、/kr/ → /kr/indexkr。先拿掉指向清單網址的舊規則，其他手寫規則保留 */
+  const RED = path.join(ROOT, '_redirects');
+  const hrefs = new Set(LANG_LIST.map(l => l.href));
+  const keep = (fs.existsSync(RED) ? fs.readFileSync(RED, 'utf8') : '').split(/\r?\n/)
+    .filter(line => line.trim() && !hrefs.has(line.trim().split(/\s+/)[1]));
+  const gen = LANG_LIST.filter(l => l.href !== '/').flatMap(l => {
+    const dir = '/' + l.href.split('/')[1];
+    return [dir + '    ' + l.href + '    301', dir + '/   ' + l.href + '    301'];
+  });
+  fs.writeFileSync(RED, keep.concat(gen).join('\n') + '\n');
+  console.log('✓ 語言選單已更新：' + LANG_LIST.filter(langMenuOn).map(l => l.label).join('、'));
+})();
+
 function headerHtml() {
   return '<div class="topbar">\n' +
     '  <div class="wrap-wide">\n' +
     '    <span>📞 <a href="tel:' + esc(SITE.phoneLink) + '">' + esc(SITE.phone) + '</a><span class="tb-addr">　<a href="/#contact" title="' + esc(SITE.address) + '">聯絡我們</a></span></span>\n' +
-    '    <span><a href="' + esc(safeUrl(SITE.facebook)) + '" target="_blank" rel="noopener">Facebook 粉絲專頁</a>　|　<a class="tb-booking" href="' + esc(safeUrl(SITE.booking)) + '" target="_blank" rel="noopener">線上預約</a>　|　<details class="lang"><summary>Language</summary><div class="lang-menu"><a href="/" lang="zh-Hant" aria-current="page">中文</a><a href="/en/indexen" lang="en">English</a><a href="/id/indexid" lang="id">Bahasa Indonesia</a><a href="/vn/indexvn" lang="vi">Tiếng Việt</a><a href="/jp/indexjp" lang="ja">日本語</a><a href="/kr/indexkr" lang="ko">한국어</a></div></details><script>fetch(\'/content/languages.json\',{cache:\'no-store\'}).then(r=>r.ok?r.json():null).then(c=>{if(c)[\'id\',\'vi\',\'ja\',\'ko\'].forEach(l=>{if(c[l]===false)document.querySelectorAll(\'.lang-menu a[lang="\'+l+\'"]:not([aria-current])\').forEach(a=>a.remove())})}).catch(()=>{})</script></span>\n' +
+    '    <span><a href="' + esc(safeUrl(SITE.facebook)) + '" target="_blank" rel="noopener">Facebook 粉絲專頁</a>　|　<a class="tb-booking" href="' + esc(safeUrl(SITE.booking)) + '" target="_blank" rel="noopener">線上預約</a>　|　' + langMenuHtml('zh-Hant') + '</span>\n' +
     '  </div>\n</div>\n' +
     '<header>\n  <div class="wrap-wide nav">\n' +
     '    <a class="brand" href="/#home"><img class="logo" src="/images/logo.png" alt="' + esc(SITE.name) + ' Logo">' + esc(SITE.name) + '</a>\n' +
@@ -621,9 +680,9 @@ fs.writeFileSync(path.join(ROOT, 'robots.txt'),
    content/languages.json 的 idPage / viPage / jaPage / koPage 關掉（false）時，
    那個語言的網頁在這次部署裡換成「404 — The website has been removed」，
    /id、/id/、/id/indexid 都會看到這一頁（短網址照常轉過去）。
-   同時把那個語言的選單開關也當成關閉，所有頁面的語言選單就不會再連過去。
+   選單那邊由上面的 langMenuOn() 處理：網頁下架的語言，所有頁面的選單都不會再連過去。
    只改 Cloudflare 建置機器上的檔案，GitHub 上的原始檔不會動，打開再部署一次就回來。
-   在自己電腦上跑 npm run build 不會改任何檔案（只有 Cloudflare 建置時才執行）。 */
+   在自己電腦上跑 npm run build 不會換掉網頁（只有 Cloudflare 建置時才執行）。 */
 const REMOVED_PAGE = '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n' +
   '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
   '<meta name="robots" content="noindex">\n<title>404 — The website has been removed</title>\n' +
@@ -633,19 +692,17 @@ const REMOVED_PAGE = '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="
   'p{font-size:1.25rem;margin:1rem 0 0;color:#5c6a65}</style>\n</head>\n<body>\n' +
   '<main><h1>404</h1><p>The website has been removed</p></main>\n</body>\n</html>\n';
 (function langPageSwitch() {
-  const SRC = path.join(ROOT, 'content', 'languages.json');
-  let L;
-  try { L = JSON.parse(fs.readFileSync(SRC, 'utf8')); } catch (e) { return; }
-  const PAGES = { id: 'id/indexid.html', vi: 'vn/indexvn.html', ja: 'jp/indexjp.html', ko: 'kr/indexkr.html' };
-  const off = Object.keys(PAGES).filter(l => L[l + 'Page'] === false);
+  const off = LANG_LIST.filter(l => l.key && l.file && LANG_SW[l.key + 'Page'] === false);
   if (!off.length) return;
-  if (!process.env.WORKERS_CI_COMMIT_SHA && !process.env.CF_PAGES_COMMIT_SHA) {
-    console.warn('! 本機建置：外文網頁開關（' + off.map(l => PAGES[l]).join('、') + '）只在 Cloudflare 部署時生效，這裡不改檔');
+  if (!ON_CLOUDFLARE) {
+    console.warn('! 本機建置：外文網頁開關（' + off.map(l => l.file).join('、') + '）只在 Cloudflare 部署時生效，這裡不改檔');
     return;
   }
-  off.forEach(l => { fs.writeFileSync(path.join(ROOT, PAGES[l]), REMOVED_PAGE); L[l] = false; });
-  fs.writeFileSync(SRC, JSON.stringify(L, null, 2) + '\n');
-  console.warn('! 外文網頁已下架（顯示 404 — The website has been removed）：' + off.map(l => PAGES[l]).join('、'));
+  off.forEach(l => {
+    const f = path.join(ROOT, l.file);
+    if (fs.existsSync(f)) fs.writeFileSync(f, REMOVED_PAGE);
+  });
+  console.warn('! 外文網頁已下架（顯示 404 — The website has been removed）：' + off.map(l => l.file).join('、'));
 })();
 
 /* Full medical team: array order is the single source of display rank. */
