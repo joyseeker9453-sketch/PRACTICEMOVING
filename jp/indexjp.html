@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>晨昕診所（Dr. Jenny Lei's Clinic）｜台北・中山区の内科・体重管理</title>
 <meta name="description" content="台北市中山区の晨昕診所（Dr. Jenny Lei's Clinic）。糖尿病・高血圧・脂質異常症の診療、医師による体重管理、一般内科。MRT「中山國中」駅から徒歩3分。">
+<!--HREFLANG:START-->
 <link rel="alternate" hreflang="zh-Hant" href="/">
 <link rel="alternate" hreflang="en" href="/en/indexen">
 <link rel="alternate" hreflang="id" href="/id/indexid">
 <link rel="alternate" hreflang="vi" href="/vn/indexvn">
 <link rel="alternate" hreflang="ja" href="/jp/indexjp">
 <link rel="alternate" hreflang="ko" href="/kr/indexkr">
+<!--HREFLANG:END-->
 <link rel="icon" type="image/png" href="/images/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600;700;800&family=Noto+Sans:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600;700;800&display=swap" rel="stylesheet">
@@ -200,17 +202,7 @@ footer a{color:#e8efe9}
 <div class="topbar">
   <div class="wrap-wide">
     <span>📞 <a href="tel:+886225181268">+886-2-2518-1268</a></span>
-    <span><details class="lang">
-      <summary>Language</summary>
-      <div class="lang-menu">
-        <a href="/" lang="zh-Hant">中文</a>
-        <a href="/en/indexen" lang="en">English</a>
-        <a href="/id/indexid" lang="id">Bahasa Indonesia</a>
-        <a href="/vn/indexvn" lang="vi">Tiếng Việt</a>
-        <a href="/jp/indexjp" lang="ja" aria-current="page">日本語</a>
-        <a href="/kr/indexkr" lang="ko">한국어</a>
-      </div>
-    </details><script>fetch('/content/languages.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(c=>{if(c)['id','vi','ja','ko'].forEach(l=>{if(c[l]===false)document.querySelectorAll('.lang-menu a[lang="'+l+'"]:not([aria-current])').forEach(a=>a.remove())})}).catch(()=>{})</script></span>
+    <span><!--LANG-MENU:START--><details class="lang"><summary>Language</summary><div class="lang-menu"><a href="/" lang="zh-Hant">中文</a><a href="/en/indexen" lang="en">English</a><a href="/id/indexid" lang="id">Bahasa Indonesia</a><a href="/vn/indexvn" lang="vi">Tiếng Việt</a><a href="/jp/indexjp" lang="ja" aria-current="page">日本語</a><a href="/kr/indexkr" lang="ko">한국어</a></div></details><!--LANG-MENU:END--></span>
   </div>
 </div>
 
