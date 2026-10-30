@@ -109,7 +109,9 @@ collections:
 
   # ---------- 語言選單 ----------
   # 控制網站右上角「Language」選單要不要出現印尼文、越南文、日文、韓文。中文和英文一律保留。
-  # 關掉只是把選單裡的連結拿掉，頁面本身（/id/indexid、/vn/indexvn、/jp/indexjp、/kr/indexkr）不會刪除，之後要恢復打開就好。
+  # 第一層「顯示○○」：關掉只是把選單裡的連結拿掉，頁面本身（/id/indexid、/vn/indexvn、/jp/indexjp、/kr/indexkr）還打得開。
+  # 第二層「○○網頁開放」：關掉後整個網頁下架，網址改顯示「404 — The website has been removed」（由 build.js 在部署時處理），選單也會一起拿掉。
+  # 兩層都是打開＝恢復，GitHub 上的網頁檔案不會被刪。
   - name: "languages"
     label: "語言選單"
     files:
@@ -121,6 +123,10 @@ collections:
           - { label: "顯示越南文（Tiếng Việt）", name: "vi", widget: "boolean", default: true, hint: "關掉後，所有頁面右上角的語言選單就不會出現越南文。中文、英文不受影響" }
           - { label: "顯示日文（日本語）", name: "ja", widget: "boolean", default: true, hint: "關掉後，所有頁面右上角的語言選單就不會出現日文。中文、英文不受影響" }
           - { label: "顯示韓文（한국어）", name: "ko", widget: "boolean", default: true, hint: "關掉後，所有頁面右上角的語言選單就不會出現韓文。中文、英文不受影響" }
+          - { label: "印尼文網頁開放（/id）", name: "idPage", widget: "boolean", default: true, hint: "⛔ 關掉後整個印尼文網頁下架：存檔約 1 分鐘後，/id、/id/indexid 都會改顯示「404 — The website has been removed」，選單也一起拿掉。打開就恢復" }
+          - { label: "越南文網頁開放（/vn）", name: "viPage", widget: "boolean", default: true, hint: "⛔ 關掉後整個越南文網頁下架：存檔約 1 分鐘後，/vn、/vn/indexvn 都會改顯示「404 — The website has been removed」，選單也一起拿掉。打開就恢復" }
+          - { label: "日文網頁開放（/jp）", name: "jaPage", widget: "boolean", default: true, hint: "⛔ 關掉後整個日文網頁下架：存檔約 1 分鐘後，/jp、/jp/indexjp 都會改顯示「404 — The website has been removed」，選單也一起拿掉。打開就恢復" }
+          - { label: "韓文網頁開放（/kr）", name: "koPage", widget: "boolean", default: true, hint: "⛔ 關掉後整個韓文網頁下架：存檔約 1 分鐘後，/kr、/kr/indexkr 都會改顯示「404 — The website has been removed」，選單也一起拿掉。打開就恢復" }
 
   # ---------- 關於晨昕背景圖 ----------
   - name: "about"
